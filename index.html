@@ -14,16 +14,15 @@
 <style>
 :root{
   --cp:#534AB7;--cpd:#3C3489;
-  --ct:#085041;--ctb:#E1F5EE;--ctm:#0F6E56;
-  --ca:#633806;--cab:#FAEEDA;--cam:#BA7517;
-  --cb:#0C447C;--cbb:#E6F1FB;--cbm:#185FA5;
-  --cr:#791F1F;--crb:#FCEBEB;--crm:#E24B4A;
-  --cg:#085041;--cgb:#E1F5EE;
-  --r:12px;--rs:8px;
+  --ctm:#0F6E56;--cgb:#E1F5EE;--cg:#085041;
+  --cam:#BA7517;--cab:#FAEEDA;--ca:#633806;
+  --cbm:#185FA5;--cbb:#E6F1FB;--cb:#0C447C;
+  --crm:#E24B4A;--crb:#FCEBEB;--cr:#791F1F;
   --bd:0.5px solid rgba(0,0,0,0.13);
   --bde:0.5px solid rgba(0,0,0,0.26);
   --bg:#f4f4f4;--sf:#fff;--sf2:#f8f8f8;
   --tx:#1a1a1a;--tx2:#666;--tx3:#999;
+  --r:12px;--rs:8px;
 }
 @media(prefers-color-scheme:dark){:root{
   --bg:#111;--sf:#1e1e1e;--sf2:#2a2a2a;
@@ -43,7 +42,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .hdr-title{font-size:16px;font-weight:600;color:var(--cp)}
 .hdr-sync{font-size:11px;color:var(--tx3);display:flex;align-items:center;gap:4px}
 .sdot{width:6px;height:6px;border-radius:50%;background:#ccc}
-.sdot.ok{background:#1D9E75}.sdot.err{background:#E24B4A}
+.sdot.ok{background:#1D9E75}.sdot.err{background:var(--crm)}
 .sdot.ing{background:var(--cp);animation:pl 1s infinite}
 @keyframes pl{0%,100%{opacity:1}50%{opacity:.4}}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:var(--bd);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:20}
@@ -70,12 +69,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .dt{font-size:8.5px;padding:1px 3px;border-radius:3px;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:2px}
 .dt-sh{background:var(--crb);color:var(--cr)}
 .meal-rows{margin-top:2px;display:flex;flex-direction:column;gap:1px}
-.meal-row{display:flex;align-items:center;gap:2px;font-size:7.5px}
+.meal-row{display:flex;align-items:center;gap:2px}
 .meal-row-lbl{width:11px;flex-shrink:0;color:var(--tx3);font-size:7px}
 .meal-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0}
 .alrt{border-radius:var(--rs);padding:8px 12px;font-size:12px;margin-bottom:8px;font-weight:500}
 .alrt-r{background:var(--crb);color:var(--cr);border:var(--bd)}
 .alrt-a{background:var(--cab);color:var(--ca);border:0.5px solid #FAC775}
+.alrt-b{background:var(--cbb);color:var(--cb);border:0.5px solid #B5D4F4}
+/* 食事グリッド */
 .mg{display:grid;gap:1px;background:var(--bde);border:var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
 .mgc{background:var(--sf);padding:4px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;font-size:11px}
 .mgh{background:var(--sf2)!important;font-weight:600;font-size:10px;color:var(--tx2)}
@@ -83,12 +84,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .mgb{width:26px;height:18px;border-radius:4px;border:var(--bd);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:600;background:var(--sf2);color:var(--tx3)}
 .mgb.need{background:#E1F5EE;color:#085041;border-color:#5DCAA5}
 .mgb.skip{background:#FCEBEB;color:#791F1F;border-color:#F09595}
+/* 空き日 */
 .itabs{display:flex;border-bottom:var(--bd);margin-bottom:10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .itab{padding:6px 12px;font-size:12px;cursor:pointer;border:none;background:none;color:var(--tx2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-weight:500}
 .itab.on{color:var(--tx);border-bottom-color:var(--tx);font-weight:600}
 .av-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .avc{font-size:10px;padding:3px 5px;border-radius:5px;cursor:pointer;border:var(--bd);background:var(--sf2);color:var(--tx2);line-height:1.3;text-align:center;min-width:26px;user-select:none}
 .avc.on{font-weight:600}
+/* フォーム */
 .fg{margin-bottom:10px}
 .fg label{font-size:12px;color:var(--tx2);display:block;margin-bottom:4px}
 input,select{width:100%;height:40px;padding:0 10px;border:var(--bde);border-radius:var(--rs);font-size:14px;background:var(--sf);color:var(--tx);-webkit-appearance:none;appearance:none}
@@ -96,6 +99,7 @@ input[type=checkbox]{width:18px;height:18px;accent-color:var(--cp);flex-shrink:0
 input[type=number]{width:80px}
 input[type=time]{width:130px}
 input:focus,select:focus{outline:none;border-color:var(--cp)}
+/* ボタン */
 .btn{height:40px;padding:0 16px;border:var(--bde);border-radius:var(--rs);font-size:14px;cursor:pointer;background:var(--sf);color:var(--tx);font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:active{opacity:.7}
 .btn-p{background:var(--cp)!important;color:#fff!important;border-color:var(--cp)!important}
@@ -103,27 +107,34 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .btn-d{color:var(--cr)!important;border-color:#F7C1C1!important}
 .btn-d:active{background:var(--crb)!important}
 .btn-sm{height:32px;font-size:12px;padding:0 10px}
+.btn-xs{height:26px;font-size:11px;padding:0 8px;border-radius:6px}
+/* バッジ・チップ */
 .bdg{display:inline-block;font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600;white-space:nowrap}
 .chip{font-size:13px;padding:5px 12px;border-radius:99px;cursor:pointer;border:var(--bde);background:var(--sf2);color:var(--tx2);user-select:none;display:inline-block}
 .chip.on{font-weight:600}
 .avi{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0}
+/* モーダル（シート） */
 .ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;align-items:flex-end;justify-content:center}
 .ovl.on{display:flex}
 .sheet{background:var(--sf);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom));width:100%;max-width:680px;max-height:90vh;overflow-y:auto}
 .sh-handle{width:36px;height:4px;background:var(--bde);border-radius:2px;margin:0 auto 16px}
 .sheet h3{font-size:16px;font-weight:600;margin-bottom:14px}
+/* 設定行 */
 .srow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:var(--bd)}
 .srow:last-child{border-bottom:none}
 .slbl{flex:1;font-size:13px}
 .sdesc{font-size:11px;color:var(--tx2);margin-top:2px}
+/* iCal */
 .ical-box{background:var(--sf2);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px}
 .ical-url{font-size:10px;color:var(--cbm);word-break:break-all;cursor:pointer;text-decoration:underline;font-family:monospace}
+/* カラー選択 */
 .co{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;display:inline-block;margin-right:6px}
+/* リスト行 */
 .list-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)}
 .list-row:last-child{border-bottom:none}
-/* 曜日チェックボックス */
+/* 曜日ボタン */
 .dow-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}
-.dow-btn{height:36px;border:var(--bde);border-radius:var(--rs);font-size:13px;cursor:pointer;background:var(--sf2);color:var(--tx2);font-weight:500;display:flex;align-items:center;justify-content:center;user-select:none;-webkit-user-select:none}
+.dow-btn{height:36px;border:var(--bde);border-radius:var(--rs);font-size:13px;cursor:pointer;background:var(--sf2);color:var(--tx2);font-weight:500;display:flex;align-items:center;justify-content:center;user-select:none}
 .dow-btn.on{background:var(--cp);color:#fff;border-color:var(--cp)}
 /* トグル */
 .toggle-sw{position:relative;width:44px;height:24px;flex-shrink:0}
@@ -132,6 +143,23 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .toggle-sl:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
 .toggle-sw input:checked+.toggle-sl{background:var(--cp)}
 .toggle-sw input:checked+.toggle-sl:before{transform:translateX(20px)}
+/* 手動変更UI */
+.man-chore-card{background:var(--sf2);border-radius:var(--rs);border:var(--bd);padding:12px;margin-bottom:10px}
+.man-chore-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.man-chore-title{font-size:14px;font-weight:600;flex:1}
+.man-need-badge{font-size:11px;color:var(--tx2);padding:2px 8px;background:var(--sf);border:var(--bd);border-radius:99px}
+.man-mbr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px}
+.man-mbr-btn{border:var(--bde);border-radius:var(--rs);padding:10px 8px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;font-size:12px;font-weight:500;color:var(--tx2)}
+.man-mbr-btn:active{opacity:.7}
+.man-mbr-btn.on{border-width:2px;font-weight:600}
+.man-mbr-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600}
+.man-status{font-size:11px;text-align:center;margin-top:8px;padding:6px;border-radius:var(--rs)}
+.man-status.ok{background:var(--cgb);color:var(--cg)}
+.man-status.short{background:var(--crb);color:var(--cr)}
+.man-status.over{background:var(--cab);color:var(--ca)}
+/* 無効化表示 */
+.disabled-overlay{opacity:.45;pointer-events:none}
+.feature-off-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 10px;border-radius:99px;background:var(--sf2);color:var(--tx3);border:var(--bd);margin-bottom:8px}
 </style>
 </head>
 <body>
@@ -144,6 +172,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   <span class="hdr-sync"><span class="sdot" id="sdot"></span><span id="slbl"></span></span>
 </div>
 
+<!-- カレンダー -->
 <div id="cal" class="sec on">
   <div class="mnav">
     <button class="mnav-btn" onclick="cm(-1)">‹</button>
@@ -157,9 +186,16 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <div class="ch">水</div><div class="ch">木</div><div class="ch">金</div><div class="ch">土</div>
   </div>
   <div class="cg" id="cbody"></div>
-  <div style="margin-top:10px"><button class="btn btn-p" onclick="autoA()">自動割り振り</button></div>
+  <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <button class="btn btn-p" id="auto-btn" onclick="autoA()">自動割り振り</button>
+    <span id="auto-off-badge" style="display:none" class="feature-off-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+      自動割り振りオフ
+    </span>
+  </div>
 </div>
 
+<!-- 食事管理 -->
 <div id="meal" class="sec">
   <div class="mnav">
     <button class="mnav-btn" onclick="mwc(-1)">‹</button>
@@ -171,23 +207,40 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   <div class="card"><div class="card-title" style="color:var(--ctm)">今週のサマリー</div><div id="msum"></div></div>
 </div>
 
+<!-- 空き日登録 -->
 <div id="avail" class="sec">
   <div class="mnav">
     <button class="mnav-btn" onclick="amc(-1)">‹</button>
     <span class="mnav-lbl amber" id="avlbl"></span>
     <button class="mnav-btn" onclick="amc(1)">›</button>
   </div>
-  <div class="card" style="border-color:#EF9F27">
-    <div class="itabs" id="avtabs"></div>
-    <div id="avcont"></div>
-    <div style="margin-top:12px;display:flex;justify-content:flex-end">
-      <button class="btn btn-p btn-sm" id="savbtn" onclick="saveAv()">保存</button>
+  <div id="avail-off-msg" style="display:none" class="alrt alrt-b">空き日登録は現在オフです。通知タブの「機能設定」からオンにできます。</div>
+  <div id="avail-body">
+    <div class="card" style="border-color:#EF9F27">
+      <div class="itabs" id="avtabs"></div>
+      <div id="avcont"></div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end">
+        <button class="btn btn-p btn-sm" id="savbtn" onclick="saveAv()">保存</button>
+      </div>
     </div>
+    <p style="font-size:11px;color:var(--tx2)">「なんでも対応」タブは通知設定からオン/オフできます</p>
   </div>
-  <p style="font-size:11px;color:var(--tx2)">「なんでも対応」タブは通知設定からオン/オフできます</p>
 </div>
 
+<!-- 通知・設定 -->
 <div id="notify" class="sec">
+  <div class="card">
+    <div class="card-title">機能のオン/オフ</div>
+    <div class="srow">
+      <div class="slbl">空き日登録を使う<div class="sdesc">オフにすると空き日タブが無効になります</div></div>
+      <label class="toggle-sw"><input type="checkbox" id="feat-avail" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
+    </div>
+    <div class="srow">
+      <div class="slbl">自動割り振りを使う<div class="sdesc">オフにすると自動割り振りボタンが無効になります</div></div>
+      <label class="toggle-sw"><input type="checkbox" id="feat-auto" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-title">人手不足アラート</div>
     <div class="srow"><div class="slbl">通知を有効にする<div class="sdesc">人手不足の家事を事前通知</div></div>
@@ -198,7 +251,10 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <div class="srow"><div class="slbl">週次サマリー<div class="sdesc">毎週この曜日に担当一覧を通知</div></div>
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         <label class="toggle-sw"><input type="checkbox" id="nt-weekly" onchange="saveNS()"><span class="toggle-sl"></span></label>
-        <select id="nt-wday" onchange="saveNS()" style="width:80px;height:34px"><option value="0">日曜</option><option value="1">月曜</option><option value="2">火曜</option><option value="3">水曜</option><option value="4">木曜</option><option value="5">金曜</option><option value="6">土曜</option></select>
+        <select id="nt-wday" onchange="saveNS()" style="width:80px;height:34px">
+          <option value="0">日曜</option><option value="1">月曜</option><option value="2">火曜</option>
+          <option value="3">水曜</option><option value="4">木曜</option><option value="5">金曜</option><option value="6">土曜</option>
+        </select>
         <input type="time" id="nt-wtime" value="07:00" onchange="saveNS()" style="width:130px">
       </div></div>
     <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
@@ -211,11 +267,11 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 
   <div class="card">
     <div class="card-title">食事設定</div>
-    <div class="srow"><div class="slbl">昼食を表示<div class="sdesc">食事管理・カレンダーに昼食を表示する</div></div>
+    <div class="srow"><div class="slbl">昼食を表示</div>
       <label class="toggle-sw"><input type="checkbox" id="meal-show-lunch" onchange="saveNS();renderMeal();renderCal()"><span class="toggle-sl"></span></label></div>
-    <div class="srow"><div class="slbl">夕食を表示<div class="sdesc">食事管理・カレンダーに夕食を表示する</div></div>
+    <div class="srow"><div class="slbl">夕食を表示</div>
       <label class="toggle-sw"><input type="checkbox" id="meal-show-dinner" onchange="saveNS();renderMeal();renderCal()"><span class="toggle-sl"></span></label></div>
-    <div class="srow"><div class="slbl">未定を当日自動で「必要」にする<div class="sdesc">設定した時刻に未定を自動確定</div></div>
+    <div class="srow"><div class="slbl">未定を当日自動で「必要」にする</div>
       <label class="toggle-sw"><input type="checkbox" id="meal-auto" onchange="saveNS()"><span class="toggle-sl"></span></label></div>
     <div class="srow"><div class="slbl">自動確定の時刻</div>
       <input type="time" id="meal-auto-time" value="06:00" onchange="saveNS()" style="width:130px"></div>
@@ -229,14 +285,15 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 
   <div class="card">
     <div class="card-title">カレンダー連携（iCal）</div>
-    <p style="font-size:12px;color:var(--tx2);margin-bottom:10px">URLをカレンダーアプリに登録すると担当が自動同期されます<br><b>Google:</b> 設定→他のカレンダー→URLで追加<br><b>Apple:</b> ファイル→新規カレンダー登録</p>
+    <p style="font-size:12px;color:var(--tx2);margin-bottom:10px">URLをカレンダーアプリに登録すると担当が自動同期されます<br><b>Google:</b> 設定→他のカレンダー→URLで追加<br><b>Apple:</b> 設定→カレンダー→アカウントを追加→その他→照会するカレンダーを追加</p>
     <div id="ical-list"></div>
   </div>
   <div class="card">
     <div class="card-title">iCal 配信設定</div>
     <div class="srow"><div class="slbl">開始時刻</div><input type="time" id="ic-start" value="07:00" onchange="saveNS();renderIcal()" style="width:130px"></div>
     <div class="srow"><div class="slbl">終了時刻</div><input type="time" id="ic-end" value="08:00" onchange="saveNS();renderIcal()" style="width:130px"></div>
-    <div class="srow"><div class="slbl">リマインダー</div><div style="display:flex;align-items:center;gap:6px"><input type="number" id="ic-remind" value="30" min="0" max="1440" onchange="saveNS()" style="width:70px"><span style="font-size:13px;color:var(--tx2)">分前</span></div></div>
+    <div class="srow"><div class="slbl">リマインダー</div>
+      <div style="display:flex;align-items:center;gap:6px"><input type="number" id="ic-remind" value="30" min="0" max="1440" onchange="saveNS()" style="width:70px"><span style="font-size:13px;color:var(--tx2)">分前</span></div></div>
     <div style="margin-top:12px">
       <div style="font-size:12px;color:var(--tx2);margin-bottom:8px">.ics ダウンロード</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
@@ -248,6 +305,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   </div>
 </div>
 
+<!-- 設定 -->
 <div id="settings" class="sec">
   <div class="card">
     <div class="card-title">メンバー</div>
@@ -269,20 +327,22 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 </div>
 </div>
 
-<!-- 日モーダル -->
+<!-- 日クリックモーダル -->
 <div class="ovl" id="o-day">
 <div class="sheet"><div class="sh-handle"></div>
-  <h3 id="dtit"></h3><div id="dcont"></div>
+  <h3 id="dtit"></h3>
+  <div id="dcont"></div>
   <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
     <button class="btn btn-sm" onclick="cls()">閉じる</button>
-    <button class="btn btn-p btn-sm" onclick="oMan()">手動変更</button>
   </div>
 </div></div>
 
-<!-- 手動割り当て -->
+<!-- 手動変更モーダル（改善版） -->
 <div class="ovl" id="o-man">
 <div class="sheet"><div class="sh-handle"></div>
-  <h3 id="mantit"></h3><div id="mancont"></div>
+  <h3 id="mantit"></h3>
+  <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">担当者をタップして選択・解除できます。必要人数に達すると緑になります。</p>
+  <div id="mancont"></div>
   <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
     <button class="btn btn-sm" onclick="cls()">キャンセル</button>
     <button class="btn btn-p btn-sm" onclick="sMan()">保存</button>
@@ -398,9 +458,15 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 var SUPABASE_URL='https://yccqdioijadckshwzaiu.supabase.co';
 var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljY3FkaW9pamFkY2tzaHd6YWl1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1Mjk2MDQsImV4cCI6MjA5MTEwNTYwNH0.w3HGc3lKMpCvK5HqUquAMJMMk4Zs0GqGVG68_8F0Bm0';
 
-var CL={purple:{bg:'#EEEDFE',tx:'#3C3489',md:'#534AB7'},teal:{bg:'#E1F5EE',tx:'#085041',md:'#0F6E56'},coral:{bg:'#FAECE7',tx:'#993C1D',md:'#D85A30'},blue:{bg:'#E6F1FB',tx:'#0C447C',md:'#185FA5'},pink:{bg:'#FBEAF0',tx:'#72243E',md:'#D4537E'},amber:{bg:'#FAEEDA',tx:'#633806',md:'#BA7517'},gray:{bg:'#F1EFE8',tx:'#444441',md:'#888780'}};
-var ALL_MEALS=['昼食','夕食'];
-var ALL_MEAL_LABELS=['昼','夜'];
+var CL={
+  purple:{bg:'#EEEDFE',tx:'#3C3489',md:'#534AB7'},
+  teal:{bg:'#E1F5EE',tx:'#085041',md:'#0F6E56'},
+  coral:{bg:'#FAECE7',tx:'#993C1D',md:'#D85A30'},
+  blue:{bg:'#E6F1FB',tx:'#0C447C',md:'#185FA5'},
+  pink:{bg:'#FBEAF0',tx:'#72243E',md:'#D4537E'},
+  amber:{bg:'#FAEEDA',tx:'#633806',md:'#BA7517'},
+  gray:{bg:'#F1EFE8',tx:'#444441',md:'#888780'}
+};
 var DOW=['日','月','火','水','木','金','土'];
 var ANY='__any__';
 var MSTATES=['undecided','skip','need'];
@@ -410,7 +476,11 @@ var choreTimers=[];
 var selDays=[];
 
 var D={
-  mbrs:[{id:'m1',name:'お父さん',color:'blue'},{id:'m2',name:'お母さん',color:'pink'},{id:'m3',name:'太郎',color:'teal'}],
+  mbrs:[
+    {id:'m1',name:'お父さん',color:'blue'},
+    {id:'m2',name:'お母さん',color:'pink'},
+    {id:'m3',name:'太郎',color:'teal'}
+  ],
   chrs:[
     {id:'c1',name:'犬の散歩',freq:'daily',need:1,fixed:[],priority:[],color:'amber',active_days:[0,1,2,3,4,5,6],start_time:'',notify_enabled:false},
     {id:'c2',name:'夕食の準備',freq:'daily',need:1,fixed:['m2'],priority:[],color:'coral',active_days:[0,1,2,3,4,5,6],start_time:'',notify_enabled:false},
@@ -426,17 +496,13 @@ var D={
     icStart:'07:00',icEnd:'08:00',icRemind:30,
     mealAuto:false,mealAutoTime:'06:00',
     mealShowLunch:true,mealShowDinner:true,
-    availShowAny:true
+    availShowAny:true,
+    featAvail:true,
+    featAuto:true
   }
 };
 
-function activeMeals(){
-  var r=[];
-  if(D.ns.mealShowLunch)r.push({name:'昼食',label:'昼'});
-  if(D.ns.mealShowDinner)r.push({name:'夕食',label:'夜'});
-  return r;
-}
-
+// ===== ユーティリティ =====
 function mstart(d){var r=new Date(d);var dw=r.getDay();r.setDate(r.getDate()+(dw===0?-6:1-dw));r.setHours(0,0,0,0);return r;}
 function dky(y,m,d){return y+'-'+('0'+(m+1)).slice(-2)+'-'+('0'+d).slice(-2)}
 function dkdt(dt){return dky(dt.getFullYear(),dt.getMonth(),dt.getDate())}
@@ -446,8 +512,38 @@ function avk(mid,cid){return mid+'::'+cid}
 function mkey(mid,ds,ml){return mid+'|'+ds+'|'+ml}
 function gc(c){return CL[c]||CL.gray}
 function mst(mid,ds,ml){return D.meals[mkey(mid,ds,ml)]||'undecided'}
-function setSS(st,msg){var d=document.getElementById('sdot');var l=document.getElementById('slbl');if(d)d.className='sdot '+st;if(l)l.textContent=msg||'';}
+function setSS(st,msg){
+  var d=document.getElementById('sdot');
+  var l=document.getElementById('slbl');
+  if(d)d.className='sdot '+st;
+  if(l)l.textContent=msg||'';
+}
+function activeMeals(){
+  var r=[];
+  if(D.ns.mealShowLunch)r.push({name:'昼食',label:'昼'});
+  if(D.ns.mealShowDinner)r.push({name:'夕食',label:'夜'});
+  return r;
+}
 
+// ===== 機能オンオフUI更新 =====
+function updateFeatureUI(){
+  var featAvail=D.ns.featAvail;
+  var featAuto=D.ns.featAuto;
+  // 空き日
+  var offMsg=document.getElementById('avail-off-msg');
+  var body=document.getElementById('avail-body');
+  var bni=document.getElementById('btn-avail');
+  if(offMsg)offMsg.style.display=featAvail?'none':'block';
+  if(body)body.style.display=featAvail?'block':'none';
+  if(bni)bni.style.opacity=featAvail?'1':'0.45';
+  // 自動割り振り
+  var autoBtn=document.getElementById('auto-btn');
+  var autoBadge=document.getElementById('auto-off-badge');
+  if(autoBtn){autoBtn.style.display=featAuto?'inline-flex':'none';}
+  if(autoBadge){autoBadge.style.display=featAuto?'none':'inline-flex';}
+}
+
+// ===== Supabase =====
 function initSB(url,key){
   try{sb=supabase.createClient(url,key);setSS('ok','接続済');return true;}
   catch(e){setSS('err','接続エラー');return false;}
@@ -458,8 +554,12 @@ function connectSB(){
   if(!url||!key){document.getElementById('sb-status').textContent='URLとKeyを入力してください';return;}
   SUPABASE_URL=url;SUPABASE_KEY=key;
   localStorage.setItem('sb_url',url);localStorage.setItem('sb_key',key);
-  if(initSB(url,key)){document.getElementById('sb-status').innerHTML='<span style="color:var(--cg)">接続成功！</span>';loadAll();}
-  else{document.getElementById('sb-status').innerHTML='<span style="color:var(--cr)">接続に失敗しました</span>';}
+  if(initSB(url,key)){
+    document.getElementById('sb-status').innerHTML='<span style="color:var(--cg)">接続成功！</span>';
+    loadAll();
+  }else{
+    document.getElementById('sb-status').innerHTML='<span style="color:var(--cr)">接続に失敗しました</span>';
+  }
 }
 
 function loadAll(){
@@ -498,10 +598,7 @@ function syncChore(ch){
     start_time:ch.start_time||'',notify_enabled:ch.notify_enabled||false
   });
 }
-function deleteChoreDB(id){
-  if(!sb)return Promise.resolve();
-  return sb.from('chores').delete().eq('id',id);
-}
+function deleteChoreDB(id){if(!sb)return Promise.resolve();return sb.from('chores').delete().eq('id',id);}
 function syncAvail(){
   if(!sb)return Promise.resolve();
   var rows=Object.keys(D.avail).map(function(k){return {avail_key:k,dates:D.avail[k]};});
@@ -511,7 +608,11 @@ function syncAvail(){
 function syncAsgn(){
   if(!sb)return Promise.resolve();
   var rows=[];
-  Object.keys(D.asgn).forEach(function(dk){Object.keys(D.asgn[dk]).forEach(function(cid){rows.push({day_key:dk,chore_id:cid,member_ids:D.asgn[dk][cid]});});});
+  Object.keys(D.asgn).forEach(function(dk){
+    Object.keys(D.asgn[dk]).forEach(function(cid){
+      rows.push({day_key:dk,chore_id:cid,member_ids:D.asgn[dk][cid]});
+    });
+  });
   if(!rows.length)return Promise.resolve();
   return sb.from('assignments').upsert(rows);
 }
@@ -521,17 +622,24 @@ function syncMeal(mid,ds,ml,state){
 }
 function delMemberDB(id){if(sb)sb.from('members').delete().eq('id',id);}
 
+// ===== ローカルストレージ =====
 function saveLocal(){
   try{localStorage.setItem('fc_d',JSON.stringify({mbrs:D.mbrs,chrs:D.chrs,avail:D.avail,asgn:D.asgn,meals:D.meals,ns:D.ns}));}catch(e){}
 }
 function loadLocal(){
-  try{var s=localStorage.getItem('fc_d');if(s){var d=JSON.parse(s);
-    if(d.mbrs)D.mbrs=d.mbrs;if(d.chrs)D.chrs=d.chrs;
-    if(d.avail)D.avail=d.avail;if(d.asgn)D.asgn=d.asgn;
-    if(d.meals)D.meals=d.meals;if(d.ns)D.ns=Object.assign({},D.ns,d.ns);
-  }}catch(e){}
+  try{
+    var s=localStorage.getItem('fc_d');
+    if(s){
+      var d=JSON.parse(s);
+      if(d.mbrs)D.mbrs=d.mbrs;if(d.chrs)D.chrs=d.chrs;
+      if(d.avail)D.avail=d.avail;if(d.asgn)D.asgn=d.asgn;
+      if(d.meals)D.meals=d.meals;
+      if(d.ns)D.ns=Object.assign({},D.ns,d.ns);
+    }
+  }catch(e){}
 }
 
+// ===== ナビ =====
 function go(t){
   ['cal','meal','avail','notify','settings'].forEach(function(id){
     document.getElementById(id).classList.remove('on');
@@ -543,7 +651,8 @@ function go(t){
   if(t==='meal')renderMeal();
   if(t==='avail')renderAvail();
   if(t==='notify'){renderIcal();loadNSForm();}
-  if(t==='settings'){renderMbr();renderChore();
+  if(t==='settings'){
+    renderMbr();renderChore();
     var su=localStorage.getItem('sb_url');var sk=localStorage.getItem('sb_key');
     if(su)document.getElementById('sb-url').value=su;
     if(sk)document.getElementById('sb-key').value=sk;
@@ -565,6 +674,8 @@ function loadNSForm(){
   document.getElementById('meal-show-lunch').checked=D.ns.mealShowLunch;
   document.getElementById('meal-show-dinner').checked=D.ns.mealShowDinner;
   document.getElementById('avail-show-any').checked=D.ns.availShowAny;
+  document.getElementById('feat-avail').checked=D.ns.featAvail;
+  document.getElementById('feat-auto').checked=D.ns.featAuto;
 }
 
 function renderAll(){renderCal();renderMeal();}
@@ -572,13 +683,14 @@ function cm(d){D.cmo+=d;if(D.cmo>11){D.cmo=0;D.cy++;}if(D.cmo<0){D.cmo=11;D.cy--
 function amc(d){D.amo+=d;if(D.amo>11){D.amo=0;D.ay++;}if(D.amo<0){D.amo=11;D.ay--;}renderAvail();}
 function mwc(d){var r=new Date(D.mws);r.setDate(r.getDate()+d*7);D.mws=r;renderMeal();}
 
+// ===== 割り振りロジック =====
 function getAv(mid,cid,y,m){
   var a=D.avail[avk(mid,ANY)]||[];var b=D.avail[avk(mid,cid)]||[];var s={};
   a.forEach(function(k){s[k]=1;});b.forEach(function(k){s[k]=1;});return s;
 }
 function isCD(ch,y,m,d){
   var dw=new Date(y,m,d).getDay();
-  if(ch.freq==='custom'){var days=(ch.active_days||[]).map(function(x){return parseInt(x);});return days.indexOf(dw)>=0;}
+  if(ch.freq==='custom'){var days=(ch.active_days||[]).map(Number);return days.indexOf(dw)>=0;}
   if(ch.freq==='daily')return true;
   if(ch.freq==='weekday')return dw>=1&&dw<=5;
   if(ch.freq==='weekend')return dw===0||dw===6;
@@ -587,6 +699,7 @@ function isCD(ch,y,m,d){
 }
 
 function autoA(){
+  if(!D.ns.featAuto)return;
   var y=D.cy,m=D.cmo,days=dim(y,m),cnt={};
   D.mbrs.forEach(function(mb){cnt[mb.id]=0;});
   for(var d=1;d<=days;d++){
@@ -613,12 +726,16 @@ function autoA(){
   renderCal();checkNotify();setupChoreTimers();
 }
 
+// ===== 通知 =====
 function getShortages(){
   var res=[],y=D.cy,m=D.cmo,days=dim(y,m),today=new Date();today.setHours(0,0,0,0);
   for(var d=1;d<=days;d++){
     var dt=new Date(y,m,d),diff=Math.round((dt-today)/86400000);if(diff<0)continue;
     var k=dky(y,m,d);
-    D.chrs.forEach(function(ch){if(isCD(ch,y,m,d)&&((D.asgn[k]&&D.asgn[k][ch.id])||[]).length<ch.need)res.push({date:(m+1)+'/'+d,diff:diff,chore:ch.name});});
+    D.chrs.forEach(function(ch){
+      if(isCD(ch,y,m,d)&&((D.asgn[k]&&D.asgn[k][ch.id])||[]).length<ch.need)
+        res.push({date:(m+1)+'/'+d,diff:diff,chore:ch.name});
+    });
   }
   return res;
 }
@@ -649,9 +766,8 @@ function setupChoreTimers(){
 function checkMealAuto(){
   if(!D.ns.mealAuto)return;
   var todayStr=dkdt(new Date()),changed=false;
-  var meals=activeMeals();
-  D.mbrs.forEach(function(mb){
-    meals.forEach(function(ml){
+  activeMeals().forEach(function(ml){
+    D.mbrs.forEach(function(mb){
       var k=mkey(mb.id,todayStr,ml.name);
       if((D.meals[k]||'undecided')==='undecided'){D.meals[k]='need';syncMeal(mb.id,todayStr,ml.name,'need');changed=true;}
     });
@@ -699,9 +815,12 @@ function saveNS(){
   D.ns.mealShowLunch=document.getElementById('meal-show-lunch').checked;
   D.ns.mealShowDinner=document.getElementById('meal-show-dinner').checked;
   D.ns.availShowAny=document.getElementById('avail-show-any').checked;
-  saveLocal();
+  D.ns.featAvail=document.getElementById('feat-avail').checked;
+  D.ns.featAuto=document.getElementById('feat-auto').checked;
+  saveLocal();updateFeatureUI();
 }
 
+// ===== iCal =====
 function renderIcal(){
   var h='';
   D.mbrs.forEach(function(mb){
@@ -757,6 +876,7 @@ function downloadIcs(){
   document.getElementById('ic-dl-msg').innerHTML='<span style="color:var(--cg)">ダウンロード完了</span>';
 }
 
+// ===== カレンダー描画 =====
 function renderCal(){
   var y=D.cy,m=D.cmo,days=dim(y,m),first=fday(y,m);
   document.getElementById('clbl').textContent=y+'年'+(m+1)+'月';
@@ -776,14 +896,13 @@ function renderCal(){
     D.chrs.forEach(function(ch){
       if(!isCD(ch,y,m,d))return;
       var asgn=da[ch.id]||[],sh=asgn.length<ch.need;
-      if(sh&&!isPast){tasks+='<div class="dt dt-sh">'+ch.name+'</div>';return;}
       if(sh&&isPast)return;
+      if(sh&&!isPast){tasks+='<div class="dt dt-sh">'+ch.name+'</div>';return;}
       var dots='';
       asgn.forEach(function(mid){var mb=D.mbrs.find(function(mb){return mb.id===mid;});if(mb){var mc=gc(mb.color);dots+='<span style="width:4px;height:4px;border-radius:50%;background:'+mc.md+';display:inline-block;flex-shrink:0"></span>';}});
       var fmc=asgn.length>0?(function(){var mb=D.mbrs.find(function(mb){return mb.id===asgn[0];});return mb?gc(mb.color):CL.gray;})():CL.gray;
       tasks+='<div class="dt" style="background:'+fmc.bg+';color:'+fmc.tx+'">'+dots+'<span style="flex:1;overflow:hidden;text-overflow:ellipsis">'+ch.name+'</span></div>';
     });
-    // 食事3段表示（緑・赤2色）
     var mealHtml='<div class="meal-rows">';
     meals.forEach(function(ml){
       var needCnt=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='need';}).length;
@@ -811,6 +930,7 @@ function renderCal(){
   document.getElementById('calrt').innerHTML=al;
 }
 
+// ===== 食事管理 =====
 function cyM(mid,ds,ml){
   var k=mkey(mid,ds,ml),cur=D.meals[k]||'undecided';
   var next=MSTATES[(MSTATES.indexOf(cur)+1)%MSTATES.length];
@@ -824,10 +944,16 @@ function renderMeal(){
   var e=days[6];
   document.getElementById('mwlbl').textContent=(ws.getMonth()+1)+'/'+ws.getDate()+'〜'+(e.getMonth()+1)+'/'+e.getDate();
   var meals=activeMeals();
-  if(!meals.length){document.getElementById('mgrid').innerHTML='<p style="font-size:13px;color:var(--tx2)">表示する食事がありません。通知設定から昼食・夕食を有効にしてください。</p>';document.getElementById('msum').innerHTML='';return;}
+  if(!meals.length){
+    document.getElementById('mgrid').innerHTML='<p style="font-size:13px;color:var(--tx2)">表示する食事がありません。通知設定から有効にしてください。</p>';
+    document.getElementById('msum').innerHTML='';return;
+  }
   var g='<div class="mg" style="grid-template-columns:62px repeat(7,minmax(0,1fr))">';
   g+='<div class="mgc mgh mgl"></div>';
-  days.forEach(function(dt){var it=now.toDateString()===dt.toDateString();g+='<div class="mgc mgh" style="'+(it?'background:#E1F5EE;color:#085041':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[dt.getDay()]+'</div>';});
+  days.forEach(function(dt){
+    var it=now.toDateString()===dt.toDateString();
+    g+='<div class="mgc mgh" style="'+(it?'background:#E1F5EE;color:#085041':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[dt.getDay()]+'</div>';
+  });
   meals.forEach(function(ml){
     D.mbrs.forEach(function(mb,mi){
       var mc=gc(mb.color);
@@ -845,37 +971,49 @@ function renderMeal(){
   g+='</div>';
   document.getElementById('mgrid').innerHTML=g;
   var sum='';
-  days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){
-    var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});
-    var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});
-    if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();
-      sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:12px">'+
-        '<span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+
-        (need.length?'<span class="bdg" style="background:#E1F5EE;color:#085041">'+need.map(function(m){return m.name;}).join('・')+' 必要</span>':'')+
-        (skip.length?'<span class="bdg" style="background:#FCEBEB;color:#791F1F">'+skip.map(function(m){return m.name;}).join('・')+' 不要</span>':'')+
-        '</div>';}
-  });});
+  days.forEach(function(dt){
+    var ds=dkdt(dt);
+    meals.forEach(function(ml){
+      var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});
+      var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});
+      if(need.length||skip.length){
+        var it=now.toDateString()===dt.toDateString();
+        sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:12px">'+
+          '<span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+
+          (need.length?'<span class="bdg" style="background:#E1F5EE;color:#085041">'+need.map(function(m){return m.name;}).join('・')+' 必要</span>':'')+
+          (skip.length?'<span class="bdg" style="background:#FCEBEB;color:#791F1F">'+skip.map(function(m){return m.name;}).join('・')+' 不要</span>':'')+
+          '</div>';
+      }
+    });
+  });
   document.getElementById('msum').innerHTML=sum||'<p style="font-size:12px;color:var(--tx2)">この週の登録はまだありません</p>';
 }
 
+// ===== 空き日登録 =====
 var pAv={};
 function renderAvail(){
   var y=D.ay,m=D.amo,days=dim(y,m);
   document.getElementById('avlbl').textContent=y+'年'+(m+1)+'月';
-  // なんでも対応タブの表示制御
+  if(!D.ns.featAvail){
+    document.getElementById('avail-off-msg').style.display='block';
+    document.getElementById('avail-body').style.display='none';
+    return;
+  }
+  document.getElementById('avail-off-msg').style.display='none';
+  document.getElementById('avail-body').style.display='block';
   var tabs=[];
   if(D.ns.availShowAny)tabs.push({id:ANY,name:'なんでも対応',color:'amber'});
   tabs=tabs.concat(D.chrs);
-  // 現在のタブが存在しない場合は最初のタブに戻す
   var tabIds=tabs.map(function(t){return t.id;});
   if(tabIds.indexOf(D.avTab)<0)D.avTab=tabs.length>0?tabs[0].id:ANY;
   var th='';
-  tabs.forEach(function(ch){var col=gc(ch.color),on=D.avTab===ch.id;th+='<button class="itab'+(on?' on':'')+'" onclick="swAv(\''+ch.id+'\')" style="'+(on?'border-bottom-color:'+col.md+';color:'+col.tx:'')+'">'+ch.name+'</button>';});
+  tabs.forEach(function(ch){
+    var col=gc(ch.color),on=D.avTab===ch.id;
+    th+='<button class="itab'+(on?' on':'')+'" onclick="swAv(\''+ch.id+'\')" style="'+(on?'border-bottom-color:'+col.md+';color:'+col.tx:'')+'">'+ch.name+'</button>';
+  });
   document.getElementById('avtabs').innerHTML=th;
   if(!tabs.length){document.getElementById('avcont').innerHTML='<p style="font-size:13px;color:var(--tx2)">家事がありません</p>';return;}
-  var cid=D.avTab;
-  var ch=tabs.find(function(c){return c.id===cid;})||tabs[0];
-  var col=gc(ch.color);
+  var cid=D.avTab,ch=tabs.find(function(c){return c.id===cid;})||tabs[0],col=gc(ch.color);
   var h='<div style="font-size:11px;padding:4px 8px;border-radius:6px;background:'+col.bg+';color:'+col.tx+';margin-bottom:8px">'+(cid===ANY?'全家事の空き候補として登録されます':'「'+ch.name+'」に対応できる日')+'</div>';
   D.mbrs.forEach(function(mb,i){
     var mc=gc(mb.color),ak=avk(mb.id,cid),cur={};
@@ -886,14 +1024,22 @@ function renderAvail(){
       '<button class="btn btn-sm" style="margin-left:auto" onclick="selAll(\''+mb.id+'\',\''+cid+'\','+y+','+m+')">全選択</button>'+
       '<button class="btn btn-sm" onclick="clrAll(\''+mb.id+'\',\''+cid+'\')">クリア</button></div>'+
       '<div class="av-chips">';
-    for(var d=1;d<=days;d++){var k=dky(y,m,d),dw=new Date(y,m,d).getDay(),sel=!!cur[k];h+='<span class="avc'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgAv(\''+mb.id+'\',\''+cid+'\',\''+k+'\',\''+mb.color+'\',this)">'+d+'<br>'+DOW[dw]+'</span>';}
+    for(var d=1;d<=days;d++){
+      var k=dky(y,m,d),dw=new Date(y,m,d).getDay(),sel=!!cur[k];
+      h+='<span class="avc'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgAv(\''+mb.id+'\',\''+cid+'\',\''+k+'\',\''+mb.color+'\',this)">'+d+'<br>'+DOW[dw]+'</span>';
+    }
     h+='</div></div>';
     if(i<D.mbrs.length-1)h+='<hr style="border:none;border-top:var(--bd);margin:4px 0">';
   });
   document.getElementById('avcont').innerHTML=h;
 }
 function swAv(cid){D.avTab=cid;renderAvail();}
-function tgAv(mid,cid,k,color,el){var ak=avk(mid,cid);if(!pAv[ak])pAv[ak]=(D.avail[ak]||[]).slice();var arr=pAv[ak],idx=arr.indexOf(k),mc=gc(color);if(idx>=0){arr.splice(idx,1);el.classList.remove('on');el.style='';}else{arr.push(k);el.classList.add('on');el.style='background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md;}}
+function tgAv(mid,cid,k,color,el){
+  var ak=avk(mid,cid);if(!pAv[ak])pAv[ak]=(D.avail[ak]||[]).slice();
+  var arr=pAv[ak],idx=arr.indexOf(k),mc=gc(color);
+  if(idx>=0){arr.splice(idx,1);el.classList.remove('on');el.style='';}
+  else{arr.push(k);el.classList.add('on');el.style='background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md;}
+}
 function selAll(mid,cid,y,m){var ak=avk(mid,cid),all=[];for(var d=1;d<=dim(y,m);d++)all.push(dky(y,m,d));pAv[ak]=all;renderAvail();}
 function clrAll(mid,cid){pAv[avk(mid,cid)]=[];renderAvail();}
 function saveAv(){
@@ -902,20 +1048,25 @@ function saveAv(){
   var b=document.getElementById('savbtn');b.textContent='保存済';setTimeout(function(){b.textContent='保存';},1400);
 }
 
+// ===== 日クリック（詳細表示 + 手動変更ボタン） =====
 function oDay(k){
-  D.curDay=k;var p=k.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];
+  D.curDay=k;
+  var p=k.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];
   document.getElementById('dtit').textContent=(m+1)+'月'+d+'日';
   var da=D.asgn[k]||{};
-  var h='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:6px">家事担当</div>';
+  var h='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:8px">家事担当</div>';
   var hc=false;
   D.chrs.forEach(function(ch){
     if(!isCD(ch,y,m,d))return;hc=true;
     var ids=da[ch.id]||[];
     var asgn=ids.map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'?';});
     var col=gc(ch.color),sh=ids.length<ch.need;
-    var dots='';ids.forEach(function(mid){var mb=D.mbrs.find(function(mb){return mb.id===mid;});if(mb){var mc=gc(mb.color);dots+='<span style="width:8px;height:8px;border-radius:50%;background:'+mc.md+';display:inline-block;margin-right:2px"></span>';}});
-    var timeStr=ch.start_time?'<span style="font-size:10px;color:var(--tx2);margin-left:4px">'+ch.start_time+'〜</span>':'';
-    h+='<div class="list-row"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+timeStr+
+    var dots='';
+    ids.forEach(function(mid){var mb=D.mbrs.find(function(mb){return mb.id===mid;});if(mb){var mc=gc(mb.color);dots+='<span style="width:8px;height:8px;border-radius:50%;background:'+mc.md+';display:inline-block;margin-right:2px"></span>';}});
+    var timeStr=ch.start_time?'<span style="font-size:10px;color:var(--tx2)">'+ch.start_time+'〜</span>':'';
+    h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)">'+
+      '<span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+
+      timeStr+
       '<span style="font-size:13px;flex:1;display:flex;align-items:center;gap:4px">'+dots+(asgn.length?asgn.join('・'):'未割り当て')+'</span>'+
       (sh?'<span class="bdg" style="background:var(--crb);color:var(--cr)">不足</span>':'')+
       '</div>';
@@ -923,41 +1074,113 @@ function oDay(k){
   if(!hc)h+='<p style="font-size:13px;color:var(--tx2)">この日の家事はありません</p>';
   var meals=activeMeals();
   if(meals.length){
-    h+='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin:12px 0 6px">食事状況</div>';
+    h+='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin:14px 0 8px">食事状況</div>';
     meals.forEach(function(ml){
       var need=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='need';});
       var skip=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='skip';});
-      h+='<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:13px"><span style="min-width:36px;color:var(--tx2)">'+ml.name+'</span>'+
+      h+='<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:13px">'+
+        '<span style="min-width:36px;color:var(--tx2)">'+ml.name+'</span>'+
         (need.length?'<span class="bdg" style="background:#E1F5EE;color:#085041">'+need.map(function(m){return m.name;}).join('・')+' 必要</span>':'')+
         (skip.length?'<span class="bdg" style="background:#FCEBEB;color:#791F1F">'+skip.map(function(m){return m.name;}).join('・')+' 不要</span>':'')+
         (!need.length&&!skip.length?'<span style="color:var(--tx3)">未登録</span>':'')+
         '</div>';
     });
   }
+  // 手動変更ボタン
+  if(hc){
+    h+='<button class="btn btn-p" style="width:100%;margin-top:16px" onclick="oMan()">担当を手動で変更する</button>';
+  }
   document.getElementById('dcont').innerHTML=h;
   document.getElementById('o-day').classList.add('on');
 }
 
+// ===== 手動変更（改善版：大きなボタンUI） =====
 var mSt={};
 function oMan(){
-  var k=D.curDay;if(!k)return;var p=k.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];
-  document.getElementById('mantit').textContent=(m+1)+'月'+d+'日 手動割り当て';
-  var da=D.asgn[k]||{};mSt={k:k,sel:{}};var h='';
+  var k=D.curDay;if(!k)return;
+  var p=k.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];
+  document.getElementById('mantit').textContent=(m+1)+'月'+d+'日の担当変更';
+  var da=D.asgn[k]||{};
+  mSt={k:k,sel:{}};
+  var h='';
   D.chrs.forEach(function(ch){
-    if(!isCD(ch,y,m,d))return;var cur=da[ch.id]||[];mSt.sel[ch.id]=cur.slice();
+    if(!isCD(ch,y,m,d))return;
+    var cur=da[ch.id]||[];
+    mSt.sel[ch.id]=cur.slice();
     var col=gc(ch.color);
-    h+='<div style="margin-bottom:12px"><div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span><span style="font-size:11px;color:var(--tx2)">必要'+ch.need+'人</span></div><div style="display:flex;flex-wrap:wrap;gap:6px">';
-    D.mbrs.forEach(function(mb){var sel=cur.indexOf(mb.id)>=0,mc=gc(mb.color);h+='<span class="chip'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgMan(\''+ch.id+'\',\''+mb.id+'\',this,\''+mb.color+'\')">'+mb.name+'</span>';});
-    h+='</div></div>';
+    var statusTxt=cur.length+'/'+ch.need+'人';
+    var statusCls=cur.length>=ch.need?'ok':cur.length>ch.need?'over':'short';
+    h+='<div class="man-chore-card">'+
+      '<div class="man-chore-header">'+
+        '<span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+
+        '<span class="man-need-badge">必要 '+ch.need+'人</span>'+
+      '</div>'+
+      '<div class="man-mbr-grid" id="mg-'+ch.id+'">';
+    D.mbrs.forEach(function(mb){
+      var sel=cur.indexOf(mb.id)>=0;
+      var mc=gc(mb.color);
+      h+='<div class="man-mbr-btn'+(sel?' on':'')+'" id="mmb-'+ch.id+'-'+mb.id+'" '+
+        'style="'+(sel?'border-color:'+mc.md+';background:'+mc.bg:'')+'" '+
+        'onclick="tgMan(\''+ch.id+'\',\''+mb.id+'\',\''+mb.color+'\')">'+
+        '<div class="man-mbr-icon" style="background:'+(sel?mc.md:'var(--sf2)')+';color:'+(sel?'#fff':mc.md)+'">'+mb.name[0]+'</div>'+
+        '<span style="color:'+(sel?mc.tx:'var(--tx2)')+'">'+mb.name+'</span>'+
+        '</div>';
+    });
+    h+='</div>'+
+      '<div class="man-status '+statusCls+'" id="ms-'+ch.id+'">'+statusTxt+'</div>'+
+      '</div>';
   });
   document.getElementById('mancont').innerHTML=h;
   document.getElementById('o-day').classList.remove('on');
   document.getElementById('o-man').classList.add('on');
 }
-function tgMan(cid,mid,el,color){var arr=mSt.sel[cid]||[],idx=arr.indexOf(mid),mc=gc(color);if(idx>=0){arr.splice(idx,1);el.classList.remove('on');el.style='';}else{arr.push(mid);el.classList.add('on');el.style='background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md;}mSt.sel[cid]=arr;}
-function sMan(){if(!D.asgn[mSt.k])D.asgn[mSt.k]={};Object.keys(mSt.sel).forEach(function(cid){D.asgn[mSt.k][cid]=mSt.sel[cid];});syncAsgn().then(function(){saveLocal();});cls();renderCal();}
 
-// 曜日ボタン（チェックボックスではなくボタン形式に変更）
+function tgMan(cid,mid,color){
+  var arr=mSt.sel[cid]||[];
+  var idx=arr.indexOf(mid);
+  var mc=gc(color);
+  var el=document.getElementById('mmb-'+cid+'-'+mid);
+  if(idx>=0){
+    arr.splice(idx,1);
+    if(el){
+      el.classList.remove('on');
+      el.style.borderColor='';el.style.background='';
+      var icon=el.querySelector('.man-mbr-icon');
+      var name=el.querySelector('span');
+      if(icon){icon.style.background='var(--sf2)';icon.style.color=mc.md;}
+      if(name){name.style.color='var(--tx2)';}
+    }
+  }else{
+    arr.push(mid);
+    if(el){
+      el.classList.add('on');
+      el.style.borderColor=mc.md;el.style.background=mc.bg;
+      var icon=el.querySelector('.man-mbr-icon');
+      var name=el.querySelector('span');
+      if(icon){icon.style.background=mc.md;icon.style.color='#fff';}
+      if(name){name.style.color=mc.tx;}
+    }
+  }
+  mSt.sel[cid]=arr;
+  // 人数ステータスを更新
+  var ch=D.chrs.find(function(c){return c.id===cid;});
+  var statusEl=document.getElementById('ms-'+cid);
+  if(statusEl&&ch){
+    var cnt=arr.length;
+    var need=ch.need;
+    statusEl.textContent=cnt+'/'+need+'人';
+    statusEl.className='man-status '+(cnt>=need?(cnt>need?'over':'ok'):'short');
+  }
+}
+
+function sMan(){
+  if(!D.asgn[mSt.k])D.asgn[mSt.k]={};
+  Object.keys(mSt.sel).forEach(function(cid){D.asgn[mSt.k][cid]=mSt.sel[cid];});
+  syncAsgn().then(function(){saveLocal();});
+  cls();renderCal();
+}
+
+// ===== 家事編集 =====
 function toggleDow(){
   var freq=document.getElementById('cfreq').value;
   document.getElementById('dow-wrap').style.display=freq==='custom'?'block':'none';
@@ -981,7 +1204,10 @@ function renderChore(){
     var pn=(ch.priority||[]).map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'';}).filter(Boolean);
     var fl={daily:'毎日',weekday:'平日',weekend:'週末',weekly:'週1',custom:'曜日指定'}[ch.freq]||ch.freq;
     var dowStr='';
-    if(ch.freq==='custom'&&ch.active_days){var dn=['日','月','火','水','木','金','土'];dowStr='（'+(ch.active_days||[]).map(function(x){return dn[parseInt(x)];}).join('・')+'）';}
+    if(ch.freq==='custom'&&ch.active_days){
+      var dn=['日','月','火','水','木','金','土'];
+      dowStr='（'+(ch.active_days||[]).map(function(x){return dn[parseInt(x)];}).join('・')+'）';
+    }
     h+='<div class="list-row">'+
       '<span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+
       '<div style="flex:1;min-width:0">'+
@@ -995,46 +1221,33 @@ function renderChore(){
   });
   document.getElementById('chorelist').innerHTML=h;
 }
-
 function delC(id){
-  // ローカルから削除
   D.chrs=D.chrs.filter(function(c){return c.id!==id;});
-  // Supabaseから削除
   deleteChoreDB(id).then(function(){saveLocal();renderChore();renderCal();renderAvail();});
   if(!sb){saveLocal();renderChore();renderCal();renderAvail();}
 }
-
 function oCM(id){
   D.selFix=[];D.selPri=[];D.selCol='purple';selDays=[];
-  // 全曜日ボタンをリセット
   document.querySelectorAll('.dow-btn').forEach(function(el){el.classList.remove('on');});
   if(id){
-    var ch=D.chrs.find(function(c){return c.id===id;});
-    if(!ch)return;
+    var ch=D.chrs.find(function(c){return c.id===id;});if(!ch)return;
     document.getElementById('cmtit').textContent='家事を編集';
     document.getElementById('eid').value=id;
     document.getElementById('cname').value=ch.name;
     document.getElementById('cfreq').value=ch.freq;
     document.getElementById('cneed').value=ch.need;
-    D.selFix=(ch.fixed||[]).slice();
-    D.selPri=(ch.priority||[]).slice();
-    D.selCol=ch.color;
-    selDays=(ch.active_days||[]).map(function(x){return parseInt(x);});
-    // 曜日ボタンに反映
-    document.querySelectorAll('.dow-btn').forEach(function(el){
-      if(selDays.indexOf(parseInt(el.dataset.dow))>=0)el.classList.add('on');
-    });
+    D.selFix=(ch.fixed||[]).slice();D.selPri=(ch.priority||[]).slice();D.selCol=ch.color;
+    selDays=(ch.active_days||[]).map(Number);
+    document.querySelectorAll('.dow-btn').forEach(function(el){if(selDays.indexOf(parseInt(el.dataset.dow))>=0)el.classList.add('on');});
     document.getElementById('dow-wrap').style.display=ch.freq==='custom'?'block':'none';
     var ne=ch.notify_enabled||false;
     document.getElementById('ch-notify').checked=ne;
     document.getElementById('ch-time-wrap').style.display=ne?'block':'none';
     document.getElementById('ch-start-time').value=ch.start_time||'';
-  } else {
+  }else{
     document.getElementById('cmtit').textContent='家事を追加';
-    document.getElementById('eid').value='';
-    document.getElementById('cname').value='';
-    document.getElementById('cfreq').value='daily';
-    document.getElementById('cneed').value=1;
+    document.getElementById('eid').value='';document.getElementById('cname').value='';
+    document.getElementById('cfreq').value='daily';document.getElementById('cneed').value=1;
     selDays=[0,1,2,3,4,5,6];
     document.querySelectorAll('.dow-btn').forEach(function(el){el.classList.add('on');});
     document.getElementById('dow-wrap').style.display='none';
@@ -1045,24 +1258,20 @@ function oCM(id){
   rFix();rPri();uCol();
   document.getElementById('o-cm').classList.add('on');
 }
-
 function rFix(){
   var h='';
   D.mbrs.forEach(function(mb){var sel=D.selFix.indexOf(mb.id)>=0,mc=gc(mb.color);h+='<span class="chip'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgFix(\''+mb.id+'\',this,\''+mb.color+'\')">'+mb.name+'</span>';});
   document.getElementById('fchips').innerHTML=h;
 }
 function tgFix(mid,el,color){var idx=D.selFix.indexOf(mid),mc=gc(color);if(idx>=0){D.selFix.splice(idx,1);el.classList.remove('on');el.style='';}else{D.selFix.push(mid);el.classList.add('on');el.style='background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md;}}
-
 function rPri(){
   var h='';
   D.mbrs.forEach(function(mb){var sel=D.selPri.indexOf(mb.id)>=0,mc=gc(mb.color);h+='<span class="chip'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgPri(\''+mb.id+'\',this,\''+mb.color+'\')">'+mb.name+'</span>';});
   document.getElementById('pchips').innerHTML=h;
 }
 function tgPri(mid,el,color){var idx=D.selPri.indexOf(mid),mc=gc(color);if(idx>=0){D.selPri.splice(idx,1);el.classList.remove('on');el.style='';}else{D.selPri.push(mid);el.classList.add('on');el.style='background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md;}}
-
 function uCol(){document.querySelectorAll('.co').forEach(function(el){el.style.borderColor=el.dataset.c===D.selCol?'var(--tx)':'transparent';});}
 document.querySelectorAll('.co').forEach(function(el){el.addEventListener('click',function(){D.selCol=el.dataset.c;uCol();});});
-
 function saveC(){
   var id=document.getElementById('eid').value;
   var freq=document.getElementById('cfreq').value;
@@ -1071,14 +1280,10 @@ function saveC(){
   var ch={
     id:id||('c'+Date.now()),
     name:document.getElementById('cname').value||'新しい家事',
-    freq:freq,
-    need:parseInt(document.getElementById('cneed').value)||1,
-    fixed:D.selFix.slice(),
-    priority:D.selPri.slice(),
-    color:D.selCol,
+    freq:freq,need:parseInt(document.getElementById('cneed').value)||1,
+    fixed:D.selFix.slice(),priority:D.selPri.slice(),color:D.selCol,
     active_days:freq==='custom'?selDays.slice():[0,1,2,3,4,5,6],
-    start_time:ne?st:'',
-    notify_enabled:ne
+    start_time:ne?st:'',notify_enabled:ne
   };
   if(id){var i=D.chrs.findIndex(function(c){return c.id===id;});if(i>=0)D.chrs[i]=ch;}
   else D.chrs.push(ch);
@@ -1086,6 +1291,7 @@ function saveC(){
   cls();renderChore();renderAvail();
 }
 
+// ===== メンバー =====
 function renderMbr(){
   var h='';
   if(!D.mbrs.length){document.getElementById('mbrlist').innerHTML='<p style="font-size:13px;color:var(--tx2)">メンバーがいません</p>';return;}
@@ -1102,10 +1308,11 @@ function renderMbr(){
 }
 function delM(id){D.mbrs=D.mbrs.filter(function(m){return m.id!==id;});delMemberDB(id);saveLocal();renderMbr();}
 function oMM(id){
-  if(id){var mb=D.mbrs.find(function(m){return m.id===id;});if(!mb)return;
+  if(id){
+    var mb=D.mbrs.find(function(m){return m.id===id;});if(!mb)return;
     document.getElementById('mmtit').textContent='メンバーを編集';
     document.getElementById('meid').value=id;document.getElementById('mname').value=mb.name;document.getElementById('mcol').value=mb.color;
-  } else {
+  }else{
     document.getElementById('mmtit').textContent='メンバーを追加';
     document.getElementById('meid').value='';document.getElementById('mname').value='';document.getElementById('mcol').value='purple';
   }
@@ -1118,9 +1325,11 @@ function saveM(){
   syncMember(mb).then(function(){saveLocal();});cls();renderMbr();
 }
 
+// ===== モーダル =====
 function cls(){document.querySelectorAll('.ovl').forEach(function(o){o.classList.remove('on');});}
 document.querySelectorAll('.ovl').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)cls();});});
 
+// ===== 起動 =====
 window.addEventListener('load',function(){
   var su=localStorage.getItem('sb_url');var sk=localStorage.getItem('sb_key');
   if(su)SUPABASE_URL=su;if(sk)SUPABASE_KEY=sk;
@@ -1129,10 +1338,11 @@ window.addEventListener('load',function(){
   var ready=function(){
     document.getElementById('loading').style.display='none';
     document.getElementById('wrap').style.display='block';
+    updateFeatureUI();
     if(!SUPABASE_URL||!SUPABASE_KEY){
       document.getElementById('setup-banner').style.display='block';
       setSS('','オフライン');renderAll();
-    } else {
+    }else{
       if(typeof supabase!=='undefined'){initSB(SUPABASE_URL,SUPABASE_KEY);loadAll();}
       else{setSS('err','SDK読込エラー');renderAll();}
     }
@@ -1146,10 +1356,9 @@ window.addEventListener('load',function(){
   if(SUPABASE_URL&&SUPABASE_KEY){
     var s=document.createElement('script');
     s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-    s.onload=ready;
-    s.onerror=function(){setSS('err','SDK読込失敗');ready();};
+    s.onload=ready;s.onerror=function(){setSS('err','SDK読込失敗');ready();};
     document.head.appendChild(s);
-  } else{ready();}
+  }else{ready();}
 
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 });
