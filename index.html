@@ -966,23 +966,37 @@ function renderCal(){
 }
 
 // ===== 食事管理 =====
+var mealQueue=[];
+var mealProcessing=false;
+
+function processMealQueue(){
+  if(mealProcessing||!mealQueue.length)return;
+  mealProcessing=true;
+  var item=mealQueue.shift();
+  setSS('ing','保存中...');
+  sb.from('meals').upsert({
+    meal_key:item.k,member_id:item.mid,date:item.ds,meal_name:item.ml,state:item.state
+  }).then(function(){
+    setSS('ok','保存済');
+    setTimeout(function(){setSS('ok','同期済');},1200);
+    mealProcessing=false;
+    processMealQueue();
+  }).catch(function(){
+    setSS('err','保存失敗');
+    mealProcessing=false;
+    processMealQueue();
+  });
+}
+
 function cyM(mid,ds,ml){
   var k=mkey(mid,ds,ml),cur=D.meals[k]||'undecided';
   var next=MSTATES[(MSTATES.indexOf(cur)+1)%MSTATES.length];
   D.meals[k]=next;
-  setSS('ing','保存中...');
-  syncMeal(mid,ds,ml,next).then(function(){
-    saveLocal();
-    setSS('ok','保存済');
-    setTimeout(function(){setSS('ok','同期済');},1500);
-  }).catch(function(){
-    // 失敗したら元に戻す
-    D.meals[k]=cur;
-    setSS('err','保存失敗');
-    renderMeal();renderCal();
-    setTimeout(function(){setSS('ok','同期済');},3000);
-  });
   renderMeal();renderCal();
+  if(sb){
+    mealQueue.push({k:k,mid:mid,ds:ds,ml:ml,state:next});
+    processMealQueue();
+  }
 }
 function renderMeal(){
   var ws=D.mws,days=[];
