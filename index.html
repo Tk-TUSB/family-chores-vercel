@@ -602,12 +602,18 @@ function connectSB(){
 function loadAll(){
   if(!sb){setSS('','オフライン');loadLocal();renderAll();return;}
   setSS('ing','同期中');
+  // 今月と前後1ヶ月分のみ取得（件数制限対策）
+  var now2=new Date();
+  var from=new Date(now2.getFullYear(),now2.getMonth()-1,1);
+  var to=new Date(now2.getFullYear(),now2.getMonth()+2,0);
+  var fromStr=from.getFullYear()+'-'+('0'+(from.getMonth()+1)).slice(-2)+'-01';
+  var toStr=to.getFullYear()+'-'+('0'+(to.getMonth()+1)).slice(-2)+'-'+('0'+to.getDate()).slice(-2);
   Promise.all([
     sb.from('members').select('*'),
     sb.from('chores').select('*'),
     sb.from('availability').select('*'),
-    sb.from('assignments').select('*'),
-    sb.from('meals').select('*')
+    sb.from('assignments').select('*').gte('day_key',fromStr).lte('day_key',toStr),
+    sb.from('meals').select('*').gte('date',fromStr).lte('date',toStr)
   ]).then(function(res){
     if(res[0].data&&res[0].data.length)D.mbrs=res[0].data;
     if(res[1].data&&res[1].data.length){
