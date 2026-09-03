@@ -89,13 +89,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic',sa
 .mg{display:grid;gap:1px;background:var(--bde);border:var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
 .mgc{background:var(--sf);padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;font-size:12px}
 .mgh{background:var(--sf2)!important;font-weight:700;font-size:11px;color:var(--tx2)}
-.mgh.today-col{background:#E1F5EE!important;color:#085041!important;outline:2px solid var(--cbm);outline-offset:-1px}
+.today-col{background:#E6F1FB!important;color:#0C447C!important;border-left:2px solid var(--cbm);border-right:2px solid var(--cbm)}
+.today-col-top{border-top:2px solid var(--cbm)!important}
+.today-col-last{border-bottom:2px solid var(--cbm)!important}
 .mgl{background:var(--sf2)!important;align-items:flex-start!important;padding:5px 6px!important;font-size:11px;color:var(--tx2)}
 .mgb{width:30px;height:22px;border-radius:5px;border:var(--bd);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--sf2);color:var(--tx3)}
 .mgb.need{background:#E1F5EE;color:#085041;border-color:#5DCAA5}
 .mgb.skip{background:#FCEBEB;color:#791F1F;border-color:#F09595}
 .mgb.locked{cursor:default;opacity:.45}
-.mgb.today-cell{outline:2px solid var(--cbm);outline-offset:-1px}
+
 .itabs{display:flex;border-bottom:var(--bd);margin-bottom:10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .itab{padding:8px 14px;font-size:13px;cursor:pointer;border:none;background:none;color:var(--tx2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-weight:500}
 .itab.on{color:var(--tx);border-bottom-color:var(--tx);font-weight:700}
@@ -472,7 +474,7 @@ var D={
     icStart:'07:00',icEnd:'08:00',icRemind:30,
     mealAuto:false,mealAutoTime:'06:00',
     mealShowLunch:true,mealShowDinner:true,
-    availShowAny:false,featAvail:true,featAuto:true,
+    availShowAny:false,featAvail:true,featAuto:false,
     // 食事デフォルト: {memberId: {mealName: {0:'need',1:'skip',...}}}
     mealDefaults:{}
   }
@@ -801,29 +803,41 @@ function renderMeal(){
   var e=days[6];document.getElementById('mwlbl').textContent=(ws.getMonth()+1)+'/'+ws.getDate()+'〜'+(e.getMonth()+1)+'/'+e.getDate();
   var meals=activeMeals();
   if(!meals.length){document.getElementById('mgrid').innerHTML='<p style="font-size:13px;color:var(--tx2)">表示する食事がありません。通知設定から有効にしてください。</p>';document.getElementById('msum').innerHTML='';return;}
+  var todayIdx=-1;
+  days.forEach(function(dt,i){if(now.toDateString()===dt.toDateString())todayIdx=i;});
+  var cols=days.length;
   var g='<div class="mg" style="grid-template-columns:62px repeat(7,minmax(0,1fr))">';
+  // ヘッダー行（ラベル列 + 7日分）
   g+='<div class="mgc mgh mgl"></div>';
-  days.forEach(function(dt){var it=now.toDateString()===dt.toDateString();g+='<div class="mgc mgh'+(it?' today-col':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[dt.getDay()]+'</div>';});
-  meals.forEach(function(ml){
+  days.forEach(function(dt,di){
+    var it=todayIdx===di;
+    g+='<div class="mgc mgh'+(it?' today-col today-col-top':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[dt.getDay()]+'</div>';
+  });
+  meals.forEach(function(ml,mli){
+    var isLastMeal=mli===meals.length-1;
     D.mbrs.forEach(function(mb,mi){
       var mc=gc(mb.color);
       var isMe=currentUserId===mb.id;
-      g+='<div class="mgc mgl" style="flex-direction:row;gap:3px">'+(mi===0?'<b style="font-size:9px;color:var(--tx)">'+ml.name+'</b>':'')+
-        '<div class="avi" style="width:14px;height:14px;background:'+mc.bg+';color:'+mc.tx+';font-size:8px;flex-shrink:0">'+mb.name[0]+'</div></div>';
-      days.forEach(function(dt){
+      var isLastMbr=mi===D.mbrs.length-1;
+      // ラベル列
+      g+='<div class="mgc mgl" style="flex-direction:row;gap:3px">'+(mi===0?'<b style="font-size:10px;color:var(--tx)">'+ml.name+'</b>':'')+'<div class="avi" style="width:16px;height:16px;background:'+mc.bg+';color:'+mc.tx+';font-size:9px;flex-shrink:0">'+mb.name[0]+'</div></div>';
+      // データ列
+      days.forEach(function(dt,di){
         var ds=dkdt(dt),s=mst(mb.id,ds,ml.name);
         var lbl=s==='undecided'?'?':s==='need'?'○':'×';
         var bg=s==='need'?'background:#E1F5EE;color:#085041;border-color:#5DCAA5':s==='skip'?'background:#FCEBEB;color:#791F1F;border-color:#F09595':'';
-        // 自分以外はロック表示
         var locked=currentUserId&&!isMe;
-        var itCell=now.toDateString()===dt.toDateString();
-        g+='<div class="mgc"><div class="mgb'+(locked?' locked':'')+(itCell?' today-cell':'')+'" style="'+bg+'" onclick="cyM(\''+mb.id+'\',\''+ds+'\',\''+ml.name+'\')">'+lbl+'</div></div>';
+        var it=todayIdx===di;
+        // 最終行（最終食事×最終メンバー）に下枠クラスを付ける
+        var isBottom=isLastMeal&&isLastMbr;
+        g+='<div class="mgc'+(it?' today-col':'')+(it&&isBottom?' today-col-last':'')+'">';
+        g+='<div class="mgb'+(locked?' locked':'')+'" style="'+bg+'" onclick="cyM(\''+mb.id+'\',\''+ds+'\',\''+ml.name+'\')">'+lbl+'</div></div>';
       });
     });
     g+='<div style="background:var(--bde);grid-column:1/-1;height:1px"></div>';
   });
   g+='</div>';document.getElementById('mgrid').innerHTML=g;
-  var sum='';days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:12px"><span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'\">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:#E1F5EE;color:#085041">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:#FCEBEB;color:#791F1F">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';}});});
+  var sum='';days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:12px;'+(it?'background:#E6F1FB;border-left:2px solid var(--cbm);padding-left:6px;border-radius:4px;':'')+'\">'+'<span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'\">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:#E1F5EE;color:#085041">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:#FCEBEB;color:#791F1F">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';}});});
   document.getElementById('msum').innerHTML=sum||'<p style="font-size:12px;color:var(--tx2)">この週の登録はまだありません</p>';
 }
 
