@@ -476,16 +476,8 @@ var choreTimers=[];
 var selDays=[];
 
 var D={
-  mbrs:[
-    {id:'m1',name:'お父さん',color:'blue'},
-    {id:'m2',name:'お母さん',color:'pink'},
-    {id:'m3',name:'太郎',color:'teal'}
-  ],
-  chrs:[
-    {id:'c1',name:'犬の散歩',freq:'daily',need:1,fixed:[],priority:[],color:'amber',active_days:[0,1,2,3,4,5,6],start_time:'',notify_enabled:false},
-    {id:'c2',name:'夕食の準備',freq:'daily',need:1,fixed:['m2'],priority:[],color:'coral',active_days:[0,1,2,3,4,5,6],start_time:'',notify_enabled:false},
-    {id:'c3',name:'ゴミ出し',freq:'weekly',need:1,fixed:[],priority:[],color:'purple',active_days:[0,1,2,3,4,5,6],start_time:'',notify_enabled:false}
-  ],
+  mbrs:[],
+  chrs:[],
   asgn:{},avail:{},meals:{},
   cy:now.getFullYear(),cmo:now.getMonth(),
   ay:now.getFullYear(),amo:now.getMonth(),
