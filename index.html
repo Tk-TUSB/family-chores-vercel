@@ -548,6 +548,51 @@ function initSB(url,key){
   try{sb=supabase.createClient(url,key);setSS('ok','接続済');return true;}
   catch(e){setSS('err','接続エラー');return false;}
 }
+
+function setupRealtime(){
+  if(!sb)return;
+  // 担当割り振りの変更を自動反映
+  sb.channel('rt-assignments')
+    .on('postgres_changes',{event:'*',schema:'public',table:'assignments'},function(payload){
+      var r=payload.new||payload.old;if(!r)return;
+      if(!D.asgn[r.day_key])D.asgn[r.day_key]={};
+      if(payload.eventType==='DELETE')delete D.asgn[r.day_key][r.chore_id];
+      else D.asgn[r.day_key][r.chore_id]=r.member_ids||[];
+      saveLocal();renderCal();
+    }).subscribe();
+  // 食事の変更を自動反映
+  sb.channel('rt-meals')
+    .on('postgres_changes',{event:'*',schema:'public',table:'meals'},function(payload){
+      var r=payload.new||payload.old;if(!r)return;
+      if(payload.eventType==='DELETE')delete D.meals[r.meal_key];
+      else D.meals[r.meal_key]=r.state;
+      saveLocal();renderMeal();renderCal();
+    }).subscribe();
+  // メンバーの変更を自動反映
+  sb.channel('rt-members')
+    .on('postgres_changes',{event:'*',schema:'public',table:'members'},function(payload){
+      var r=payload.new;
+      if(payload.eventType==='DELETE'){D.mbrs=D.mbrs.filter(function(m){return m.id!==payload.old.id;});}
+      else if(payload.eventType==='INSERT'){if(!D.mbrs.find(function(m){return m.id===r.id;}))D.mbrs.push(r);}
+      else{var i=D.mbrs.findIndex(function(m){return m.id===r.id;});if(i>=0)D.mbrs[i]=r;}
+      saveLocal();renderAll();
+    }).subscribe();
+  // 家事の変更を自動反映
+  sb.channel('rt-chores')
+    .on('postgres_changes',{event:'*',schema:'public',table:'chores'},function(payload){
+      var r=payload.new;
+      if(payload.eventType==='DELETE'){D.chrs=D.chrs.filter(function(c){return c.id!==payload.old.id;});}
+      else{
+        var ch={id:r.id,name:r.name,freq:r.freq,need:r.need,color:r.color,
+          fixed:r.fixed_members||[],priority:r.priority_members||[],
+          active_days:r.active_days||[0,1,2,3,4,5,6],
+          start_time:r.start_time||'',notify_enabled:r.notify_enabled||false};
+        if(payload.eventType==='INSERT'){if(!D.chrs.find(function(c){return c.id===ch.id;}))D.chrs.push(ch);}
+        else{var i=D.chrs.findIndex(function(c){return c.id===ch.id;});if(i>=0)D.chrs[i]=ch;}
+      }
+      saveLocal();renderAll();
+    }).subscribe();
+}
 function connectSB(){
   var url=document.getElementById('sb-url').value.trim();
   var key=document.getElementById('sb-key').value.trim();
@@ -935,7 +980,18 @@ function cyM(mid,ds,ml){
   var k=mkey(mid,ds,ml),cur=D.meals[k]||'undecided';
   var next=MSTATES[(MSTATES.indexOf(cur)+1)%MSTATES.length];
   D.meals[k]=next;
-  syncMeal(mid,ds,ml,next).then(function(){saveLocal();});
+  setSS('ing','保存中...');
+  syncMeal(mid,ds,ml,next).then(function(){
+    saveLocal();
+    setSS('ok','保存済');
+    setTimeout(function(){setSS('ok','同期済');},1500);
+  }).catch(function(){
+    // 失敗したら元に戻す
+    D.meals[k]=cur;
+    setSS('err','保存失敗');
+    renderMeal();renderCal();
+    setTimeout(function(){setSS('ok','同期済');},3000);
+  });
   renderMeal();renderCal();
 }
 function renderMeal(){
@@ -1044,8 +1100,19 @@ function selAll(mid,cid,y,m){var ak=avk(mid,cid),all=[];for(var d=1;d<=dim(y,m);
 function clrAll(mid,cid){pAv[avk(mid,cid)]=[];renderAvail();}
 function saveAv(){
   Object.keys(pAv).forEach(function(k){D.avail[k]=pAv[k].slice();});pAv={};
-  syncAvail().then(function(){saveLocal();});
-  var b=document.getElementById('savbtn');b.textContent='保存済';setTimeout(function(){b.textContent='保存';},1400);
+  var b=document.getElementById('savbtn');
+  b.textContent='保存中...';b.disabled=true;
+  setSS('ing','保存中...');
+  syncAvail().then(function(){
+    saveLocal();
+    b.textContent='保存済';
+    setSS('ok','保存済');
+    setTimeout(function(){b.textContent='保存';b.disabled=false;setSS('ok','同期済');},1500);
+  }).catch(function(){
+    b.textContent='保存';b.disabled=false;
+    setSS('err','保存失敗');
+    setTimeout(function(){setSS('ok','同期済');},3000);
+  });
 }
 
 // ===== 日クリック（詳細表示 + 手動変更ボタン） =====
@@ -1176,7 +1243,15 @@ function tgMan(cid,mid,color){
 function sMan(){
   if(!D.asgn[mSt.k])D.asgn[mSt.k]={};
   Object.keys(mSt.sel).forEach(function(cid){D.asgn[mSt.k][cid]=mSt.sel[cid];});
-  syncAsgn().then(function(){saveLocal();});
+  setSS('ing','保存中...');
+  syncAsgn().then(function(){
+    saveLocal();
+    setSS('ok','保存済');
+    setTimeout(function(){setSS('ok','同期済');},1500);
+  }).catch(function(){
+    setSS('err','保存失敗');
+    setTimeout(function(){setSS('ok','同期済');},3000);
+  });
   cls();renderCal();
 }
 
@@ -1343,7 +1418,7 @@ window.addEventListener('load',function(){
       document.getElementById('setup-banner').style.display='block';
       setSS('','オフライン');renderAll();
     }else{
-      if(typeof supabase!=='undefined'){initSB(SUPABASE_URL,SUPABASE_KEY);loadAll();}
+      if(typeof supabase!=='undefined'){initSB(SUPABASE_URL,SUPABASE_KEY);loadAll();setupRealtime();}
       else{setSS('err','SDK読込エラー');renderAll();}
     }
     if('Notification' in window&&Notification.permission==='granted'){
