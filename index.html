@@ -661,18 +661,16 @@ function delMemberDB(id){if(sb)sb.from('members').delete().eq('id',id);}
 
 // ===== ローカルストレージ =====
 function saveLocal(){
-  try{localStorage.setItem('fc_d',JSON.stringify({mbrs:D.mbrs,chrs:D.chrs,avail:D.avail,asgn:D.asgn,meals:D.meals,ns:D.ns}));}catch(e){}
+  // ns設定のみローカルに保存（データはSupabaseが正）
+  try{localStorage.setItem('fc_ns',JSON.stringify(D.ns));}catch(e){}
 }
 function loadLocal(){
+  // ns設定のみローカルから復元
   try{
-    var s=localStorage.getItem('fc_d');
-    if(s){
-      var d=JSON.parse(s);
-      if(d.mbrs)D.mbrs=d.mbrs;if(d.chrs)D.chrs=d.chrs;
-      if(d.avail)D.avail=d.avail;if(d.asgn)D.asgn=d.asgn;
-      if(d.meals)D.meals=d.meals;
-      if(d.ns)D.ns=Object.assign({},D.ns,d.ns);
-    }
+    var s=localStorage.getItem('fc_ns');
+    if(s){var d=JSON.parse(s);if(d)D.ns=Object.assign({},D.ns,d);}
+    // 古いfc_dキーが残っていれば削除
+    localStorage.removeItem('fc_d');
   }catch(e){}
 }
 
