@@ -770,9 +770,9 @@ function renderCal(){
       tasks+='<div class="dt'+(isMine?' dt-mine':'')+'" style="background:'+fmc.bg+';color:'+fmc.tx+'">'+dots+'<span style="flex:1;overflow:hidden;text-overflow:ellipsis">'+ch.name+'</span></div>';
     });
     // 担当変更ボタン（セル下部）
-    var editBtn='<div class="cd-edit" onclick="event.stopPropagation();oManDirect(\\''+k+'\\')">' +
-      '<span class="cd-edit-inner">担当変更</span></div>';
-    h+='<div class="cd'+(it?' tod':'')+'" onclick="oDay(\\''+k+'\\')"><div class="dn">'+d+'</div>'+tasks+editBtn+'</div>';
+    var dk=k;
+    var editBtn='<div class="cd-edit" onclick="event.stopPropagation();oManDirect(this.dataset.k)" data-k="'+k+'"><span class="cd-edit-inner">担当変更</span></div>';
+    h+='<div class="cd'+(it?' tod':'')+'" data-k="'+k+'" onclick="oDay(this.dataset.k)"><div class="dn">'+d+'</div>'+tasks+editBtn+'</div>';
   }
   document.getElementById('cbody').innerHTML=h;
   var shorts=[];for(var d=1;d<=days;d++){var k=dky(y,m,d),dt2=new Date(y,m,d);dt2.setHours(0,0,0,0);if(dt2<today)continue;D.chrs.forEach(function(ch){if(isCD(ch,y,m,d)&&((D.asgn[k]&&D.asgn[k][ch.id])||[]).length<ch.need)shorts.push((m+1)+'/'+d+' '+ch.name);});}
