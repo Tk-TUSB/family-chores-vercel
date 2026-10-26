@@ -27,6 +27,7 @@
   --r:12px;--rs:8px;
   --shadow:0 2px 12px rgba(52,47,34,0.09);
   --mio-bg:#E6E1D3;--mio-ln:rgba(122,110,86,.38);--mio-tx:#8A7F66;
+  --sat:#2563EB;--sun:#DC2626;
   --ok-bg:#DCFCE7;--ok-tx:#15803D;--ok-bd:#22C55E;--ng-bg:#FEE2E2;--ng-tx:#B91C1C;--ng-bd:#EF4444;
 }
 @media all{:root[data-theme=dark]{
@@ -36,6 +37,7 @@
   --bde:0.5px solid #524A38;
   --shadow:0 2px 12px rgba(0,0,0,0.35);
   --mio-bg:#2A2720;--mio-ln:rgba(168,154,122,.32);--mio-tx:#8F8466;
+  --sat:#60A5FA;--sun:#F87171;
   --ok-bg:#14532D;--ok-tx:#86EFAC;--ok-bd:#22C55E;--ng-bg:#7F1D1D;--ng-tx:#FCA5A5;--ng-bd:#EF4444;
 }}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -52,7 +54,7 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .us-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;width:100%;max-width:480px}
 .us-btn{border:var(--bde);border-radius:var(--r);padding:18px 12px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--tx)}
 .us-btn:active{opacity:.7}
-.us-master{width:100%;max-width:480px;margin-top:26px;padding:8px;border:0.5px dashed var(--bde);border-radius:var(--rs);text-align:center;font-size:11px;letter-spacing:.3em;color:var(--tx3);opacity:.55;cursor:pointer}
+.us-master{width:100%;max-width:480px;margin-top:26px;padding:16px 8px;border:1px solid var(--bde);background:var(--sf);border-radius:var(--rs);text-align:center;font-size:11px;letter-spacing:.3em;color:var(--tx3);opacity:.6;cursor:pointer}
 .us-master:active{opacity:.9}
 .us-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700}
 .hdr{background:var(--sf);border-bottom:var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
@@ -82,14 +84,20 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .leg-i{display:flex;align-items:center;gap:4px}
 .leg-d{width:8px;height:8px;border-radius:50%}
 .cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
-.ch{font-size:11px;color:var(--tx3);text-align:center;padding:4px 0;font-weight:600}
+.ch{font-size:11px;color:var(--tx);text-align:center;padding:4px 0;font-weight:700}
+.ch.sat{color:var(--sat)}.ch.sun{color:var(--sun)}
 .cd{background:var(--sf);border:var(--bd);border-radius:8px;min-height:112px;padding:4px 4px 34px;cursor:pointer;position:relative}
 .cd:active{background:var(--sf2)}.cd.em{background:transparent;border-color:transparent;cursor:default}
 .cd.tod{border:2px solid var(--cbm)}
 /* カレンダーセル内の手動変更ボタン */
 .cd-edit{position:absolute;bottom:4px;left:3px;right:3px;display:flex;justify-content:center;cursor:pointer;z-index:2}
 .cd-edit-inner{display:block;width:100%;text-align:center;background:var(--cp);color:var(--cpt);font-size:10px;font-weight:600;padding:7px 0;border-radius:8px;opacity:.95;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.dn{font-size:11px;font-weight:600;color:var(--tx2);margin-bottom:2px}
+.dn{font-size:11px;font-weight:700;color:var(--tx);margin-bottom:2px}
+.cd.sat .dn{color:var(--sat)}.cd.sun .dn,.cd.hol .dn{color:var(--sun)}
+.hn{display:block;font-size:8px;font-weight:600;color:var(--sun);line-height:1.15;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.mgc.mgh{color:var(--tx)}.mgc.mgh.sat{color:var(--sat)}.mgc.mgh.sun,.mgc.mgh.hol{color:var(--sun)}
+.mgc.mgh .hn{white-space:normal;word-break:keep-all;font-size:7.5px;text-align:center}
+.avc.sat{color:var(--sat)}.avc.sun,.avc.hol{color:var(--sun)}
 .dt{font-size:9px;padding:2px 3px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:2px}
 .dt-sh{background:var(--crb);color:var(--cr)}
 .dt-mine{box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
@@ -157,9 +165,14 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .dow-btn.on{background:var(--cp);color:var(--cpt);border-color:var(--cp)}
 .toggle-sw{position:relative;width:44px;height:24px;flex-shrink:0}
 .toggle-sw input{opacity:0;width:0;height:0;position:absolute}
-.toggle-sl{position:absolute;inset:0;background:#ccc;border-radius:12px;cursor:pointer;transition:.2s}
+.toggle-sl{position:absolute;inset:0;background:#B9B2A0;box-shadow:inset 0 0 0 1px rgba(52,47,34,.28);border-radius:12px;cursor:pointer;transition:.2s}
 .toggle-sl:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
-.toggle-sw input:checked+.toggle-sl{background:var(--cp)}
+.toggle-sw input:checked+.toggle-sl{background:#22C55E;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+:root[data-theme=dark] .toggle-sl{background:#4A4536;box-shadow:inset 0 0 0 2px #B8AD90}
+:root[data-theme=dark] .toggle-sl:before{background:#E8E2D2}
+:root[data-theme=dark] .toggle-sw input:checked+.toggle-sl{background:#22C55E;box-shadow:0 0 0 2px #86EFAC,0 0 10px rgba(34,197,94,.55)}
+:root[data-theme=dark] .toggle-sw input:checked+.toggle-sl:before{background:#fff}
+.toggle-sw input:focus-visible+.toggle-sl{outline:2px solid var(--cbm);outline-offset:2px}
 .toggle-sw input:checked+.toggle-sl:before{transform:translateX(20px)}
 .man-chore-card{background:var(--sf2);border-radius:var(--rs);border:var(--bd);padding:14px;margin-bottom:12px}
 .man-chore-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
@@ -267,17 +280,33 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 /* scene5: settings */
 .ts-set{position:absolute;left:13px;right:13px;top:10px}
 .ts-srow{display:flex;align-items:center;justify-content:space-between;height:34px;border-bottom:var(--bd);font-size:12px;color:var(--tx2)}
-.ts-tg{width:38px;height:22px;border-radius:11px;background:#A89A7A66;position:relative}
+.ts-tg{width:38px;height:22px;border-radius:11px;background:#A89A7A99;position:relative}
 .ts-tg::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);animation:tsKnob 4s infinite}
 .ts-tg{animation:tsTg 4s infinite}
 .ts-tg.d2,.ts-tg.d2::after{animation-delay:.9s}
 .ts-tg.d3,.ts-tg.d3::after{animation-delay:1.8s}
-@keyframes tsTg{0%,15%{background:#A89A7A66}25%,85%{background:var(--cp)}100%{background:#A89A7A66}}
+@keyframes tsTg{0%,15%{background:#A89A7A99}25%,85%{background:#22C55E}100%{background:#A89A7A99}}
 @keyframes tsKnob{0%,15%{left:2px}25%,85%{left:18px}100%{left:2px}}
 .ts-seg{display:flex;gap:4px;margin-top:10px}
 .ts-seg i{flex:1;height:26px;border-radius:7px;background:var(--sf);border:var(--bd);font-style:normal;font-size:11px;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
 .ts-seg i.m{animation:tsSeg 4s infinite}
 @keyframes tsSeg{0%,40%{background:var(--sf);color:var(--tx2)}55%,90%{background:var(--cp);color:var(--cpt);font-weight:700}100%{background:var(--sf)}}
+/* scene: auto-assign */
+.ts-autobtn{position:absolute;left:13px;top:84px;padding:9px 20px;border-radius:10px;background:var(--cp);color:var(--cpt);font-size:13px;font-weight:700;animation:tsAuto 4s infinite}
+@keyframes tsAuto{0%,24%{opacity:.15;transform:translateY(8px) scale(.96)}34%,86%{opacity:1;transform:none}100%{opacity:.15;transform:translateY(8px) scale(.96)}}
+.ts-cap{position:absolute;left:13px;right:13px;bottom:10px;font-size:11px;color:var(--tx2);text-align:center}
+/* scene: notify */
+.ts-note{position:absolute;left:13px;right:13px;top:10px;height:46px;border-radius:12px;background:var(--sf);border:var(--bd);box-shadow:0 4px 14px rgba(0,0,0,.18);display:flex;align-items:center;gap:9px;padding:0 10px;animation:tsNote 5s infinite}
+@keyframes tsNote{0%,6%{transform:translateY(-70px);opacity:0}16%,46%{transform:none;opacity:1}58%,100%{transform:translateY(-70px);opacity:0}}
+.ts-bell{width:28px;height:28px;border-radius:8px;background:var(--cam);display:flex;align-items:center;justify-content:center;animation:tsRing3 1s .8s 2}
+@keyframes tsRing3{0%,100%{transform:rotate(0)}20%{transform:rotate(18deg)}50%{transform:rotate(-16deg)}80%{transform:rotate(8deg)}}
+.ts-nt1{height:8px;width:82px;border-radius:4px;background:var(--tx2);opacity:.75;margin-bottom:6px}
+.ts-nt2{height:7px;width:54px;border-radius:4px;background:var(--tx3);opacity:.5}
+.ts-ical{position:absolute;left:13px;right:13px;top:70px;border-radius:12px;border:var(--bd);background:var(--sf);padding:8px 10px}
+.ts-ical b{display:block;font-size:10px;color:var(--tx3);margin-bottom:6px;font-weight:600}
+.ts-ev{height:20px;border-radius:6px;margin-bottom:5px;transform-origin:left;animation:tsEv 5s infinite;font-size:10px;color:#fff;line-height:20px;padding-left:8px;overflow:hidden;white-space:nowrap}
+.ts-ev:nth-of-type(2){animation-delay:.25s}.ts-ev:nth-of-type(3){animation-delay:.5s}
+@keyframes tsEv{0%,40%{transform:scaleX(0);opacity:0}55%,92%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0);opacity:0}}
 /* scene6: done */
 .ts-chk{position:absolute;left:50%;top:50%;margin:-44px 0 0 -44px}
 .ts-chk circle{stroke-dasharray:252;stroke-dashoffset:252;animation:tsDraw 1.1s ease forwards}
@@ -287,6 +316,21 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .ts-conf{position:absolute;width:8px;height:12px;border-radius:2px;top:-12px;animation:tsFall 2.8s linear infinite}
 @keyframes tsFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(200px) rotate(380deg);opacity:.9}}
 @media(prefers-reduced-motion:reduce){#tut *{animation:none!important}.ts-sheet{transform:none}.ts-mb .n{opacity:1}.ts-chk circle,.ts-chk path{stroke-dashoffset:0}.ts-av.b{border-color:var(--cam)}}
+#o-man .sheet{display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+#o-man #mancont{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sheet-foot{display:flex;gap:8px;justify-content:flex-end;padding:12px 0 calc(14px + env(safe-area-inset-bottom));border-top:var(--bd);background:var(--sf);flex-shrink:0;margin-top:8px}
+.ts-tg.off{animation:none}.ts-tg.off::after{animation:none;left:2px}
+.ts-bellw{position:absolute;left:30px;top:34px;width:56px;height:56px;transform-origin:50% 12%;animation:tsBell 2s infinite}
+@keyframes tsBell{0%,60%,100%{transform:rotate(0)}6%{transform:rotate(16deg)}14%{transform:rotate(-14deg)}22%{transform:rotate(10deg)}30%{transform:rotate(-7deg)}40%{transform:rotate(0)}}
+.ts-wave{position:absolute;left:24px;top:28px;width:68px;height:68px;border-radius:50%;border:2px solid var(--cam);opacity:0;animation:tsWave 2s infinite}
+@keyframes tsWave{0%,5%{opacity:.7;transform:scale(.6)}50%,100%{opacity:0;transform:scale(1.5)}}
+.ts-mini{position:absolute;right:16px;top:30px;width:92px;border-radius:10px;background:var(--sf);border:var(--bde);padding:6px;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+.ts-mini u{display:block;height:7px;border-radius:4px;margin-bottom:5px;text-decoration:none;animation:tsEvt 3.6s infinite}
+.ts-mini u:nth-child(2){animation-delay:.5s}.ts-mini u:nth-child(3){animation-delay:1s}.ts-mini u:nth-child(4){animation-delay:1.5s}
+@keyframes tsEvt{0%,15%{opacity:0;transform:translateX(-22px)}30%,85%{opacity:1;transform:none}100%{opacity:0}}
+.ts-arrow{position:absolute;left:96px;top:56px;width:56px;height:6px;background:repeating-linear-gradient(90deg,var(--cam) 0 6px,transparent 6px 11px);animation:tsDash 1s linear infinite}
+@keyframes tsDash{to{background-position:11px 0}}
+.ts-cap{position:absolute;bottom:10px;font-size:11px;color:var(--tx2)}
 </style>
 </head>
 <body>
@@ -318,8 +362,8 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   <div id="calrt"></div>
   <div class="leg" id="cal-leg"></div>
   <div class="cg" style="margin-bottom:3px">
-    <div class="ch">日</div><div class="ch">月</div><div class="ch">火</div>
-    <div class="ch">水</div><div class="ch">木</div><div class="ch">金</div><div class="ch">土</div>
+    <div class="ch sun">日</div><div class="ch">月</div><div class="ch">火</div>
+    <div class="ch">水</div><div class="ch">木</div><div class="ch">金</div><div class="ch sat">土</div>
   </div>
   <div class="cg" id="cbody"></div>
   <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
@@ -399,6 +443,8 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   </div>
   <div class="card">
     <div class="card-title">食事設定</div>
+    <div class="srow"><div class="slbl">朝食を表示</div>
+      <label class="toggle-sw"><input type="checkbox" id="meal-show-breakfast" onchange="saveNS();renderMeal();renderCal();renderMealDef();renderAvMealDef()"><span class="toggle-sl"></span></label></div>
     <div class="srow"><div class="slbl">昼食を表示</div>
       <label class="toggle-sw"><input type="checkbox" id="meal-show-lunch" onchange="saveNS();renderMeal();renderCal()"><span class="toggle-sl"></span></label></div>
     <div class="srow"><div class="slbl">夕食を表示</div>
@@ -527,7 +573,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   <h3 id="mantit"></h3>
   <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">担当者をタップして選択・解除できます。必要人数に達すると緑になります。</p>
   <div id="mancont"></div>
-  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+  <div class="sheet-foot">
     <button class="btn btn-sm" onclick="cls()">キャンセル</button>
     <button class="btn btn-p btn-sm" onclick="sMan()">保存</button>
   </div>
@@ -619,6 +665,38 @@ var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 var CL={purple:{bg:'#EDE9FE',tx:'#4C1D95',md:'#8B5CF6'},blue:{bg:'#DBEAFE',tx:'#1E3A8A',md:'#2563EB'},teal:{bg:'#CCFBF1',tx:'#134E4A',md:'#0D9488'},amber:{bg:'#FEF9C3',tx:'#713F12',md:'#EAB308'},coral:{bg:'#FFEDD5',tx:'#7C2D12',md:'#F97316'},pink:{bg:'#FCE7F3',tx:'#831843',md:'#EC4899'},gray:{bg:'#F0EDE5',tx:'#524A38',md:'#A89A7A'}};
 var COLOR_PRESETS=[['purple','パープル'],['blue','ブルー'],['teal','ティール'],['amber','イエロー'],['coral','オレンジ'],['pink','ピンク']];
 var DOW=['日','月','火','水','木','金','土'];
+// ===== 日本の祝日 =====
+var HOL_CACHE={};
+function nthMonDay(y,m,n){var f=new Date(y,m,1).getDay();return 1+((1-f+7)%7)+(n-1)*7;}
+function buildHolidays(y){
+  var H={};function add(m,d,n){H[m+'-'+d]=n;}
+  var vq=Math.floor(20.8431+0.242194*(y-1980)-Math.floor((y-1980)/4));
+  var aq=Math.floor(23.2488+0.242194*(y-1980)-Math.floor((y-1980)/4));
+  add(0,1,'元日');add(0,nthMonDay(y,0,2),'成人の日');add(1,11,'建国記念の日');
+  if(y>=2020)add(1,23,'天皇誕生日');
+  add(2,vq,'春分の日');add(3,29,'昭和の日');add(4,3,'憲法記念日');add(4,4,'みどりの日');add(4,5,'こどもの日');
+  if(y===2020)add(6,23,'海の日');else if(y===2021)add(6,22,'海の日');else add(6,nthMonDay(y,6,3),'海の日');
+  if(y===2020)add(7,10,'山の日');else if(y===2021)add(7,8,'山の日');else if(y>=2016)add(7,11,'山の日');
+  add(8,nthMonDay(y,8,3),'敬老の日');add(8,aq,'秋分の日');
+  if(y===2020)add(6,24,'スポーツの日');else if(y===2021)add(6,23,'スポーツの日');else add(9,nthMonDay(y,9,2),'スポーツの日');
+  add(10,3,'文化の日');add(10,23,'勤労感謝の日');
+  // 振替休日・国民の休日
+  var base=Object.keys(H).slice();
+  for(var dt=new Date(y,0,1);dt.getFullYear()===y;dt.setDate(dt.getDate()+1)){
+    var k=dt.getMonth()+'-'+dt.getDate();
+    if(H[k]&&base.indexOf(k)>=0&&dt.getDay()===0){
+      var nx=new Date(dt);do{nx.setDate(nx.getDate()+1);}while(H[nx.getMonth()+'-'+nx.getDate()]);
+      if(nx.getFullYear()===y)H[nx.getMonth()+'-'+nx.getDate()]='振替休日';
+    }
+  }
+  for(var d2=new Date(y,0,2);d2.getFullYear()===y;d2.setDate(d2.getDate()+1)){
+    var k2=d2.getMonth()+'-'+d2.getDate();if(H[k2]||d2.getDay()===0)continue;
+    var pv=new Date(d2);pv.setDate(pv.getDate()-1);var nt=new Date(d2);nt.setDate(nt.getDate()+1);
+    if(H[pv.getMonth()+'-'+pv.getDate()]&&H[nt.getMonth()+'-'+nt.getDate()])H[k2]='国民の休日';
+  }
+  return H;
+}
+function holidayName(y,m,d){if(!HOL_CACHE[y])HOL_CACHE[y]=buildHolidays(y);return HOL_CACHE[y][m+'-'+d]||'';}
 var ANY='__any__';
 var MSTATES=['undecided','skip','need'];
 var now=new Date();
@@ -641,7 +719,7 @@ var D={
     enabled:false,days:3,time:'08:00',weekly:false,wday:1,wtime:'07:00',
     icStart:'07:00',icEnd:'08:00',icRemind:30,
     mealAuto:false,mealAutoTime:'06:00',
-    mealShowLunch:true,mealShowDinner:true,
+    mealShowBreakfast:false,mealShowLunch:true,mealShowDinner:true,
     availShowAny:false,featAvail:true,featAuto:false,
     // 食事デフォルト: {memberId: {mealName: {0:'need',1:'skip',...}}}
     mealDefaults:{}
@@ -675,7 +753,7 @@ function buildColorOpts(elId,cur,onPick){
 }
 function mst(mid,ds,ml){return D.meals[mkey(mid,ds,ml)]||'undecided'}
 function setSS(st,msg){var d=document.getElementById('sdot');var l=document.getElementById('slbl');if(d)d.className='sdot '+st;if(l)l.textContent=msg||'';}
-function activeMeals(){var r=[];if(D.ns.mealShowLunch)r.push({name:'昼食',label:'昼'});if(D.ns.mealShowDinner)r.push({name:'夕食',label:'夜'});return r;}
+function activeMeals(){var r=[];if(D.ns.mealShowBreakfast)r.push({name:'朝食',label:'朝'});if(D.ns.mealShowLunch)r.push({name:'昼食',label:'昼'});if(D.ns.mealShowDinner)r.push({name:'夕食',label:'夜'});return r;}
 
 // ===== ユーザー選択 =====
 function showUserSelect(){
@@ -904,6 +982,7 @@ function loadNSForm(){
   document.getElementById('ic-remind').value=D.ns.icRemind;
   document.getElementById('meal-auto').checked=D.ns.mealAuto;
   document.getElementById('meal-auto-time').value=D.ns.mealAutoTime;
+  document.getElementById('meal-show-breakfast').checked=!!D.ns.mealShowBreakfast;
   document.getElementById('meal-show-lunch').checked=D.ns.mealShowLunch;
   document.getElementById('meal-show-dinner').checked=D.ns.mealShowDinner;
   document.getElementById('avail-show-any').checked=D.ns.availShowAny;
@@ -956,7 +1035,7 @@ function checkMealAuto(){
 function scheduleMealAuto(){if(!D.ns.mealAuto)return;var parts=(D.ns.mealAutoTime||'06:00').split(':');var target=new Date();target.setHours(parseInt(parts[0]),parseInt(parts[1]),0,0);var diff=target-new Date();if(diff<0)diff+=86400000;setTimeout(function(){checkMealAuto();scheduleMealAuto();},diff);}
 function previewNotify(){var s=getShortages().filter(function(x){return x.diff<=D.ns.days;});var el=document.getElementById('nt-preview');if(!s.length){el.innerHTML='<div style="background:var(--cgb);color:var(--cg);border-radius:8px;padding:8px 10px;font-size:12px">'+D.ns.days+'日以内に人手不足はありません</div>';return;}var h='<div class="alrt alrt-a"><b>通知プレビュー（'+D.ns.days+'日以内）</b>';s.forEach(function(x){h+='<div style="margin-top:4px">'+x.date+' <span style="background:var(--crb);color:var(--cr);padding:1px 6px;border-radius:4px;font-size:11px;font-weight:600">'+x.chore+'</span> あと'+x.diff+'日</div>';});h+='</div>';el.innerHTML=h;if(D.ns.enabled&&'Notification' in window&&Notification.permission==='granted'&&s.length)new Notification(T('人手不足のお知らせ'),{body:T(s[0].date+' '+s[0].chore+' が人手不足です'),icon:'icons/icon-192.png'});}
 function reqPerm(){if(!('Notification' in window)){document.getElementById('nt-status').textContent='このブラウザは通知非対応です';return;}Notification.requestPermission().then(function(p){var el=document.getElementById('nt-status');if(p==='granted'){el.innerHTML='<span style="color:var(--cg)">通知が許可されました</span>';setupChoreTimers();}else el.innerHTML='<span style="color:var(--cr)">通知がブロックされています</span>';});}
-function saveNS(){D.ns.enabled=document.getElementById('nt-enabled').checked;D.ns.days=parseInt(document.getElementById('nt-days').value)||3;D.ns.time=document.getElementById('nt-time').value;D.ns.weekly=document.getElementById('nt-weekly').checked;D.ns.wday=parseInt(document.getElementById('nt-wday').value);D.ns.wtime=document.getElementById('nt-wtime').value;D.ns.icStart=document.getElementById('ic-start').value;D.ns.icEnd=document.getElementById('ic-end').value;D.ns.icRemind=parseInt(document.getElementById('ic-remind').value)||30;D.ns.mealAuto=document.getElementById('meal-auto').checked;D.ns.mealAutoTime=document.getElementById('meal-auto-time').value;D.ns.mealShowLunch=document.getElementById('meal-show-lunch').checked;D.ns.mealShowDinner=document.getElementById('meal-show-dinner').checked;D.ns.availShowAny=document.getElementById('avail-show-any').checked;D.ns.featAvail=document.getElementById('feat-avail').checked;D.ns.featAuto=document.getElementById('feat-auto').checked;saveLocal();updateFeatureUI();}
+function saveNS(){D.ns.enabled=document.getElementById('nt-enabled').checked;D.ns.days=parseInt(document.getElementById('nt-days').value)||3;D.ns.time=document.getElementById('nt-time').value;D.ns.weekly=document.getElementById('nt-weekly').checked;D.ns.wday=parseInt(document.getElementById('nt-wday').value);D.ns.wtime=document.getElementById('nt-wtime').value;D.ns.icStart=document.getElementById('ic-start').value;D.ns.icEnd=document.getElementById('ic-end').value;D.ns.icRemind=parseInt(document.getElementById('ic-remind').value)||30;D.ns.mealAuto=document.getElementById('meal-auto').checked;D.ns.mealAutoTime=document.getElementById('meal-auto-time').value;D.ns.mealShowBreakfast=document.getElementById('meal-show-breakfast').checked;D.ns.mealShowLunch=document.getElementById('meal-show-lunch').checked;D.ns.mealShowDinner=document.getElementById('meal-show-dinner').checked;D.ns.availShowAny=document.getElementById('avail-show-any').checked;D.ns.featAvail=document.getElementById('feat-avail').checked;D.ns.featAuto=document.getElementById('feat-auto').checked;saveLocal();updateFeatureUI();}
 
 // ===== iCal =====
 function renderIcal(){var h='';D.mbrs.forEach(function(mb){var mc=gc(mb.color);var url='webcal://'+location.host+'/ical/'+mb.id+'.ics';h+='<div class="ical-box"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="avi" style="width:24px;height:24px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:13px;font-weight:600">'+mb.name+'</span><button class="btn btn-sm" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')" id="cp-'+mb.id+'" style="margin-left:auto">コピー</button></div><div class="ical-url" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')">'+url+'</div></div>';});document.getElementById('ical-list').innerHTML=h;var sel=document.getElementById('ic-mbr');if(!sel)return;sel.innerHTML='';D.mbrs.forEach(function(mb){var o=document.createElement('option');o.value=mb.id;o.textContent=mb.name;sel.appendChild(o);});}
@@ -995,7 +1074,8 @@ function renderCal(){
     // 担当変更ボタン（セル下部）
     var dk=k;
     var editBtn='<div class="cd-edit" onclick="event.stopPropagation();oManDirect(this.dataset.k)" data-k="'+k+'"><span class="cd-edit-inner">担当変更</span></div>';
-    h+='<div class="cd'+(it?' tod':'')+'" data-k="'+k+'" onclick="oDay(this.dataset.k)"><div class="dn">'+d+'</div>'+tasks+editBtn+'</div>';
+    var _dw=new Date(y,m,d).getDay(),_hn=holidayName(y,m,d);
+    h+='<div class="cd'+(it?' tod':'')+(_dw===6?' sat':'')+(_dw===0?' sun':'')+(_hn?' hol':'')+'" data-k="'+k+'" onclick="oDay(this.dataset.k)"><div class="dn">'+d+(_hn?'<span class="hn" title="'+_hn+'">'+_hn+'</span>':'')+'</div>'+tasks+editBtn+'</div>';
   }
   document.getElementById('cbody').innerHTML=h;
   var shorts=[];for(var d=1;d<=days;d++){var k=dky(y,m,d),dt2=new Date(y,m,d);dt2.setHours(0,0,0,0);if(dt2<today)continue;D.chrs.forEach(function(ch){var ids=(D.asgn[k]&&D.asgn[k][ch.id])||[];if(ids.indexOf(SKIP_ID)>=0)return;if(isCD(ch,y,m,d)&&ids.length<ch.need)shorts.push((m+1)+'/'+d+' '+ch.name);});}
@@ -1032,7 +1112,8 @@ function renderMeal(){
   g+='<div class="mgc mgh mgl"></div>';
   days.forEach(function(dt,di){
     var it=todayIdx===di;
-    g+='<div class="mgc mgh'+(it?' today-col today-col-top':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[dt.getDay()]+'</div>';
+    var _hn2=holidayName(dt.getFullYear(),dt.getMonth(),dt.getDate()),_w=dt.getDay();
+    g+='<div class="mgc mgh'+(_w===6?' sat':'')+(_w===0?' sun':'')+(_hn2?' hol':'')+(it?' today-col today-col-top':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[_w]+(_hn2?'<span class="hn">'+_hn2+'</span>':'')+'</div>';
   });
   meals.forEach(function(ml,mli){
     var isLastMeal=mli===meals.length-1;
@@ -1155,7 +1236,7 @@ function renderAvail(){
       '<span style="font-size:13px;font-weight:600">'+mb.name+'</span>'+
       '<button class="btn btn-sm" style="margin-left:auto" onclick="selAll(\''+mb.id+'\',\''+cid+'\','+y+','+m+')">全選択</button>'+
       '<button class="btn btn-sm" onclick="clrAll(\''+mb.id+'\',\''+cid+'\')">クリア</button></div><div class="av-chips">';
-    for(var d=1;d<=days;d++){var k=dky(y,m,d),dw=new Date(y,m,d).getDay(),sel=!!cur[k];h+='<span class="avc'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgAv(\''+mb.id+'\',\''+cid+'\',\''+k+'\',\''+mb.color+'\',this)">'+d+'<br>'+DOW[dw]+'</span>';}
+    for(var d=1;d<=days;d++){var k=dky(y,m,d),dw=new Date(y,m,d).getDay(),sel=!!cur[k];h+='<span class="avc'+(sel?' on':'')+(dw===6?' sat':'')+(dw===0||holidayName(y,m,d)?' sun':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgAv(\''+mb.id+'\',\''+cid+'\',\''+k+'\',\''+mb.color+'\',this)">'+d+'<br>'+DOW[dw]+'</span>';}
     h+='</div></div>';if(i<mbrList.length-1)h+='<hr style="border:none;border-top:var(--bd);margin:4px 0">';
   });
   document.getElementById('avcont').innerHTML=h;
@@ -1173,7 +1254,9 @@ function saveAv(){
 // ===== 日クリック =====
 function oDay(k){
   D.curDay=k;var p=k.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];
-  document.getElementById('dtit').textContent=(m+1)+'月'+d+'日';
+  var _dw2=new Date(y,m,d).getDay(),_hd=holidayName(y,m,d);
+  var _col=_dw2===0||_hd?'var(--sun)':(_dw2===6?'var(--sat)':'inherit');
+  document.getElementById('dtit').innerHTML='<span>'+(m+1)+'月'+d+'日</span><span style="color:'+_col+'">（'+DOW[_dw2]+'）</span>'+(_hd?'<span style="color:var(--sun);font-size:13px;margin-left:6px">'+_hd+'</span>':'');
   var da=D.asgn[k]||{};var h='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:8px">家事担当</div>';var hc=false;
   D.chrs.forEach(function(ch){
     if(!isCD(ch,y,m,d))return;hc=true;
@@ -1181,12 +1264,12 @@ function oDay(k){
     var isSkip=ids.indexOf(SKIP_ID)>=0;
     var realIds=ids.filter(function(id){return id!==SKIP_ID;});
     var asgn=realIds.map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'?';});
-    var col=gc(ch.color),sh=!isSkip&&realIds.length<ch.need;var dots='';
+    var col=gc(ch.color),sh=!isSkip&&realIds.length<ch.need;var tdy=new Date();tdy.setHours(0,0,0,0);var pastDay=new Date(y,m,d)<tdy;var dots='';
     realIds.forEach(function(mid){var mb=D.mbrs.find(function(mb){return mb.id===mid;});if(mb){var mc=gc(mb.color);dots+='<span style="width:8px;height:8px;border-radius:50%;background:'+mc.md+';display:inline-block;margin-right:2px"></span>';}});
     var timeStr=ch.start_time?'<span style="font-size:10px;color:var(--tx2)">'+ch.start_time+'〜</span>':'';
     var asgnLabel=isSkip?'スキップ':(asgn.length?asgn.join('・'):'未割り当て');
     var asgnStyle=isSkip?'background:#FAF0EC;color:#6E2E12':'';
-    h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+timeStr+'<span style="font-size:13px;flex:1;display:flex;align-items:center;gap:4px;'+(isSkip?'background:#FAF0EC;color:#6E2E12;padding:2px 6px;border-radius:4px':'')+'">'+dots+asgnLabel+'</span>'+(sh?'<span class="bdg" style="background:var(--crb);color:var(--cr)">不足</span>':'')+'</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+timeStr+'<span style="font-size:13px;flex:1;display:flex;align-items:center;gap:4px;'+(isSkip?'background:#FAF0EC;color:#6E2E12;padding:2px 6px;border-radius:4px':'')+'">'+dots+asgnLabel+'</span>'+(sh?(pastDay?'<span class="bdg" style="background:var(--mio-bg);color:var(--mio-tx);border:0.5px solid var(--mio-ln)">未完</span>':'<span class="bdg" style="background:var(--crb);color:var(--cr)">不足</span>'):'')+'</div>';
   });
   if(!hc)h+='<p style="font-size:13px;color:var(--tx2)">この日の家事はありません</p>';
   var meals=activeMeals();
@@ -1334,7 +1417,7 @@ var EN_EXACT={
 '人手不足アラート':'Shortage alerts','通知を有効にする':'Enable notifications','人手不足の家事を事前通知':'Notify ahead of understaffed chores',
 '通知タイミング':'Notification timing','何日前に通知するか':'How many days ahead','日前':'days before','通知時刻':'Notification time','週次サマリー':'Weekly summary',
 '日曜':'Sunday','月曜':'Monday','火曜':'Tuesday','水曜':'Wednesday','木曜':'Thursday','金曜':'Friday','土曜':'Saturday',
-'通知プレビュー':'Preview notification','通知を許可する':'Allow notifications','食事設定':'Meal settings','昼食を表示':'Show lunch','夕食を表示':'Show dinner',
+'通知プレビュー':'Preview notification','通知を許可する':'Allow notifications','食事設定':'Meal settings','朝食を表示':'Show breakfast','昼食を表示':'Show lunch','夕食を表示':'Show dinner',
 '未定を当日自動で「必要」にする':'Auto-set "Undecided" to "Need" on the day','自動確定の時刻':'Auto-confirm time','空き日登録の設定':'Availability settings',
 '「なんでも対応」タブを表示':'Show "Anything OK" tab','カレンダー連携（iCal）':'Calendar sync (iCal)',
 'URLをカレンダーアプリに登録すると担当が自動同期されます':'Add the URL to your calendar app and assignments sync automatically',
@@ -1359,7 +1442,7 @@ var EN_EXACT={
 'この週の登録はまだありません':'Nothing registered this week yet','家事がありません':'No chores','全選択':'Select all','削除':'Delete','編集':'Edit','クリア':'Clear','コピー':'Copy','コピー済':'Copied',
 '全家事の空き候補として登録されます':'Registered as available for all chores','未保存の変更があります':'You have unsaved changes',
 '通知が許可されました':'Notifications allowed','通知がブロックされています':'Notifications are blocked','ブラウザ通知は許可済みです':'Browser notifications are allowed','このブラウザは通知非対応です':"This browser doesn't support notifications",
-'昼食':'Lunch','夕食':'Dinner','昼':'Lunch','夜':'Dinner','不要':'Skip','必要':'Need','未定':'Undecided','未了':'Missed',
+'元日':"New Year's Day",'成人の日':'Coming of Age Day','建国記念の日':'Foundation Day','天皇誕生日':"Emperor's Birthday",'春分の日':'Vernal Equinox','昭和の日':'Showa Day','憲法記念日':'Constitution Day','みどりの日':'Greenery Day','こどもの日':"Children's Day",'海の日':'Marine Day','山の日':'Mountain Day','敬老の日':'Respect for the Aged','秋分の日':'Autumnal Equinox','スポーツの日':'Sports Day','文化の日':'Culture Day','勤労感謝の日':'Labor Thanksgiving','振替休日':'Substitute Holiday','国民の休日':"Citizens' Holiday",'朝食':'Breakfast','朝':'Breakfast','昼食':'Lunch','夕食':'Dinner','昼':'Lunch','夜':'Dinner','未完':'Incomplete','不要':'Skip','必要':'Need','未定':'Undecided','未了':'Missed',
 '、':', ','・':' · ','〜':'–','（':' (','）':')','：':': ','日':'Sun','月':'Mon','火':'Tue','水':'Wed','木':'Thu','金':'Fri','土':'Sat'
 };
 var EN_RULES=[
@@ -1378,7 +1461,7 @@ var EN_RULES=[
 [/^未了:(.*)$/,function(m){return 'Missed: '+m[1];}],
 [/^スキップ:(.*)$/,function(m){return 'Skipped: '+m[1];}],
 [/^(\d+)\/(\d+)人$/,function(m){return m[1]+'/'+m[2]+' ppl';}],
-[/^(\d+\/\d+) (昼食|夕食)$/,function(m){return m[1]+' '+(m[2]==='昼食'?'Lunch':'Dinner');}],
+[/^(\d+\/\d+) (朝食|昼食|夕食)$/,function(m){return m[1]+' '+(m[2]==='朝食'?'Breakfast':m[2]==='昼食'?'Lunch':'Dinner');}],
 [/^([日月火水木金土])\s*([○×？])$/,function(m){return WD[m[1]]+'\n'+m[2];}],
 [/^(毎日|平日|週末|週1|曜日指定)(（([^）]*)）)? 必要(\d+)人(.*)$/,function(m){var d=m[3]?' ('+m[3].split('・').map(function(x){return WD[x]||x;}).join(', ')+')':'';return FREQ_EN[m[1]]+d+' · Need '+m[4]+(m[5]?' '+m[5].replace('〜','–'):'');}],
 [/^固定：(.*)$/,function(m){return 'Fixed: '+m[1];}],
@@ -1387,6 +1470,8 @@ var EN_RULES=[
 [/^「(.*)」に対応できる日$/,function(m){return 'Days available for "'+m[1]+'"';}],
 [/^家事の時間です：(.*)$/,function(m){return 'Chore time: '+m[1];}],
 [/^家事スケジューラー：人手不足あり$/,function(){return 'Chore Scheduler: staffing shortage';}],
+[/^（([日月火水木金土])）$/,function(m){return ' ('+WD[m[1]]+')';}],
+[/^必要 ?(\d+)人$/,function(m){return 'Need '+m[1];}],
 [/^(\d+)日$/,function(m){return m[1];}]
 ];
 var JA_RE=/[぀-ヿ㐀-鿿]/;
@@ -1472,48 +1557,59 @@ window.addEventListener('languagechange',function(){if(langPref()==='auto')apply
 var TUT_DATA={
 ja:{ui:{next:'次へ',prev:'戻る',skip:'スキップ',start:'はじめる',step:'ステップ'},
  steps:[
- {t:'ようこそ！',b:'家族みんなで家事と食事をかんたんに分担・共有できるアプリです。1分でわかる使い方をご紹介します。'},
- {t:'最初に「あなた」を選びます',b:'起動時に自分の名前を選ぶと、自分の担当や食事だけを操作できます。右上の名前をタップすれば、いつでも切り替えられます。'},
- {t:'カレンダーで担当を確認',b:'日付をタップすると、その日の担当と食事状況が見られます。「担当変更」で手動変更、「本日スキップ」で家事をお休みにもできます。担当が埋まらないまま過ぎた日は、グレーの斜線で表示されます。'},
- {t:'食事はタップするだけ',b:'タップするたびに「未定 → 不要 → 必要」と切り替わります。操作できるのは自分の行だけなので、ほかの人の予定を間違えて変えることはありません。',lab:'未定 → 不要 → 必要'},
- {t:'空き日を登録',b:'対応できる日をタップして「保存」を押します。自動割り振りは、登録された日を優先して担当を決めます。',save:'保存'},
- {t:'設定でカスタマイズ',b:'メンバーや家事の追加、食事デフォルト（「保存」で確定）、通知、テーマ（ライト/ダーク）や言語の切り替えは「設定」から。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
- {t:'準備完了です！',b:'この使い方は、「設定」タブの一番上からいつでも見直せます。さっそく使ってみましょう。'}
+ {k:'w',t:'ようこそ！',b:'家族みんなで家事と食事をかんたんに分担・共有できるアプリです。1分でわかる使い方をご紹介します。'},
+ {k:'u',t:'最初に「あなた」を選びます',b:'起動時に自分の名前を選ぶと、自分の担当や食事だけを操作できます。右上の名前をタップすれば、いつでも切り替えられます。'},
+ {k:'c',t:'カレンダーで担当を確認',b:'日付をタップすると、その日の担当と食事状況が見られます。「担当変更」で手動変更、「本日スキップ」で家事をお休みにもできます。担当が埋まらないまま過ぎた日は、グレーの斜線で表示されます。'},
+ {k:'a',t:'自動割り振りは「オフ」から',b:'自動割り振りは初期状態ではオフです。担当を誤って書き換えないよう、アプリを開くたびにオフに戻ります。使うときは「通知」タブの「機能のオン/オフ」で「自動割り振りを使う」をオンにすると、カレンダーに「自動割り振り」ボタンが現れます。',row:'自動割り振りを使う',btn:'自動割り振り',cap:'オフ → オンでボタンが出現'},
+ {k:'m',t:'食事はタップするだけ',b:'タップするたびに「未定 → 不要 → 必要」と切り替わります。操作できるのは自分の行だけなので、ほかの人の予定を間違えて変えることはありません。',lab:'未定 → 不要 → 必要'},
+ {k:'v',t:'空き日を登録',b:'対応できる日をタップして「保存」を押します。自動割り振りは、登録された日を優先して担当を決めます。',save:'保存'},
+ {k:'n',t:'通知とカレンダー連携',b:'家事の編集で「開始時刻通知」をオンにすると、時間になったら担当者に通知が届きます（アプリが起動している間に届きます）。さらに「通知」タブのカレンダー連携(iCal)のURLをiPhoneなどのカレンダーアプリに登録すると、自分の担当が予定として自動で転送されます。確実に把握したい予定は、こちらがおすすめです。',nt:'皿洗い',nt2:'07:00',cal:'カレンダーアプリ'},
+ {k:'s',t:'設定でカスタマイズ',b:'メンバーや家事の追加、食事デフォルト（「保存」で確定）、通知、テーマ（ライト/ダーク）や言語の切り替えは「設定」から。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
+ {k:'d',t:'準備完了です！',b:'この使い方は、「設定」タブの一番上からいつでも見直せます。さっそく使ってみましょう。'}
  ]},
 en:{ui:{next:'Next',prev:'Back',skip:'Skip',start:"Let's go",step:'Step'},
  steps:[
- {t:'Welcome!',b:'A simple app for sharing chores and meals with your whole family. Here is a one-minute tour.'},
- {t:'First, pick who you are',b:'Choose your name at launch to edit only your own chores and meals. Tap your name at the top right to switch anytime.'},
- {t:'Check duties on the calendar',b:'Tap a day to see who does what and the meal status. Use "Edit" to change assignees or "Skip today" to rest a chore. Past days nobody covered appear greyed out with diagonal stripes.'},
- {t:'Meals are one tap',b:'Each tap cycles Undecided → Skip → Need. You can only edit your own row, so nobody changes another person\'s plans by accident.',lab:'Undecided → Skip → Need'},
- {t:'Register your free days',b:'Tap the days you can help and press Save. Auto-assign gives priority to the days you registered.',save:'Save'},
- {t:'Customize in Settings',b:'Add members and chores, set meal defaults (confirmed with Save), alerts, theme (light/dark) and language from Settings.',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
- {t:"You're all set!",b:'You can reopen this guide from the top of the Settings tab anytime. Enjoy!'}
+ {k:'w',t:'Welcome!',b:'A simple app for sharing chores and meals with your whole family. Here is a one-minute tour.'},
+ {k:'u',t:'First, pick who you are',b:'Choose your name at launch to edit only your own chores and meals. Tap your name at the top right to switch anytime.'},
+ {k:'c',t:'Check duties on the calendar',b:'Tap a day to see who does what and the meal status. Use "Edit" to change assignees or "Skip today" to rest a chore. Past days nobody covered appear greyed out with diagonal stripes.'},
+ {k:'a',t:'Auto-assign starts OFF',b:'Auto-assign is off by default, and returns to off every time you open the app so assignments are never rewritten by accident. To use it, turn on "Use auto-assign" under "Feature toggles" in the Alerts tab and an "Auto-assign" button appears on the Calendar.',row:'Use auto-assign',btn:'Auto-assign',cap:'Turn it on and the button appears'},
+ {k:'m',t:'Meals are one tap',b:'Each tap cycles Undecided → Skip → Need. You can only edit your own row, so nobody changes another person\'s plans by accident.',lab:'Undecided → Skip → Need'},
+ {k:'v',t:'Register your free days',b:'Tap the days you can help and press Save. Auto-assign gives priority to the days you registered.',save:'Save'},
+ {k:'n',t:'Alerts and calendar sync',b:'Turn on "Start-time alert" when editing a chore and the assignee is notified at that time (while the app is running). You can also add your iCal URL from the Alerts tab to the Calendar app on your iPhone, and your chores are forwarded automatically as events. For anything you must not miss, this is the most reliable way.',nt:'Dishes',nt2:'07:00',cal:'Calendar app'},
+ {k:'s',t:'Customize in Settings',b:'Add members and chores, set meal defaults (confirmed with Save), alerts, theme (light/dark) and language from Settings.',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
+ {k:'d',t:"You're all set!",b:'You can reopen this guide from the top of the Settings tab anytime. Enjoy!'}
  ]}
 };
 var tutI=0;
 function tutLang(){return curLang()==='en'?'en':'ja';}
 function tutScene(i,d){
-  var s=d.steps[i];
-  if(i===0){
+  var s=d.steps[i],k=s.k;
+  if(k==='w'){
     var sp='';[[18,28,'#CE6E44',0],[226,24,'#4EA89E',.6],[40,120,'#7DA8D2',1.2],[214,118,'#CE6E44',1.8],[130,10,'#4EA89E',.3]].forEach(function(p){sp+='<i class="ts-spark" style="left:'+p[0]+'px;top:'+p[1]+'px;background:'+p[2]+';animation-delay:'+p[3]+'s"></i>';});
     return '<div class="ts-in">'+sp+'<img src="icons/icon-192.png" alt="" class="ts-abs ts-float" style="width:96px;height:96px;border-radius:22px;left:82px;top:36px;box-shadow:0 10px 22px rgba(0,0,0,.28)"></div>';
   }
-  if(i===1){
-    return '<div class="ts-in"><div class="ts-av" style="left:22px;background:#EDF6F4;color:#1A5E58">A</div><div class="ts-av b" style="left:102px;background:#FAF0EC;color:#6E2E12">B</div><div class="ts-av" style="left:182px;background:#EEF4FA;color:#3A6A94">C</div><div class="ts-ring ts-r1"></div><div class="ts-finger ts-f1"></div></div>';
+  if(k==='u'){
+    return '<div class="ts-in"><div class="ts-av" style="left:22px;background:#DBEAFE;color:#1E3A8A">A</div><div class="ts-av b" style="left:102px;background:#FCE7F3;color:#831843">B</div><div class="ts-av" style="left:182px;background:#FEF9C3;color:#713F12">C</div><div class="ts-ring ts-r1"></div><div class="ts-finger ts-f1"></div></div>';
   }
-  if(i===2){
-    var cells='';for(var k=0;k<21;k++)cells+='<b'+(k===10?' class="t"':'')+'></b>';
+  if(k==='c'){
+    var cells='';for(var q=0;q<21;q++)cells+='<b'+(q===10?' class="t"':'')+'></b>';
     return '<div class="ts-in"><div class="ts-cal">'+cells+'</div><div class="ts-sheet"><div class="ts-line" style="width:70%"></div><div class="ts-line" style="width:48%;background:var(--ctm)"></div><span class="ts-pill">'+(tutLang()==='en'?'Edit':'担当変更')+'</span></div><div class="ts-ring ts-r2"></div><div class="ts-finger ts-f2"></div></div>';
   }
-  if(i===3){
+  if(k==='a'){
+    return '<div class="ts-in"><div class="ts-set" style="top:14px"><div class="ts-srow"><span>'+s.row+'</span><i class="ts-tg"></i></div></div><div class="ts-autobtn">'+s.btn+'</div><div class="ts-cap">'+s.cap+'</div></div>';
+  }
+  if(k==='m'){
     return '<div class="ts-in"><div class="ts-mrow"><div class="ts-mb">？<span class="u">？</span><span class="s">×</span><span class="n">○</span></div></div><div class="ts-finger ts-f3"></div><div class="ts-mlab">'+s.lab+'</div></div>';
   }
-  if(i===4){
-    var g='';[0,1,2,3,4,5,6,7,8,9,10,11,12,13].forEach(function(k){var on=[2,3,4,9,10,12].indexOf(k)>=0;g+='<i'+(on?' class="p" style="animation-delay:'+(0.25*[2,3,4,9,10,12].indexOf(k))+'s"':'')+'></i>';});
+  if(k==='v'){
+    var g='',on=[2,3,4,9,10,12];for(var q=0;q<14;q++){var ix=on.indexOf(q);g+='<i'+(ix>=0?' class="p" style="animation-delay:'+(0.25*ix)+'s"':'')+'></i>';}
     return '<div class="ts-in"><div class="ts-av-grid">'+g+'</div><div class="ts-save">'+s.save+'</div></div>';
   }
-  if(i===5){
+  if(k==='n'){
+    return '<div class="ts-in"><div class="ts-note"><div class="ts-bell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div><div style="font-size:12px;font-weight:700;color:var(--tx)">'+s.nt+'</div><div style="font-size:11px;color:var(--tx3)">'+s.nt2+'</div></div></div>'+
+      '<div class="ts-ical"><b>'+s.cal+'</b><div class="ts-ev" style="background:#2563EB;width:86%">'+s.nt+'</div><div class="ts-ev" style="background:#14B8A6;width:62%"></div><div class="ts-ev" style="background:#F97316;width:74%"></div></div></div>';
+  }
+  if(k==='s'){
     var r='';s.rows.forEach(function(x,j){r+='<div class="ts-srow"><span>'+x+'</span><i class="ts-tg d'+(j+1)+'"></i></div>';});
     return '<div class="ts-in"><div class="ts-set">'+r+'<div class="ts-seg"><i>'+s.seg[0]+'</i><i class="m">'+s.seg[1]+'</i><i>'+s.seg[2]+'</i></div></div></div>';
   }
