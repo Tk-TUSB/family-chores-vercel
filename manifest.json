@@ -1,13 +1,13 @@
 {
-  "name": "家族の家事スケジューラー",
-  "short_name": "家事メモ",
+  "name": "家事スケジューラー",
+  "short_name": "家事",
   "description": "家族で家事・食事を管理するスケジューラー",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#ffffff",
-  "theme_color": "#534AB7",
+  "background_color": "#F0EDE5",
+  "theme_color": "#4EA89E",
   "lang": "ja",
   "icons": [
     {
