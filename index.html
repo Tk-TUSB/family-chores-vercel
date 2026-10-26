@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <title>家事スケジューラー</title>
-<script>(function(){try{var t=localStorage.getItem('fc_theme')||'auto';var dk=t==='dark'||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',dk?'dark':'light');}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('fc_theme')||'auto';var dk=t==='dark'||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.setAttribute('data-theme',dk?'dark':'light');if(localStorage.getItem('fc_a11y')==='1')document.documentElement.setAttribute('data-a11y','1');}catch(e){}})();</script>
 <style>
 :root{
   /* Sky Island Onsen パレット */
@@ -24,7 +24,7 @@
   --bde:0.5px solid #A89A7A;
   --bg:#F0EDE5;--sf:#FFFFFF;--sf2:#EDF6F4;
   --tx:#342F22;--tx2:#524A38;--tx3:#7A6E56;
-  --r:12px;--rs:8px;
+  --fs:1;--r:12px;--rs:8px;
   --shadow:0 2px 12px rgba(52,47,34,0.09);
   --mio-bg:#E6E1D3;--mio-ln:rgba(122,110,86,.38);--mio-tx:#8A7F66;
   --sat:#2563EB;--sun:#DC2626;
@@ -40,119 +40,135 @@
   --sat:#60A5FA;--sun:#F87171;
   --ok-bg:#14532D;--ok-tx:#86EFAC;--ok-bd:#22C55E;--ng-bg:#7F1D1D;--ng-tx:#FCA5A5;--ng-bd:#EF4444;
 }}
+
+/* アクセシビリティ: 見やすさモード */
+html[data-a11y="1"]{--fs:1.32}
+html[data-a11y="1"]:not([data-theme=dark]){--bg:#FFFFFF;--sf:#FFFFFF;--sf2:#F1EFE8;--tx:#000000;--tx2:#1A1A1A;--tx3:#333333;--bd:2px solid #4A4A4A;--bde:2px solid #000000;--cp:#1F1A0E;--sat:#0B3FD6;--sun:#C40000;--ok-bg:#B6F5C8;--ok-tx:#004D1A;--ok-bd:#00A63E;--ng-bg:#FFC9C9;--ng-tx:#7A0000;--ng-bd:#E00000;--mio-tx:#222;--mio-ln:rgba(0,0,0,.7)}
+html[data-a11y="1"][data-theme=dark]{--bg:#000000;--sf:#0B0B0B;--sf2:#1C1C1C;--tx:#FFFFFF;--tx2:#F2F2F2;--tx3:#D9D9D9;--bd:2px solid #BDBDBD;--bde:2px solid #FFFFFF;--cp:#FFE27A;--cpt:#000;--sat:#7DB2FF;--sun:#FF7A7A;--ok-bg:#00551F;--ok-tx:#B6FFC9;--ok-bd:#3DFF7A;--ng-bg:#8A0000;--ng-tx:#FFD0D0;--ng-bd:#FF5A5A;--mio-tx:#EEE;--mio-ln:rgba(255,255,255,.7)}
+html[data-a11y="1"] button,html[data-a11y="1"] .btn,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-user,html[data-a11y="1"] .hdr-mgr{min-height:48px}
+html[data-a11y="1"] .hdr-mgr{width:48px;height:48px}
+html[data-a11y="1"] .bni{font-weight:700}
+html[data-a11y="1"] :focus-visible{outline:4px solid #FF8A00;outline-offset:2px}
+html[data-a11y="1"] .cd.tod,html[data-a11y="1"] .today-col{outline:3px solid var(--cp);outline-offset:-3px}
+html[data-a11y="1"] .toggle-sl{box-shadow:inset 0 0 0 3px #000}
+html[data-a11y="1"][data-theme=dark] .toggle-sl{box-shadow:inset 0 0 0 3px #fff}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
 #wrap{max-width:680px;margin:0 auto;padding-bottom:80px}
-#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:16px;color:var(--tx2);font-size:14px}
+#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;gap:16px;color:var(--tx2);font-size:calc(14px*var(--fs))}
 .spin{width:36px;height:36px;border:3px solid var(--bde);border-top-color:var(--cp);border-radius:50%;animation:sp .8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 /* ユーザー選択画面 */
 #user-select{display:none;position:fixed;inset:0;background:var(--bg);z-index:100;flex-direction:column;align-items:center;justify-content:center;padding:24px}
 #user-select.on{display:flex}
-.us-title{font-size:20px;font-weight:700;color:var(--cp);margin-bottom:8px}
-.us-sub{font-size:13px;color:var(--tx2);margin-bottom:28px}
+.us-title{font-size:calc(20px*var(--fs));font-weight:700;color:var(--cp);margin-bottom:8px}
+.us-sub{font-size:calc(13px*var(--fs));color:var(--tx2);margin-bottom:28px}
 .us-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;width:100%;max-width:480px}
-.us-btn{border:var(--bde);border-radius:var(--r);padding:18px 12px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:14px;font-weight:600;color:var(--tx)}
+.us-btn{border:var(--bde);border-radius:var(--r);padding:18px 12px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:calc(14px*var(--fs));font-weight:600;color:var(--tx)}
 .us-btn:active{opacity:.7}
-.us-master{width:100%;max-width:480px;margin-top:26px;padding:16px 8px;border:1px solid var(--bde);background:var(--sf);border-radius:var(--rs);text-align:center;font-size:11px;letter-spacing:.3em;color:var(--tx3);opacity:.6;cursor:pointer}
+.us-master{width:100%;max-width:480px;margin-top:26px;padding:16px 8px;border:1px solid var(--bde);background:var(--sf);border-radius:var(--rs);text-align:center;font-size:calc(11px*var(--fs));letter-spacing:.3em;color:var(--tx3);opacity:.6;cursor:pointer}
 .us-master:active{opacity:.9}
-.us-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700}
+.us-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(22px*var(--fs));font-weight:700}
 .hdr{background:var(--sf);border-bottom:var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.hdr-title{font-size:16px;font-weight:600;color:var(--cp)}
-.hdr-right{display:flex;align-items:center;gap:8px}
-.hdr-sync{font-size:11px;color:var(--tx3);display:flex;align-items:center;gap:4px}
-.hdr-user{font-size:12px;padding:3px 10px;border-radius:99px;cursor:pointer;border:var(--bd);background:var(--sf2);font-weight:600}
-.sdot{width:6px;height:6px;border-radius:50%;background:#ccc}
+.hdr-title{font-size:calc(16px*var(--fs));font-weight:600;color:var(--cp)}
+.hdr-right{display:flex;align-items:center;gap:6px}
+.hdr-mgr{width:34px;height:34px;border-radius:50%;border:var(--bd);background:var(--sf2);color:var(--tx);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.hdr-mgr svg{width:18px;height:18px}
+.hdr-mgr:active{opacity:.6}
+.hdr-sync{font-size:calc(9px*var(--fs));color:var(--tx3);display:flex;align-items:center;gap:3px;white-space:nowrap}
+.hdr-user{font-size:calc(12px*var(--fs));padding:3px 10px;border-radius:99px;cursor:pointer;border:var(--bd);background:var(--sf2);font-weight:600}
+.sdot{width:5px;height:5px;border-radius:50%;background:#ccc}
 .sdot.ok{background:#1D9E75}.sdot.err{background:var(--crm)}
 .sdot.ing{background:var(--cp);animation:pl 1s infinite}
 @keyframes pl{0%,100%{opacity:1}50%{opacity:.4}}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:var(--bde);box-shadow:0 -4px 16px rgba(52,47,34,0.12);display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:20}
-.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;cursor:pointer;border:none;background:none;color:var(--tx3);font-size:10px;gap:3px}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 4px;cursor:pointer;border:none;background:none;color:var(--tx3);font-size:calc(10px*var(--fs));gap:3px}
 .bni{border-radius:14px;margin:6px 3px;font-weight:500;transition:background .15s}.bni.on{color:var(--cp);background:var(--sf2);font-weight:700}.bni.cal.on{color:#3A6A94;background:#EEF4FA;box-shadow:inset 0 -3px 0 #7DA8D2}.bni.meal.on{color:#1A5E58;background:#EDF6F4;box-shadow:inset 0 -3px 0 #4EA89E}.bni.avail.on{color:#6E2E12;background:#FAF0EC;box-shadow:inset 0 -3px 0 #CE6E44}
 :root[data-theme=dark] .bni.cal.on{color:#A3C2E0;background:#0D1E2E}:root[data-theme=dark] .bni.meal.on{color:#7DC3BA;background:#0D2E2B}:root[data-theme=dark] .bni.avail.on{color:#E89E7A;background:#2A1208}
-.theme-seg{display:flex;gap:6px}.theme-seg button{flex:1;padding:10px 6px;border:var(--bde);border-radius:var(--rs);background:var(--sf2);color:var(--tx2);font-size:13px;cursor:pointer}.theme-seg button.on{background:var(--cp);color:var(--cpt);border-color:var(--cp);font-weight:700}
+.theme-seg{display:flex;gap:6px}.theme-seg button{flex:1;padding:10px 6px;border:var(--bde);border-radius:var(--rs);background:var(--sf2);color:var(--tx2);font-size:calc(13px*var(--fs));cursor:pointer}.theme-seg button.on{background:var(--cp);color:var(--cpt);border-color:var(--cp);font-weight:700}
 .bni svg{width:22px;height:22px;stroke-width:1.8}
 .sec{display:none;padding:12px 16px}.sec.on{display:block}
 .card{background:var(--sf);border-radius:var(--r);border:var(--bd);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
-.card-title{font-size:13px;font-weight:600;margin-bottom:10px}
+.card-title{font-size:calc(13px*var(--fs));font-weight:600;margin-bottom:10px}
 .mnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.mnav-lbl{font-size:17px;font-weight:600}
+.mnav-lbl{font-size:calc(17px*var(--fs));font-weight:600}
 .mnav-lbl.blue{color:var(--cbm)}.mnav-lbl.teal{color:var(--ctm)}.mnav-lbl.amber{color:var(--cam)}
-.mnav-btn{width:36px;height:36px;border:var(--bd);border-radius:50%;background:var(--sf);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--tx)}
+.mnav-btn{width:36px;height:36px;border:var(--bd);border-radius:50%;background:var(--sf);cursor:pointer;font-size:calc(18px*var(--fs));display:flex;align-items:center;justify-content:center;color:var(--tx)}
 .mnav-btn:active{background:var(--sf2)}
-.leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;font-size:11px;color:var(--tx2)}
+.leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;font-size:calc(11px*var(--fs));color:var(--tx2)}
 .leg-i{display:flex;align-items:center;gap:4px}
 .leg-d{width:8px;height:8px;border-radius:50%}
 .cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
-.ch{font-size:11px;color:var(--tx);text-align:center;padding:4px 0;font-weight:700}
+.ch{font-size:calc(11px*var(--fs));color:var(--tx);text-align:center;padding:4px 0;font-weight:700}
 .ch.sat{color:var(--sat)}.ch.sun{color:var(--sun)}
 .cd{background:var(--sf);border:var(--bd);border-radius:8px;min-height:112px;padding:4px 4px 34px;cursor:pointer;position:relative}
 .cd:active{background:var(--sf2)}.cd.em{background:transparent;border-color:transparent;cursor:default}
 .cd.tod{border:2px solid var(--cbm)}
 /* カレンダーセル内の手動変更ボタン */
 .cd-edit{position:absolute;bottom:4px;left:3px;right:3px;display:flex;justify-content:center;cursor:pointer;z-index:2}
-.cd-edit-inner{display:block;width:100%;text-align:center;background:var(--cp);color:var(--cpt);font-size:10px;font-weight:600;padding:7px 0;border-radius:8px;opacity:.95;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.dn{font-size:11px;font-weight:700;color:var(--tx);margin-bottom:2px}
+.cd-edit-inner{display:block;width:100%;text-align:center;background:var(--cp);color:var(--cpt);font-size:calc(10px*var(--fs));font-weight:600;padding:7px 0;border-radius:8px;opacity:.95;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.dn{font-size:calc(11px*var(--fs));font-weight:700;color:var(--tx);margin-bottom:2px}
 .cd.sat .dn{color:var(--sat)}.cd.sun .dn,.cd.hol .dn{color:var(--sun)}
-.hn{display:block;font-size:8px;font-weight:600;color:var(--sun);line-height:1.15;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.hn{display:block;font-size:calc(8px*var(--fs));font-weight:600;color:var(--sun);line-height:1.15;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .mgc.mgh{color:var(--tx)}.mgc.mgh.sat{color:var(--sat)}.mgc.mgh.sun,.mgc.mgh.hol{color:var(--sun)}
-.mgc.mgh .hn{white-space:normal;word-break:keep-all;font-size:7.5px;text-align:center}
+.mgc.mgh .hn{white-space:normal;word-break:keep-all;font-size:calc(7.5px*var(--fs));text-align:center}
 .avc.sat{color:var(--sat)}.avc.sun,.avc.hol{color:var(--sun)}
-.dt{font-size:9px;padding:2px 3px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:2px}
+.dt{font-size:calc(9px*var(--fs));padding:2px 3px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:2px}
 .dt-sh{background:var(--crb);color:var(--cr)}
 .dt-mine{box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
 /* 食事サマリードット削除済 */
-.alrt{border-radius:var(--rs);padding:8px 12px;font-size:12px;margin-bottom:8px;font-weight:500}
+.alrt{border-radius:var(--rs);padding:8px 12px;font-size:calc(12px*var(--fs));margin-bottom:8px;font-weight:500}
 .alrt-r{background:var(--crb);color:var(--cr);border:var(--bd)}
 .alrt-a{background:var(--cab);color:var(--ca);border:0.5px solid #FAC775}
 .alrt-b{background:var(--cbb);color:var(--cb);border:0.5px solid #B5D4F4}
 .mg{display:grid;gap:1px;background:var(--bde);border:var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
-.mgc{background:var(--sf);padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;font-size:12px}
-.mgh{background:var(--sf2)!important;font-weight:700;font-size:11px;color:var(--tx2)}
+.mgc{background:var(--sf);padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;font-size:calc(12px*var(--fs))}
+.mgh{background:var(--sf2)!important;font-weight:700;font-size:calc(11px*var(--fs));color:var(--tx2)}
 .today-col{border-left:2px solid var(--ctm)!important;border-right:2px solid var(--ctm)!important}
 .today-col-top{border-top:2px solid var(--ctm)!important}
 .today-col-last{border-bottom:2px solid var(--ctm)!important}
-.mgl{background:var(--sf2)!important;align-items:flex-start!important;padding:5px 6px!important;font-size:11px;color:var(--tx2)}
-.mgb{width:30px;height:22px;border-radius:5px;border:var(--bd);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--sf2);color:var(--tx3)}
+.mgl{background:var(--sf2)!important;align-items:flex-start!important;padding:5px 6px!important;font-size:calc(11px*var(--fs));color:var(--tx2)}
+.mgb{width:30px;height:22px;border-radius:5px;border:var(--bd);font-size:calc(12px*var(--fs));cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--sf2);color:var(--tx3)}
 .mgb.need{background:var(--ok-bg);color:var(--ok-tx);border-color:var(--ok-bd)}
 .mgb.skip{background:var(--ng-bg);color:var(--ng-tx);border-color:var(--ng-bd)}
 .mgb.locked{cursor:default;opacity:.45}
 
 .itabs{display:flex;border-bottom:var(--bd);margin-bottom:10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.itab{padding:8px 14px;font-size:13px;cursor:pointer;border:none;background:none;color:var(--tx2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-weight:500}
+.itab{padding:8px 14px;font-size:calc(13px*var(--fs));cursor:pointer;border:none;background:none;color:var(--tx2);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-weight:500}
 .itab.on{color:var(--tx);border-bottom-color:var(--tx);font-weight:700}
 .av-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.avc{font-size:11px;padding:4px 6px;border-radius:6px;cursor:pointer;border:var(--bd);background:var(--sf2);color:var(--tx2);line-height:1.4;text-align:center;min-width:30px;user-select:none}
+.avc{font-size:calc(11px*var(--fs));padding:4px 6px;border-radius:6px;cursor:pointer;border:var(--bd);background:var(--sf2);color:var(--tx2);line-height:1.4;text-align:center;min-width:30px;user-select:none}
 .avc.on{font-weight:700}
 .fg{margin-bottom:12px}
-.fg label{font-size:13px;color:var(--tx2);display:block;margin-bottom:5px}
-input,select{width:100%;height:44px;padding:0 12px;border:var(--bde);border-radius:var(--rs);font-size:15px;background:var(--sf);color:var(--tx);-webkit-appearance:none;appearance:none}
+.fg label{font-size:calc(13px*var(--fs));color:var(--tx2);display:block;margin-bottom:5px}
+input,select{width:100%;height:44px;padding:0 12px;border:var(--bde);border-radius:var(--rs);font-size:calc(15px*var(--fs));background:var(--sf);color:var(--tx);-webkit-appearance:none;appearance:none}
 input[type=checkbox]{width:20px;height:20px;accent-color:var(--cp);flex-shrink:0}
 input[type=number]{width:80px}
 input[type=time]{width:136px}
 input:focus,select:focus{outline:none;border-color:var(--cp)}
-.btn{height:44px;padding:0 18px;border:var(--bde);border-radius:var(--rs);font-size:15px;cursor:pointer;background:var(--sf);color:var(--tx);font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn{height:44px;padding:0 18px;border:var(--bde);border-radius:var(--rs);font-size:calc(15px*var(--fs));cursor:pointer;background:var(--sf);color:var(--tx);font-weight:500;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:active{opacity:.7}
 .btn-p{background:var(--cp)!important;color:var(--cpt)!important;border-color:var(--cp)!important}
 .btn-p:active{background:var(--cpd)!important}
 .btn-d{color:var(--cr)!important;border-color:#F7C1C1!important}
 .btn-d:active{background:var(--crb)!important}
-.btn-sm{height:36px;font-size:13px;padding:0 12px}
-.bdg{display:inline-block;font-size:12px;padding:3px 10px;border-radius:99px;font-weight:600;white-space:nowrap}
-.chip{font-size:14px;padding:6px 14px;border-radius:99px;cursor:pointer;border:var(--bde);background:var(--sf2);color:var(--tx2);user-select:none;display:inline-block}
+.btn-sm{height:36px;font-size:calc(13px*var(--fs));padding:0 12px}
+.bdg{display:inline-block;font-size:calc(12px*var(--fs));padding:3px 10px;border-radius:99px;font-weight:600;white-space:nowrap}
+.chip{font-size:calc(14px*var(--fs));padding:6px 14px;border-radius:99px;cursor:pointer;border:var(--bde);background:var(--sf2);color:var(--tx2);user-select:none;display:inline-block}
 .chip.on{font-weight:700}
-.avi{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.avi{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(12px*var(--fs));font-weight:700;flex-shrink:0}
 .ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;align-items:flex-end;justify-content:center}
 .ovl.on{display:flex}
 .sheet{background:var(--sf);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom));width:100%;max-width:680px;max-height:90vh;overflow-y:auto}
 .sh-handle{width:36px;height:4px;background:var(--bde);border-radius:2px;margin:0 auto 16px}
-.sheet h3{font-size:16px;font-weight:600;margin-bottom:14px}
+.sheet h3{font-size:calc(16px*var(--fs));font-weight:600;margin-bottom:14px}
 .srow{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:var(--bd)}
 .srow:last-child{border-bottom:none}
-.slbl{flex:1;font-size:14px}
-.sdesc{font-size:12px;color:var(--tx2);margin-top:3px}
+.slbl{flex:1;font-size:calc(14px*var(--fs))}
+.sdesc{font-size:calc(12px*var(--fs));color:var(--tx2);margin-top:3px}
 .ical-box{background:var(--sf2);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px}
-.ical-url{font-size:10px;color:var(--cbm);word-break:break-all;cursor:pointer;text-decoration:underline;font-family:monospace}
+.ical-url{font-size:calc(10px*var(--fs));color:var(--cbm);word-break:break-all;cursor:pointer;text-decoration:underline;font-family:monospace}
 .co{width:28px;height:28px;border-radius:50%;cursor:pointer;border:3px solid transparent;display:inline-block;margin:0 8px 8px 0;box-shadow:0 1px 3px rgba(0,0,0,.25);vertical-align:middle}
 .co.sel{border-color:var(--tx);transform:scale(1.12)}
 .co-custom{position:relative;overflow:hidden;background:conic-gradient(#ef4444,#f59e0b,#eab308,#22c55e,#06b6d4,#3b82f6,#8b5cf6,#ec4899,#ef4444)}
@@ -161,7 +177,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .list-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)}
 .list-row:last-child{border-bottom:none}
 .dow-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}
-.dow-btn{height:36px;border:var(--bde);border-radius:var(--rs);font-size:13px;cursor:pointer;background:var(--sf2);color:var(--tx2);font-weight:500;display:flex;align-items:center;justify-content:center;user-select:none}
+.dow-btn{height:36px;border:var(--bde);border-radius:var(--rs);font-size:calc(13px*var(--fs));cursor:pointer;background:var(--sf2);color:var(--tx2);font-weight:500;display:flex;align-items:center;justify-content:center;user-select:none}
 .dow-btn.on{background:var(--cp);color:var(--cpt);border-color:var(--cp)}
 .toggle-sw{position:relative;width:44px;height:24px;flex-shrink:0}
 .toggle-sw input{opacity:0;width:0;height:0;position:absolute}
@@ -176,53 +192,53 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .toggle-sw input:checked+.toggle-sl:before{transform:translateX(20px)}
 .man-chore-card{background:var(--sf2);border-radius:var(--rs);border:var(--bd);padding:14px;margin-bottom:12px}
 .man-chore-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.man-need-badge{font-size:12px;color:var(--tx2);padding:3px 10px;background:var(--sf);border:var(--bd);border-radius:99px}
+.man-need-badge{font-size:calc(12px*var(--fs));color:var(--tx2);padding:3px 10px;background:var(--sf);border:var(--bd);border-radius:99px}
 .man-mbr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}
-.man-mbr-btn{border:var(--bde);border-radius:var(--rs);padding:12px 8px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:7px;font-size:14px;font-weight:500;color:var(--tx2)}
+.man-mbr-btn{border:var(--bde);border-radius:var(--rs);padding:12px 8px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:7px;font-size:calc(14px*var(--fs));font-weight:500;color:var(--tx2)}
 .man-mbr-btn:active{opacity:.7}
 .man-mbr-btn.on{border-width:2px;font-weight:700}
-.man-mbr-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
-.man-status{font-size:13px;text-align:center;margin-top:10px;padding:8px;border-radius:var(--rs)}
+.man-mbr-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(18px*var(--fs));font-weight:700}
+.man-status{font-size:calc(13px*var(--fs));text-align:center;margin-top:10px;padding:8px;border-radius:var(--rs)}
 .man-status.ok{background:var(--cgb);color:var(--cg)}
 .man-status.short{background:var(--crb);color:var(--cr)}
 .man-status.over{background:var(--cab);color:var(--ca)}
-.feature-off-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 10px;border-radius:99px;background:var(--sf2);color:var(--tx3);border:var(--bd);margin-bottom:8px}
-/* 食事デフォルト設定 */
+.feature-off-badge{display:inline-flex;align-items:center;gap:4px;font-size:calc(11px*var(--fs));padding:3px 10px;border-radius:99px;background:var(--sf2);color:var(--tx3);border:var(--bd);margin-bottom:8px}
+/* 食事ルーティン設定 */
 .meal-def-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
-.meal-def-btn{height:44px;border:var(--bde);border-radius:6px;font-size:12px;cursor:pointer;background:var(--sf2);color:var(--tx2);font-weight:500;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.4}
+.meal-def-btn{height:44px;border:var(--bde);border-radius:6px;font-size:calc(12px*var(--fs));cursor:pointer;background:var(--sf2);color:var(--tx2);font-weight:500;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.4}
 .meal-def-btn.need{background:var(--ok-bg);color:var(--ok-tx);border-color:var(--ok-bd);font-weight:700}
 .meal-def-btn.skip{background:var(--ng-bg);color:var(--ng-tx);border-color:var(--ng-bd);font-weight:700}
 /* 未了バッジ */
 .dt-mio{background:repeating-linear-gradient(135deg,transparent 0 4px,var(--mio-ln) 4px 5px),var(--mio-bg);color:var(--mio-tx);border:0.5px solid var(--mio-ln)}
-/* 食事デフォルト保存ボタンエリア */
+/* 食事ルーティン保存ボタンエリア */
 .meal-def-save-bar{display:flex;justify-content:flex-end;margin-top:10px;gap:8px;align-items:center}
-.meal-def-pending-msg{font-size:12px;color:var(--cam)}
+.meal-def-pending-msg{font-size:calc(12px*var(--fs));color:var(--cam)}
 /* スキップボタン */
-.man-skip-btn{border:var(--bde);border-radius:var(--rs);padding:10px 8px;cursor:pointer;background:var(--sf2);display:flex;flex-direction:column;align-items:center;gap:5px;font-size:13px;font-weight:500;color:var(--tx2);grid-column:1/-1}
+.man-skip-btn{border:var(--bde);border-radius:var(--rs);padding:10px 8px;cursor:pointer;background:var(--sf2);display:flex;flex-direction:column;align-items:center;gap:5px;font-size:calc(13px*var(--fs));font-weight:500;color:var(--tx2);grid-column:1/-1}
 .man-skip-btn.on{border-color:#CE6E44;background:#FAF0EC;color:#6E2E12;border-width:2px;font-weight:700}
 /* ===== footer / legal / tutorial ===== */
-.app-foot{margin:18px 0 6px;text-align:center;font-size:11px;color:var(--tx3);line-height:1.9}
+.app-foot{margin:18px 0 6px;text-align:center;font-size:calc(11px*var(--fs));color:var(--tx3);line-height:1.9}
 .app-foot a{color:var(--tx3);text-decoration:underline;cursor:pointer;padding:4px 2px}
 .app-foot .sep{margin:0 6px;opacity:.6}
-.legal-body{max-height:58vh;overflow-y:auto;font-size:13px;line-height:1.75;color:var(--tx2)}
-.legal-body h4{font-size:13px;color:var(--tx);margin:14px 0 4px}
+.legal-body{max-height:58vh;overflow-y:auto;font-size:calc(13px*var(--fs));line-height:1.75;color:var(--tx2)}
+.legal-body h4{font-size:calc(13px*var(--fs));color:var(--tx);margin:14px 0 4px}
 .legal-body p{margin-bottom:6px}
 #tut{display:none;position:fixed;inset:0;z-index:400;background:rgba(28,26,20,.55);align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px)}
 #tut.on{display:flex;animation:tutIn .25s ease}
 @keyframes tutIn{from{opacity:0}to{opacity:1}}
 .tut-card{position:relative;background:var(--sf);border-radius:20px;width:100%;max-width:420px;padding:18px 18px 16px;box-shadow:0 12px 40px rgba(0,0,0,.35);max-height:94vh;overflow-y:auto}
-.tut-x{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:none;background:var(--sf2);color:var(--tx);font-size:22px;line-height:1;cursor:pointer;z-index:3}
-.tut-step-no{font-size:11px;color:var(--tx3);margin-bottom:8px;letter-spacing:.04em}
+.tut-x{position:absolute;top:8px;right:8px;width:40px;height:40px;border-radius:50%;border:none;background:var(--sf2);color:var(--tx);font-size:calc(22px*var(--fs));line-height:1;cursor:pointer;z-index:3}
+.tut-step-no{font-size:calc(11px*var(--fs));color:var(--tx3);margin-bottom:8px;letter-spacing:.04em}
 .tut-stage{position:relative;height:178px;border-radius:14px;background:var(--sf2);border:var(--bd);overflow:hidden;margin-bottom:14px}
-.tut-card h2{font-size:18px;margin-bottom:6px;color:var(--tx)}
-.tut-card p{font-size:13.5px;line-height:1.75;color:var(--tx2);min-height:144px}
+.tut-card h2{font-size:calc(18px*var(--fs));margin-bottom:6px;color:var(--tx)}
+.tut-card p{font-size:calc(13.5px*var(--fs));line-height:1.75;color:var(--tx2);min-height:144px}
 .tut-dots{display:flex;gap:6px;justify-content:center;margin:10px 0 12px}
 .tut-dots i{width:7px;height:7px;border-radius:50%;background:var(--bde);background:#A89A7A55;transition:all .2s;cursor:pointer}
 .tut-dots i.on{width:20px;border-radius:4px;background:var(--cp)}
 .tut-nav{display:flex;gap:8px;align-items:center}
-.tut-nav .btn{height:42px;padding:0 16px;font-size:14px}
+.tut-nav .btn{height:42px;padding:0 16px;font-size:calc(14px*var(--fs))}
 .tut-nav .grow{flex:1}
-.tut-nav .skip{border:none;background:none;color:var(--tx3);font-size:13px;cursor:pointer;padding:0 6px;height:42px}
+.tut-nav .skip{border:none;background:none;color:var(--tx3);font-size:calc(13px*var(--fs));cursor:pointer;padding:0 6px;height:42px}
 .help-card{border-color:var(--cp)}
 /* --- stage parts --- */
 .ts-abs{position:absolute}
@@ -230,11 +246,26 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .ts-finger{position:absolute;width:26px;height:26px;border-radius:50%;background:rgba(52,47,34,.28);border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.25);z-index:5;left:0;top:0}
 .ts-ring{position:absolute;width:26px;height:26px;border-radius:50%;border:2px solid var(--cam);opacity:0;z-index:4}
 .ts-float{animation:tsFloat 2.6s ease-in-out infinite}
+.ts-tabs{position:absolute;left:0;right:0;bottom:8px;display:flex;gap:3px;background:var(--sf);border:var(--bde);border-radius:14px;padding:5px 3px}
+.ts-tab{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;border-radius:10px;color:var(--tx3);font-size:calc(8.5px*var(--fs));font-weight:600;animation:tsTabOn 10s infinite;white-space:nowrap}
+@keyframes tsTabOn{0%{background:var(--sf2);color:var(--cp)}18%{background:var(--sf2);color:var(--cp)}20%,100%{background:transparent;color:var(--tx3)}}
+.ts-arr{position:absolute;left:50%;top:-34px;margin-left:-9px;width:18px;height:26px;opacity:0;animation:tsArrOn 10s infinite}
+.ts-arr i{display:block;width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:15px solid var(--cam);margin-top:10px;position:relative;animation:tsArrBob .7s ease-in-out infinite}
+.ts-arr i:before{content:"";position:absolute;left:-3px;top:-11px;width:6px;height:11px;background:var(--cam);border-radius:2px}
+@keyframes tsArrOn{0%{opacity:0}2%,18%{opacity:1}20%,100%{opacity:0}}
+@keyframes tsArrBob{0%,100%{transform:translateY(-4px)}50%{transform:translateY(4px)}}
+.ts-tcap{position:absolute;left:0;right:0;top:34px;height:30px;text-align:center}
+.ts-tcap b{position:absolute;left:0;right:0;font-size:calc(15px*var(--fs));color:var(--tx);opacity:0;animation:tsArrOn 10s infinite}
+html[data-a11y="1"] #tut-stage{--fs:1}
+html[data-a11y="1"] .hdr-title,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-sync,html[data-a11y="1"] .hdr-user{--fs:1.1;white-space:nowrap}
+html[data-a11y="1"] .cd-edit-inner{--fs:.8;padding:10px 0}
+html[data-a11y="1"] .hdr-title{--fs:.95}
+html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
 @keyframes tsFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .ts-spark{position:absolute;width:8px;height:8px;border-radius:50%;animation:tsSpark 2.4s ease-in-out infinite}
 @keyframes tsSpark{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1.3)}}
 /* scene1: pick user */
-.ts-av{position:absolute;top:38px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;border:2px solid transparent}
+.ts-av{position:absolute;top:38px;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:calc(20px*var(--fs));border:2px solid transparent}
 .ts-av.b{animation:tsPick 4s infinite}
 @keyframes tsPick{0%,40%{transform:scale(1);border-color:transparent}50%,92%{transform:scale(1.14);border-color:var(--cam);box-shadow:0 0 0 6px rgba(206,110,68,.18)}100%{transform:scale(1);border-color:transparent}}
 .ts-f1{animation:tsF1 4s infinite}
@@ -251,7 +282,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .ts-sheet{position:absolute;left:0;right:0;bottom:0;height:92px;background:var(--sf);border-top:var(--bde);border-radius:14px 14px 0 0;padding:10px 14px;animation:tsSheet 5s infinite;box-shadow:0 -4px 14px rgba(0,0,0,.12)}
 @keyframes tsSheet{0%,38%{transform:translateY(100%)}50%,88%{transform:translateY(0)}100%{transform:translateY(100%)}}
 .ts-line{height:9px;border-radius:5px;background:var(--cbm);margin-bottom:7px;opacity:.7}
-.ts-pill{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--cp);color:var(--cpt);font-size:11px;animation:tsBeat 1.2s infinite}
+.ts-pill{display:inline-block;padding:3px 12px;border-radius:99px;background:var(--cp);color:var(--cpt);font-size:calc(11px*var(--fs));animation:tsBeat 1.2s infinite}
 @keyframes tsBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 .ts-f2{animation:tsF2 5s infinite}
 @keyframes tsF2{0%{transform:translate(250px,160px);opacity:1}30%{transform:translate(117px,48px)}36%{transform:translate(117px,48px) scale(.8)}42%{transform:translate(117px,48px) scale(1)}60%{transform:translate(117px,48px);opacity:1}70%{transform:translate(117px,48px);opacity:0}100%{transform:translate(250px,160px);opacity:0}}
@@ -259,7 +290,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 @keyframes tsRing2{0%,33%{opacity:0;transform:scale(.5)}38%{opacity:.9;transform:scale(.8)}55%,100%{opacity:0;transform:scale(2.4)}}
 /* scene3: meals */
 .ts-mrow{position:absolute;left:0;right:0;top:26px;display:flex;justify-content:center}
-.ts-mb{position:relative;width:78px;height:78px;border-radius:14px;border:var(--bde);background:var(--sf);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700}
+.ts-mb{position:relative;width:78px;height:78px;border-radius:14px;border:var(--bde);background:var(--sf);display:flex;align-items:center;justify-content:center;font-size:calc(30px*var(--fs));font-weight:700}
 .ts-mb span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:12px;opacity:0}
 .ts-mb .u{color:var(--tx3);background:var(--sf2);animation:tsU 6s infinite}
 .ts-mb .s{color:#B91C1C;background:#FEE2E2;animation:tsS 6s infinite}
@@ -269,17 +300,17 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 @keyframes tsN{0%,63%{opacity:0}67%,96%{opacity:1}100%{opacity:0}}
 .ts-f3{left:117px;top:82px;animation:tsF3 6s infinite}
 @keyframes tsF3{0%,20%{transform:translateY(40px);opacity:0}26%{transform:translateY(0);opacity:1}30%{transform:translateY(0) scale(.8)}34%{transform:translateY(0) scale(1)}52%{transform:translateY(0) scale(1)}56%{transform:translateY(0) scale(.8)}60%{transform:translateY(0) scale(1)}78%{opacity:1}88%,100%{transform:translateY(40px);opacity:0}}
-.ts-mlab{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:12px;color:var(--tx2)}
+.ts-mlab{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-size:calc(12px*var(--fs));color:var(--tx2)}
 /* scene4: availability */
 .ts-av-grid{position:absolute;left:13px;top:14px;display:grid;grid-template-columns:repeat(7,1fr);gap:5px;width:234px}
 .ts-av-grid i{display:block;height:28px;border-radius:7px;background:var(--sf);border:var(--bd)}
 .ts-av-grid i.p{animation:tsAvOn 5s infinite}
 @keyframes tsAvOn{0%,10%{background:var(--sf);border-color:#C9DCEE}18%,90%{background:#FAF0EC;border-color:var(--cam)}100%{background:var(--sf)}}
-.ts-save{position:absolute;right:13px;bottom:12px;padding:5px 16px;border-radius:8px;background:var(--cp);color:var(--cpt);font-size:12px;font-weight:700;animation:tsSave 5s infinite}
+.ts-save{position:absolute;right:13px;bottom:12px;padding:5px 16px;border-radius:8px;background:var(--cp);color:var(--cpt);font-size:calc(12px*var(--fs));font-weight:700;animation:tsSave 5s infinite}
 @keyframes tsSave{0%,60%{transform:scale(1)}70%{transform:scale(1.15)}78%,100%{transform:scale(1)}}
 /* scene5: settings */
 .ts-set{position:absolute;left:13px;right:13px;top:10px}
-.ts-srow{display:flex;align-items:center;justify-content:space-between;height:34px;border-bottom:var(--bd);font-size:12px;color:var(--tx2)}
+.ts-srow{display:flex;align-items:center;justify-content:space-between;height:34px;border-bottom:var(--bd);font-size:calc(12px*var(--fs));color:var(--tx2)}
 .ts-tg{width:38px;height:22px;border-radius:11px;background:#A89A7A99;position:relative}
 .ts-tg::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);animation:tsKnob 4s infinite}
 .ts-tg{animation:tsTg 4s infinite}
@@ -288,13 +319,13 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 @keyframes tsTg{0%,15%{background:#A89A7A99}25%,85%{background:#22C55E}100%{background:#A89A7A99}}
 @keyframes tsKnob{0%,15%{left:2px}25%,85%{left:18px}100%{left:2px}}
 .ts-seg{display:flex;gap:4px;margin-top:10px}
-.ts-seg i{flex:1;height:26px;border-radius:7px;background:var(--sf);border:var(--bd);font-style:normal;font-size:11px;display:flex;align-items:center;justify-content:center;color:var(--tx2)}
+.ts-seg i{flex:1;height:26px;border-radius:7px;background:var(--sf);border:var(--bd);font-style:normal;font-size:calc(11px*var(--fs));display:flex;align-items:center;justify-content:center;color:var(--tx2)}
 .ts-seg i.m{animation:tsSeg 4s infinite}
 @keyframes tsSeg{0%,40%{background:var(--sf);color:var(--tx2)}55%,90%{background:var(--cp);color:var(--cpt);font-weight:700}100%{background:var(--sf)}}
 /* scene: auto-assign */
-.ts-autobtn{position:absolute;left:13px;top:84px;padding:9px 20px;border-radius:10px;background:var(--cp);color:var(--cpt);font-size:13px;font-weight:700;animation:tsAuto 4s infinite}
+.ts-autobtn{position:absolute;left:13px;top:84px;padding:9px 20px;border-radius:10px;background:var(--cp);color:var(--cpt);font-size:calc(13px*var(--fs));font-weight:700;animation:tsAuto 4s infinite}
 @keyframes tsAuto{0%,24%{opacity:.15;transform:translateY(8px) scale(.96)}34%,86%{opacity:1;transform:none}100%{opacity:.15;transform:translateY(8px) scale(.96)}}
-.ts-cap{position:absolute;left:13px;right:13px;bottom:10px;font-size:11px;color:var(--tx2);text-align:center}
+.ts-cap{position:absolute;left:13px;right:13px;bottom:10px;font-size:calc(11px*var(--fs));color:var(--tx2);text-align:center}
 /* scene: notify */
 .ts-note{position:absolute;left:13px;right:13px;top:10px;height:46px;border-radius:12px;background:var(--sf);border:var(--bd);box-shadow:0 4px 14px rgba(0,0,0,.18);display:flex;align-items:center;gap:9px;padding:0 10px;animation:tsNote 5s infinite}
 @keyframes tsNote{0%,6%{transform:translateY(-70px);opacity:0}16%,46%{transform:none;opacity:1}58%,100%{transform:translateY(-70px);opacity:0}}
@@ -303,8 +334,8 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .ts-nt1{height:8px;width:82px;border-radius:4px;background:var(--tx2);opacity:.75;margin-bottom:6px}
 .ts-nt2{height:7px;width:54px;border-radius:4px;background:var(--tx3);opacity:.5}
 .ts-ical{position:absolute;left:13px;right:13px;top:70px;border-radius:12px;border:var(--bd);background:var(--sf);padding:8px 10px}
-.ts-ical b{display:block;font-size:10px;color:var(--tx3);margin-bottom:6px;font-weight:600}
-.ts-ev{height:20px;border-radius:6px;margin-bottom:5px;transform-origin:left;animation:tsEv 5s infinite;font-size:10px;color:#fff;line-height:20px;padding-left:8px;overflow:hidden;white-space:nowrap}
+.ts-ical b{display:block;font-size:calc(10px*var(--fs));color:var(--tx3);margin-bottom:6px;font-weight:600}
+.ts-ev{height:20px;border-radius:6px;margin-bottom:5px;transform-origin:left;animation:tsEv 5s infinite;font-size:calc(10px*var(--fs));color:#fff;line-height:20px;padding-left:8px;overflow:hidden;white-space:nowrap}
 .ts-ev:nth-of-type(2){animation-delay:.25s}.ts-ev:nth-of-type(3){animation-delay:.5s}
 @keyframes tsEv{0%,40%{transform:scaleX(0);opacity:0}55%,92%{transform:scaleX(1);opacity:1}100%{transform:scaleX(0);opacity:0}}
 /* scene6: done */
@@ -316,7 +347,9 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .ts-conf{position:absolute;width:8px;height:12px;border-radius:2px;top:-12px;animation:tsFall 2.8s linear infinite}
 @keyframes tsFall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(200px) rotate(380deg);opacity:.9}}
 @media(prefers-reduced-motion:reduce){#tut *{animation:none!important}.ts-sheet{transform:none}.ts-mb .n{opacity:1}.ts-chk circle,.ts-chk path{stroke-dashoffset:0}.ts-av.b{border-color:var(--cam)}}
-#o-man .sheet{display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+#o-man .sheet,#o-mgr .sheet,#o-cm .sheet,#o-mm .sheet{display:flex;flex-direction:column;overflow:hidden;padding-bottom:0}
+.sh-body{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#o-cm,#o-mm{z-index:60}
 #o-man #mancont{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .sheet-foot{display:flex;gap:8px;justify-content:flex-end;padding:12px 0 calc(14px + env(safe-area-inset-bottom));border-top:var(--bd);background:var(--sf);flex-shrink:0;margin-top:8px}
 .ts-tg.off{animation:none}.ts-tg.off::after{animation:none;left:2px}
@@ -330,7 +363,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 @keyframes tsEvt{0%,15%{opacity:0;transform:translateX(-22px)}30%,85%{opacity:1;transform:none}100%{opacity:0}}
 .ts-arrow{position:absolute;left:96px;top:56px;width:56px;height:6px;background:repeating-linear-gradient(90deg,var(--cam) 0 6px,transparent 6px 11px);animation:tsDash 1s linear infinite}
 @keyframes tsDash{to{background-position:11px 0}}
-.ts-cap{position:absolute;bottom:10px;font-size:11px;color:var(--tx2)}
+.ts-cap{position:absolute;bottom:10px;font-size:calc(11px*var(--fs));color:var(--tx2)}
 </style>
 </head>
 <body>
@@ -348,6 +381,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 <div class="hdr">
   <span class="hdr-title">家事スケジューラー</span>
   <div class="hdr-right">
+    <span class="hdr-mgr" onclick="oMgr()" role="button" aria-label="メンバーと家事" title="メンバーと家事"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
     <span class="hdr-user" id="hdr-user" onclick="switchUser()"></span>
     <span class="hdr-sync"><span class="sdot" id="sdot"></span><span id="slbl"></span></span>
   </div>
@@ -381,7 +415,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <span class="mnav-lbl teal" id="mwlbl"></span>
     <button class="mnav-btn" onclick="mwc(1)">›</button>
   </div>
-  <div style="font-size:11px;color:var(--tx2);margin-bottom:8px">タップ：未定 → 不要 → 必要 → 未定（自分の行のみ操作できます）</div>
+  <div style="font-size:calc(11px*var(--fs));color:var(--tx2);margin-bottom:8px">タップ：未定 → 不要 → 必要 → 未定（自分の行のみ操作できます）</div>
   <div id="mgrid"></div>
   <div class="card"><div class="card-title" style="color:var(--ctm)">今週のサマリー</div><div id="msum"></div></div>
 </div>
@@ -392,7 +426,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <span class="mnav-lbl amber" id="avlbl"></span>
     <button class="mnav-btn" onclick="amc(1)">›</button>
   </div>
-  <div id="avail-off-msg" style="display:none" class="alrt alrt-b">空き日登録は現在オフです。通知タブの「機能設定」からオンにできます。</div>
+  <div id="avail-off-msg" style="display:none" class="alrt alrt-b">空き日登録は現在オフです。設定タブの「機能のオン/オフ」からオンにできます。</div>
   <div id="avail-meal-def" style="display:none"></div>
   <div id="avail-body">
     <div class="card" style="border-color:#EF9F27">
@@ -402,28 +436,17 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
         <button class="btn btn-p btn-sm" id="savbtn" onclick="saveAv()">保存</button>
       </div>
     </div>
-    <p style="font-size:11px;color:var(--tx2)">「なんでも対応」タブは通知設定からオン/オフできます</p>
+    <p style="font-size:calc(11px*var(--fs));color:var(--tx2)">「なんでも対応」タブは設定タブからオン/オフできます</p>
   </div>
 </div>
 
 <div id="notify" class="sec">
   <div class="card">
-    <div class="card-title">機能のオン/オフ</div>
-    <div class="srow">
-      <div class="slbl">空き日登録を使う<div class="sdesc">オフにすると空き日タブが無効になります</div></div>
-      <label class="toggle-sw"><input type="checkbox" id="feat-avail" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
-    </div>
-    <div class="srow">
-      <div class="slbl">自動割り振りを使う<div class="sdesc">オフにすると自動割り振りボタンが無効になります</div></div>
-      <label class="toggle-sw"><input type="checkbox" id="feat-auto" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
-    </div>
-  </div>
-  <div class="card">
     <div class="card-title">人手不足アラート</div>
     <div class="srow"><div class="slbl">通知を有効にする<div class="sdesc">人手不足の家事を事前通知</div></div>
       <label class="toggle-sw"><input type="checkbox" id="nt-enabled" onchange="saveNS()"><span class="toggle-sl"></span></label></div>
     <div class="srow"><div class="slbl">通知タイミング<div class="sdesc">何日前に通知するか</div></div>
-      <div style="display:flex;align-items:center;gap:6px"><input type="number" id="nt-days" value="3" min="1" max="14" onchange="saveNS()" style="width:70px"><span style="font-size:13px;color:var(--tx2)">日前</span></div></div>
+      <div style="display:flex;align-items:center;gap:6px"><input type="number" id="nt-days" value="3" min="1" max="14" onchange="saveNS()" style="width:70px"><span style="font-size:calc(13px*var(--fs));color:var(--tx2)">日前</span></div></div>
     <div class="srow"><div class="slbl">通知時刻</div><input type="time" id="nt-time" value="08:00" onchange="saveNS()" style="width:130px"></div>
     <div class="srow"><div class="slbl">週次サマリー</div>
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
@@ -438,8 +461,64 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
       <button class="btn btn-sm" onclick="previewNotify()">通知プレビュー</button>
       <button class="btn btn-p btn-sm" onclick="reqPerm()">通知を許可する</button>
     </div>
-    <div id="nt-status" style="margin-top:8px;font-size:12px;color:var(--tx2)"></div>
+    <div id="nt-status" style="margin-top:8px;font-size:calc(12px*var(--fs));color:var(--tx2)"></div>
     <div id="nt-preview" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">カレンダー連携（iCal）</div>
+    <p style="font-size:calc(12px*var(--fs));color:var(--tx2);margin-bottom:10px">URLをカレンダーアプリに登録すると担当が自動同期されます<br><b>Apple:</b> 設定→カレンダー→アカウントを追加→その他→照会するカレンダーを追加</p>
+    <div id="ical-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">iCal 配信設定</div>
+    <div class="srow"><div class="slbl">開始時刻</div><input type="time" id="ic-start" value="07:00" onchange="saveNS();renderIcal()" style="width:130px"></div>
+    <div class="srow"><div class="slbl">終了時刻</div><input type="time" id="ic-end" value="08:00" onchange="saveNS();renderIcal()" style="width:130px"></div>
+    <div class="srow"><div class="slbl">リマインダー</div>
+      <div style="display:flex;align-items:center;gap:6px"><input type="number" id="ic-remind" value="30" min="0" max="1440" onchange="saveNS()" style="width:70px"><span style="font-size:calc(13px*var(--fs));color:var(--tx2)">分前</span></div></div>
+    <div style="margin-top:12px">
+      <div style="font-size:calc(12px*var(--fs));color:var(--tx2);margin-bottom:8px">.ics ダウンロード</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <select id="ic-mbr" style="flex:1;min-width:120px;height:34px"></select>
+        <button class="btn btn-p btn-sm" onclick="downloadIcs()">ダウンロード</button>
+      </div>
+      <div id="ic-dl-msg" style="margin-top:6px;font-size:calc(12px*var(--fs))"></div>
+    </div>
+  </div>
+</div>
+
+<div id="settings" class="sec">
+  <div class="card help-card">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="flex:1;min-width:0"><div class="card-title" style="margin-bottom:2px">使い方</div><div style="font-size:calc(12px*var(--fs));color:var(--tx2)">アニメーションで使い方を確認できます</div></div>
+      <button class="btn btn-p btn-sm" onclick="openTut(0)">使い方を見る</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">表示テーマ</div>
+    <div class="theme-seg" id="theme-seg"><button data-t="auto" onclick="setTheme('auto')">端末に合わせる</button><button data-t="light" onclick="setTheme('light')">ライト</button><button data-t="dark" onclick="setTheme('dark')">ダーク</button></div>
+    <div style="font-size:calc(11px*var(--fs));color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">言語 / Language</div>
+    <div class="theme-seg" id="lang-seg"><button data-l="auto" onclick="setLang('auto')">端末に合わせる</button><button data-l="ja" onclick="setLang('ja')">日本語</button><button data-l="en" onclick="setLang('en')">English</button></div>
+    <div style="font-size:calc(11px*var(--fs));color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">アクセシビリティ</div>
+    <div class="srow"><div class="slbl">見やすさモード<div class="sdesc">文字を大きく、色をくっきりさせ、ボタンを押しやすくします</div></div>
+      <label class="toggle-sw"><input type="checkbox" id="a11y-toggle" onchange="applyA11y(this.checked,true)"><span class="toggle-sl"></span></label></div>
+    <div style="font-size:calc(11px*var(--fs));color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
+  </div>
+  <div class="card">
+    <div class="card-title">機能のオン/オフ</div>
+    <div class="srow">
+      <div class="slbl">空き日登録を使う<div class="sdesc">オフにすると空き日タブが無効になります</div></div>
+      <label class="toggle-sw"><input type="checkbox" id="feat-avail" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
+    </div>
+    <div class="srow">
+      <div class="slbl">自動割り振りを使う<div class="sdesc">オフにすると自動割り振りボタンが無効になります</div></div>
+      <label class="toggle-sw"><input type="checkbox" id="feat-auto" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
+    </div>
   </div>
   <div class="card">
     <div class="card-title">食事設定</div>
@@ -460,57 +539,8 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
       <label class="toggle-sw"><input type="checkbox" id="avail-show-any" onchange="saveNS();renderAvail()"><span class="toggle-sl"></span></label></div>
   </div>
   <div class="card">
-    <div class="card-title">カレンダー連携（iCal）</div>
-    <p style="font-size:12px;color:var(--tx2);margin-bottom:10px">URLをカレンダーアプリに登録すると担当が自動同期されます<br><b>Apple:</b> 設定→カレンダー→アカウントを追加→その他→照会するカレンダーを追加</p>
-    <div id="ical-list"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">iCal 配信設定</div>
-    <div class="srow"><div class="slbl">開始時刻</div><input type="time" id="ic-start" value="07:00" onchange="saveNS();renderIcal()" style="width:130px"></div>
-    <div class="srow"><div class="slbl">終了時刻</div><input type="time" id="ic-end" value="08:00" onchange="saveNS();renderIcal()" style="width:130px"></div>
-    <div class="srow"><div class="slbl">リマインダー</div>
-      <div style="display:flex;align-items:center;gap:6px"><input type="number" id="ic-remind" value="30" min="0" max="1440" onchange="saveNS()" style="width:70px"><span style="font-size:13px;color:var(--tx2)">分前</span></div></div>
-    <div style="margin-top:12px">
-      <div style="font-size:12px;color:var(--tx2);margin-bottom:8px">.ics ダウンロード</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <select id="ic-mbr" style="flex:1;min-width:120px;height:34px"></select>
-        <button class="btn btn-p btn-sm" onclick="downloadIcs()">ダウンロード</button>
-      </div>
-      <div id="ic-dl-msg" style="margin-top:6px;font-size:12px"></div>
-    </div>
-  </div>
-</div>
-
-<div id="settings" class="sec">
-  <div class="card help-card">
-    <div style="display:flex;align-items:center;gap:10px">
-      <div style="flex:1;min-width:0"><div class="card-title" style="margin-bottom:2px">使い方</div><div style="font-size:12px;color:var(--tx2)">アニメーションで使い方を確認できます</div></div>
-      <button class="btn btn-p btn-sm" onclick="openTut(0)">使い方を見る</button>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-title">表示テーマ</div>
-    <div class="theme-seg" id="theme-seg"><button data-t="auto" onclick="setTheme('auto')">端末に合わせる</button><button data-t="light" onclick="setTheme('light')">ライト</button><button data-t="dark" onclick="setTheme('dark')">ダーク</button></div>
-    <div style="font-size:11px;color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
-  </div>
-  <div class="card">
-    <div class="card-title">言語 / Language</div>
-    <div class="theme-seg" id="lang-seg"><button data-l="auto" onclick="setLang('auto')">端末に合わせる</button><button data-l="ja" onclick="setLang('ja')">日本語</button><button data-l="en" onclick="setLang('en')">English</button></div>
-    <div style="font-size:11px;color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
-  </div>
-  <div class="card">
-    <div class="card-title">メンバー</div>
-    <div id="mbrlist"></div>
-    <button class="btn btn-sm" style="margin-top:10px" onclick="oMM(null)">+ メンバーを追加</button>
-  </div>
-  <div class="card">
-    <div class="card-title">家事設定</div>
-    <div id="chorelist"></div>
-    <button class="btn btn-sm" style="margin-top:10px" onclick="oCM(null)">+ 家事を追加</button>
-  </div>
-  <div class="card">
-    <div class="card-title">食事デフォルト設定</div>
-    <p style="font-size:12px;color:var(--tx2);margin-bottom:10px">曜日ごとの食事のデフォルトを設定します。未設定の日は「未定」になります。</p>
+    <div class="card-title">食事ルーティン設定</div>
+    <p style="font-size:calc(12px*var(--fs));color:var(--tx2);margin-bottom:10px">曜日ごとの食事ルーティンを設定します。未設定の日は「未定」になります。</p>
     <div id="meal-def-wrap"></div>
   </div>
   <div class="card">
@@ -518,12 +548,11 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <div class="fg"><label>Project URL</label><input id="sb-url" placeholder="https://xxxx.supabase.co" type="url"></div>
     <div class="fg"><label>Anon Key</label><input id="sb-key" placeholder="eyJh..." type="password"></div>
     <button class="btn btn-p" onclick="connectSB()">接続する</button>
-    <div id="sb-status" style="margin-top:8px;font-size:12px;color:var(--tx2)"></div>
+    <div id="sb-status" style="margin-top:8px;font-size:calc(12px*var(--fs));color:var(--tx2)"></div>
   </div>
   <div class="app-foot">
     <div><a onclick="openLegal('terms')">利用規約</a><span class="sep">·</span><a onclick="openLegal('privacy')">プライバシーポリシー</a><span class="sep">·</span><a onclick="openLegal('contact')">Contact us</a></div>
-    <div><span>家事スケジューラー</span> <span>Ver 2.1.1</span></div>
-    <div>Created by Tokuta_13</div>
+    <div><span>家事スケジューラー</span> <span>Ver 2.4.1</span></div>
     <div>© 2026 Tokuta_13</div>
   </div>
 </div>
@@ -571,7 +600,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 <div class="ovl" id="o-man">
 <div class="sheet"><div class="sh-handle"></div>
   <h3 id="mantit"></h3>
-  <p style="font-size:12px;color:var(--tx2);margin-bottom:14px">担当者をタップして選択・解除できます。必要人数に達すると緑になります。</p>
+  <p style="font-size:calc(12px*var(--fs));color:var(--tx2);margin-bottom:14px">担当者をタップして選択・解除できます。必要人数に達すると緑になります。</p>
   <div id="mancont"></div>
   <div class="sheet-foot">
     <button class="btn btn-sm" onclick="cls()">キャンセル</button>
@@ -579,10 +608,32 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
   </div>
 </div></div>
 
+<!-- メンバー・家事の管理 -->
+<div class="ovl" id="o-mgr">
+<div class="sheet"><div class="sh-handle"></div>
+  <h3>メンバーと家事</h3>
+  <div class="sh-body">
+  <div class="card">
+    <div class="card-title">メンバー</div>
+    <div id="mbrlist"></div>
+    <button class="btn btn-sm" style="margin-top:10px" onclick="oMM(null)">+ メンバーを追加</button>
+  </div>
+  <div class="card">
+    <div class="card-title">家事設定</div>
+    <div id="chorelist"></div>
+    <button class="btn btn-sm" style="margin-top:10px" onclick="oCM(null)">+ 家事を追加</button>
+  </div>
+  </div>
+  <div class="sheet-foot">
+    <button class="btn btn-sm" onclick="closeOv('o-mgr')">閉じる</button>
+  </div>
+</div></div>
+
 <!-- 家事編集 -->
 <div class="ovl" id="o-cm">
 <div class="sheet"><div class="sh-handle"></div>
   <h3 id="cmtit"></h3>
+  <div class="sh-body">
   <input type="hidden" id="eid">
   <div class="fg"><label>家事名</label><input id="cname" placeholder="例：犬の散歩"></div>
   <div class="fg">
@@ -612,7 +663,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <label>開始時刻通知</label>
     <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
       <label class="toggle-sw"><input type="checkbox" id="ch-notify" onchange="toggleChNotify()"><span class="toggle-sl"></span></label>
-      <span style="font-size:12px;color:var(--tx2)">時間になったら担当者に通知</span>
+      <span style="font-size:calc(12px*var(--fs));color:var(--tx2)">時間になったら担当者に通知</span>
     </div>
     <div id="ch-time-wrap" style="display:none;margin-top:8px"><input type="time" id="ch-start-time" style="width:130px"></div>
   </div>
@@ -620,8 +671,9 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
     <label>カラー</label>
     <div style="margin-top:6px" id="ccopts"></div>
   </div>
-  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
-    <button class="btn btn-sm" onclick="cls()">キャンセル</button>
+  </div>
+  <div class="sheet-foot">
+    <button class="btn btn-sm" onclick="closeOv('o-cm')">キャンセル</button>
     <button class="btn btn-p btn-sm" onclick="saveC()">保存</button>
   </div>
 </div></div>
@@ -630,12 +682,14 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 <div class="ovl" id="o-mm">
 <div class="sheet"><div class="sh-handle"></div>
   <h3 id="mmtit"></h3>
+  <div class="sh-body">
   <input type="hidden" id="meid">
   <div class="fg"><label>名前</label><input id="mname" placeholder="例：お父さん"></div>
   <div class="fg"><label>カラー</label>
     <input type="hidden" id="mcol" value="purple"><div style="margin-top:6px" id="mcopts"></div></div>
-  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
-    <button class="btn btn-sm" onclick="cls()">キャンセル</button>
+  </div>
+  <div class="sheet-foot">
+    <button class="btn btn-sm" onclick="closeOv('o-mm')">キャンセル</button>
     <button class="btn btn-p btn-sm" onclick="saveM()">保存</button>
   </div>
 </div></div>
@@ -721,7 +775,7 @@ var D={
     mealAuto:false,mealAutoTime:'06:00',
     mealShowBreakfast:false,mealShowLunch:true,mealShowDinner:true,
     availShowAny:false,featAvail:true,featAuto:false,
-    // 食事デフォルト: {memberId: {mealName: {0:'need',1:'skip',...}}}
+    // 食事ルーティン: {memberId: {mealName: {0:'need',1:'skip',...}}}
     mealDefaults:{}
   }
 };
@@ -736,8 +790,13 @@ function avk(mid,cid){return mid+'::'+cid}
 function mkey(mid,ds,ml){return mid+'|'+ds+'|'+ml}
 var _gcCache={};
 function hexMix(h,t,a){var f=function(x,i){return parseInt(x.substr(1+i*2,2),16);};var o='#';for(var i=0;i<3;i++){var v=Math.round(f(h,i)*(1-a)+f(t,i)*a);o+=('0'+v.toString(16)).slice(-2);}return o;}
+var A11Y_ON=false;
+var CLV={purple:{bg:'#C9B8FF',tx:'#1E0A5E',md:'#6D28D9'},blue:{bg:'#A9CBFF',tx:'#06236B',md:'#1D4ED8'},teal:{bg:'#7FF0DC',tx:'#032F2B',md:'#0F766E'},amber:{bg:'#FFE55C',tx:'#3B2300',md:'#CA8A04'},coral:{bg:'#FFC08A',tx:'#4A1500',md:'#EA580C'},pink:{bg:'#FFB0D6',tx:'#5C0A33',md:'#DB2777'},gray:{bg:'#E4E4E4',tx:'#111',md:'#555'}};
 function gc(c){
+  if(A11Y_ON&&CLV[c])return CLV[c];
+  if(CL[c]&&!A11Y_ON)return CL[c];
   if(CL[c])return CL[c];
+  if(A11Y_ON&&typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c)){var k='v'+c;if(!_gcCache[k])_gcCache[k]={bg:hexMix(c,'#ffffff',.55),tx:hexMix(c,'#000000',.8),md:c};return _gcCache[k];}
   if(typeof c==='string'&&/^#[0-9a-fA-F]{6}$/.test(c)){if(!_gcCache[c])_gcCache[c]={bg:hexMix(c,'#ffffff',.84),tx:hexMix(c,'#000000',.58),md:c};return _gcCache[c];}
   return CL.gray;
 }
@@ -785,7 +844,7 @@ function selectUser(mid){
     el.style.color=mc.tx;
     el.style.borderColor=mc.md;
   }
-  // 食事デフォルトを適用
+  // 食事ルーティンを適用
   applyMealDefaults();
   renderAll();
 }
@@ -909,7 +968,7 @@ function loadAll(){
     D.asgn={};(res[3].data||[]).forEach(function(r){if(!D.asgn[r.day_key])D.asgn[r.day_key]={};D.asgn[r.day_key][r.chore_id]=r.member_ids||[];});
     D.meals={};(res[4]||[]).forEach(function(r){D.meals[r.meal_key]=r.state;});mealsLoaded=true;
     setSS('ok','同期済');
-    // 起動時に全メンバー分の食事デフォルトを適用（手動入力は上書きしない）
+    // 起動時に全メンバー分の食事ルーティンを適用（手動入力は上書きしない）
     applyMealDefaults();
     // ユーザー選択
     var savedUser=localStorage.getItem('fc_user');
@@ -991,6 +1050,16 @@ function loadNSForm(){
 }
 
 function renderAll(){renderCal();renderMeal();}
+function applyA11y(on,save){
+  A11Y_ON=!!on;
+  document.documentElement.setAttribute('data-a11y',on?'1':'0');
+  if(!on)document.documentElement.removeAttribute('data-a11y');
+  var t=document.getElementById('a11y-toggle');if(t)t.checked=!!on;
+  if(save){try{localStorage.setItem('fc_a11y',on?'1':'0');}catch(e){}
+    try{renderAll();}catch(e){}
+    ['renderAvail','renderMbr','renderChore','renderMealDef','renderAvMealDef'].forEach(function(f){try{if(typeof window[f]==='function')window[f]();}catch(e){}});}
+}
+(function(){var v=false;try{v=localStorage.getItem('fc_a11y')==='1';}catch(e){}A11Y_ON=v;document.addEventListener('DOMContentLoaded',function(){var t=document.getElementById('a11y-toggle');if(t)t.checked=v;});})();
 function cm(d){D.cmo+=d;if(D.cmo>11){D.cmo=0;D.cy++;}if(D.cmo<0){D.cmo=11;D.cy--;}renderCal();}
 function amc(d){D.amo+=d;if(D.amo>11){D.amo=0;D.ay++;}if(D.amo<0){D.amo=11;D.ay--;}renderAvail();}
 function mwc(d){var r=new Date(D.mws);r.setDate(r.getDate()+d*7);D.mws=r;renderMeal();}
@@ -1033,12 +1102,12 @@ function checkMealAuto(){
   if(changed){saveLocal();renderMeal();renderCal();}
 }
 function scheduleMealAuto(){if(!D.ns.mealAuto)return;var parts=(D.ns.mealAutoTime||'06:00').split(':');var target=new Date();target.setHours(parseInt(parts[0]),parseInt(parts[1]),0,0);var diff=target-new Date();if(diff<0)diff+=86400000;setTimeout(function(){checkMealAuto();scheduleMealAuto();},diff);}
-function previewNotify(){var s=getShortages().filter(function(x){return x.diff<=D.ns.days;});var el=document.getElementById('nt-preview');if(!s.length){el.innerHTML='<div style="background:var(--cgb);color:var(--cg);border-radius:8px;padding:8px 10px;font-size:12px">'+D.ns.days+'日以内に人手不足はありません</div>';return;}var h='<div class="alrt alrt-a"><b>通知プレビュー（'+D.ns.days+'日以内）</b>';s.forEach(function(x){h+='<div style="margin-top:4px">'+x.date+' <span style="background:var(--crb);color:var(--cr);padding:1px 6px;border-radius:4px;font-size:11px;font-weight:600">'+x.chore+'</span> あと'+x.diff+'日</div>';});h+='</div>';el.innerHTML=h;if(D.ns.enabled&&'Notification' in window&&Notification.permission==='granted'&&s.length)new Notification(T('人手不足のお知らせ'),{body:T(s[0].date+' '+s[0].chore+' が人手不足です'),icon:'icons/icon-192.png'});}
+function previewNotify(){var s=getShortages().filter(function(x){return x.diff<=D.ns.days;});var el=document.getElementById('nt-preview');if(!s.length){el.innerHTML='<div style="background:var(--cgb);color:var(--cg);border-radius:8px;padding:8px 10px;font-size:calc(12px*var(--fs))">'+D.ns.days+'日以内に人手不足はありません</div>';return;}var h='<div class="alrt alrt-a"><b>通知プレビュー（'+D.ns.days+'日以内）</b>';s.forEach(function(x){h+='<div style="margin-top:4px">'+x.date+' <span style="background:var(--crb);color:var(--cr);padding:1px 6px;border-radius:4px;font-size:calc(11px*var(--fs));font-weight:600">'+x.chore+'</span> あと'+x.diff+'日</div>';});h+='</div>';el.innerHTML=h;if(D.ns.enabled&&'Notification' in window&&Notification.permission==='granted'&&s.length)new Notification(T('人手不足のお知らせ'),{body:T(s[0].date+' '+s[0].chore+' が人手不足です'),icon:'icons/icon-192.png'});}
 function reqPerm(){if(!('Notification' in window)){document.getElementById('nt-status').textContent='このブラウザは通知非対応です';return;}Notification.requestPermission().then(function(p){var el=document.getElementById('nt-status');if(p==='granted'){el.innerHTML='<span style="color:var(--cg)">通知が許可されました</span>';setupChoreTimers();}else el.innerHTML='<span style="color:var(--cr)">通知がブロックされています</span>';});}
 function saveNS(){D.ns.enabled=document.getElementById('nt-enabled').checked;D.ns.days=parseInt(document.getElementById('nt-days').value)||3;D.ns.time=document.getElementById('nt-time').value;D.ns.weekly=document.getElementById('nt-weekly').checked;D.ns.wday=parseInt(document.getElementById('nt-wday').value);D.ns.wtime=document.getElementById('nt-wtime').value;D.ns.icStart=document.getElementById('ic-start').value;D.ns.icEnd=document.getElementById('ic-end').value;D.ns.icRemind=parseInt(document.getElementById('ic-remind').value)||30;D.ns.mealAuto=document.getElementById('meal-auto').checked;D.ns.mealAutoTime=document.getElementById('meal-auto-time').value;D.ns.mealShowBreakfast=document.getElementById('meal-show-breakfast').checked;D.ns.mealShowLunch=document.getElementById('meal-show-lunch').checked;D.ns.mealShowDinner=document.getElementById('meal-show-dinner').checked;D.ns.availShowAny=document.getElementById('avail-show-any').checked;D.ns.featAvail=document.getElementById('feat-avail').checked;D.ns.featAuto=document.getElementById('feat-auto').checked;saveLocal();updateFeatureUI();}
 
 // ===== iCal =====
-function renderIcal(){var h='';D.mbrs.forEach(function(mb){var mc=gc(mb.color);var url='webcal://'+location.host+'/ical/'+mb.id+'.ics';h+='<div class="ical-box"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="avi" style="width:24px;height:24px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:13px;font-weight:600">'+mb.name+'</span><button class="btn btn-sm" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')" id="cp-'+mb.id+'" style="margin-left:auto">コピー</button></div><div class="ical-url" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')">'+url+'</div></div>';});document.getElementById('ical-list').innerHTML=h;var sel=document.getElementById('ic-mbr');if(!sel)return;sel.innerHTML='';D.mbrs.forEach(function(mb){var o=document.createElement('option');o.value=mb.id;o.textContent=mb.name;sel.appendChild(o);});}
+function renderIcal(){var h='';D.mbrs.forEach(function(mb){var mc=gc(mb.color);var url='webcal://'+location.host+'/ical/'+mb.id+'.ics';h+='<div class="ical-box"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="avi" style="width:24px;height:24px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:calc(13px*var(--fs));font-weight:600">'+mb.name+'</span><button class="btn btn-sm" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')" id="cp-'+mb.id+'" style="margin-left:auto">コピー</button></div><div class="ical-url" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')">'+url+'</div></div>';});document.getElementById('ical-list').innerHTML=h;var sel=document.getElementById('ic-mbr');if(!sel)return;sel.innerHTML='';D.mbrs.forEach(function(mb){var o=document.createElement('option');o.value=mb.id;o.textContent=mb.name;sel.appendChild(o);});}
 function cpUrl(url,bid){navigator.clipboard.writeText(url).catch(function(){});var b=document.getElementById(bid);if(b){b.textContent='コピー済';setTimeout(function(){b.textContent='コピー';},1500);}}
 function generateIcs(mid){var mb=D.mbrs.find(function(m){return m.id===mid;});if(!mb)return '';var y=D.cy,m=D.cmo,days=dim(y,m);var st=(D.ns.icStart||'07:00').replace(':','');var en=(D.ns.icEnd||'08:00').replace(':','');var remind=D.ns.icRemind||30;var lines=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//FamilyChores//JA','CALSCALE:GREGORIAN','X-WR-CALNAME:'+mb.name+'の家事'];for(var d=1;d<=days;d++){var k=dky(y,m,d),da=D.asgn[k]||{};D.chrs.forEach(function(ch){if(!isCD(ch,y,m,d))return;if((da[ch.id]||[]).indexOf(mid)<0)return;var dst=ch.start_time||D.ns.icStart||'07:00';var ds=y+('0'+(m+1)).slice(-2)+('0'+d).slice(-2);lines.push('BEGIN:VEVENT','UID:'+ds+'-'+ch.id+'@fc','DTSTART:'+ds+'T'+dst.replace(':','')+'00','DTEND:'+ds+'T'+en+'00','SUMMARY:'+ch.name,'DESCRIPTION:担当：'+mb.name);if(remind>0)lines.push('BEGIN:VALARM','TRIGGER:-PT'+remind+'M','ACTION:DISPLAY','DESCRIPTION:'+ch.name+'の時間です','END:VALARM');lines.push('END:VEVENT');});}lines.push('END:VCALENDAR');return lines.join('\r\n');}
 function downloadIcs(){var mid=document.getElementById('ic-mbr').value;var mb=D.mbrs.find(function(m){return m.id===mid;});if(!mb)return;var ics=generateIcs(mid);var blob=new Blob([ics],{type:'text/calendar;charset=utf-8'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=mb.name+'_'+D.cy+'年'+(D.cmo+1)+'月.ics';document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);document.getElementById('ic-dl-msg').innerHTML='<span style="color:var(--cg)">ダウンロード完了</span>';}
@@ -1075,7 +1144,7 @@ function renderCal(){
     var dk=k;
     var editBtn='<div class="cd-edit" onclick="event.stopPropagation();oManDirect(this.dataset.k)" data-k="'+k+'"><span class="cd-edit-inner">担当変更</span></div>';
     var _dw=new Date(y,m,d).getDay(),_hn=holidayName(y,m,d);
-    h+='<div class="cd'+(it?' tod':'')+(_dw===6?' sat':'')+(_dw===0?' sun':'')+(_hn?' hol':'')+'" data-k="'+k+'" onclick="oDay(this.dataset.k)"><div class="dn">'+d+(_hn?'<span class="hn" title="'+_hn+'">'+_hn+'</span>':'')+'</div>'+tasks+editBtn+'</div>';
+    h+='<div class="cd'+(it?' tod':'')+(_dw===6?' sat':'')+(_dw===0?' sun':'')+(_hn?' hol':'')+'" data-k="'+k+'" onclick="oDay(this.dataset.k)"><div class="dn">'+d+'</div>'+tasks+editBtn+'</div>';
   }
   document.getElementById('cbody').innerHTML=h;
   var shorts=[];for(var d=1;d<=days;d++){var k=dky(y,m,d),dt2=new Date(y,m,d);dt2.setHours(0,0,0,0);if(dt2<today)continue;D.chrs.forEach(function(ch){var ids=(D.asgn[k]&&D.asgn[k][ch.id])||[];if(ids.indexOf(SKIP_ID)>=0)return;if(isCD(ch,y,m,d)&&ids.length<ch.need)shorts.push((m+1)+'/'+d+' '+ch.name);});}
@@ -1103,7 +1172,7 @@ function renderMeal(){
   var ws=D.mws,days=[];for(var i=0;i<7;i++){var r=new Date(ws);r.setDate(ws.getDate()+i);days.push(r);}
   var e=days[6];document.getElementById('mwlbl').textContent=(ws.getMonth()+1)+'/'+ws.getDate()+'〜'+(e.getMonth()+1)+'/'+e.getDate();
   var meals=activeMeals();
-  if(!meals.length){document.getElementById('mgrid').innerHTML='<p style="font-size:13px;color:var(--tx2)">表示する食事がありません。通知設定から有効にしてください。</p>';document.getElementById('msum').innerHTML='';return;}
+  if(!meals.length){document.getElementById('mgrid').innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">表示する食事がありません。設定タブの食事設定から有効にしてください。</p>';document.getElementById('msum').innerHTML='';return;}
   var todayIdx=-1;
   days.forEach(function(dt,i){if(now.toDateString()===dt.toDateString())todayIdx=i;});
   var cols=days.length;
@@ -1122,7 +1191,7 @@ function renderMeal(){
       var isMe=canEdit(mb.id);
       var isLastMbr=mi===D.mbrs.length-1;
       // ラベル列
-      g+='<div class="mgc mgl" style="flex-direction:row;gap:3px">'+(mi===0?'<b style="font-size:10px;color:var(--tx)">'+ml.name+'</b>':'')+'<div class="avi" style="width:16px;height:16px;background:'+mc.bg+';color:'+mc.tx+';font-size:9px;flex-shrink:0">'+mb.name[0]+'</div></div>';
+      g+='<div class="mgc mgl" style="flex-direction:row;gap:3px">'+(mi===0?'<b style="font-size:calc(10px*var(--fs));color:var(--tx)">'+ml.name+'</b>':'')+'<div class="avi" style="width:16px;height:16px;background:'+mc.bg+';color:'+mc.tx+';font-size:calc(9px*var(--fs));flex-shrink:0">'+mb.name[0]+'</div></div>';
       // データ列
       days.forEach(function(dt,di){
         var ds=dkdt(dt),s=mst(mb.id,ds,ml.name);
@@ -1139,11 +1208,11 @@ function renderMeal(){
     g+='<div style="background:var(--bde);grid-column:1/-1;height:1px"></div>';
   });
   g+='</div>';document.getElementById('mgrid').innerHTML=g;
-  var sum='';days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:12px;'+(it?'border-left:3px solid var(--ctm);padding-left:6px;':'')+'\">'+'<span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'\">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:var(--ok-bg);color:var(--ok-tx)">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:var(--ng-bg);color:var(--ng-tx)">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';}});});
-  document.getElementById('msum').innerHTML=sum||'<p style="font-size:12px;color:var(--tx2)">この週の登録はまだありません</p>';
+  var sum='';days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:calc(12px*var(--fs));'+(it?'border-left:3px solid var(--ctm);padding-left:6px;':'')+'\">'+'<span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'\">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:var(--ok-bg);color:var(--ok-tx)">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:var(--ng-bg);color:var(--ng-tx)">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';}});});
+  document.getElementById('msum').innerHTML=sum||'<p style="font-size:calc(12px*var(--fs));color:var(--tx2)">この週の登録はまだありません</p>';
 }
 
-// ===== 食事デフォルト設定 =====
+// ===== 食事ルーティン設定 =====
 var pendingMealDefs={};// 未保存の変更を一時保持
 function mdefState(mid,ml,dw){var p=pendingMealDefs[mid]&&pendingMealDefs[mid][ml]&&pendingMealDefs[mid][ml][dw];return p||(((D.ns.mealDefaults[mid]||{})[ml]||{})[dw])||'undecided';}
 function mdefLbl(st){return st==='need'?'○':st==='skip'?'×':'？';}
@@ -1151,7 +1220,7 @@ function hasPendingMealDefs(){return Object.keys(pendingMealDefs).length>0;}
 function mdefGrid(mid){
   var h='';
   activeMeals().forEach(function(ml){
-    h+='<div style="font-size:11px;color:var(--tx2);margin-bottom:4px">'+ml.name+'</div><div class="meal-def-grid" style="margin-bottom:8px">';
+    h+='<div style="font-size:calc(11px*var(--fs));color:var(--tx2);margin-bottom:4px">'+ml.name+'</div><div class="meal-def-grid" style="margin-bottom:8px">';
     for(var dw=0;dw<7;dw++){var st=mdefState(mid,ml.name,dw);h+='<div class="meal-def-btn '+st+'" data-md="'+mid+'|'+ml.name+'|'+dw+'" onclick="tgMealDef(this)">'+DOW[dw]+'<br>'+mdefLbl(st)+'</div>';}
     h+='</div>';
   });
@@ -1161,13 +1230,13 @@ function mdefSaveBar(){return '<div class="meal-def-save-bar"><span class="meal-
 function updMdefMsg(){document.querySelectorAll('.meal-def-pending-msg').forEach(function(e){e.style.display=hasPendingMealDefs()?'inline':'none';});}
 function renderMealDef(){
   var meals=activeMeals();var wrap=document.getElementById('meal-def-wrap');
-  if(!D.mbrs.length||!meals.length){wrap.innerHTML='<p style="font-size:13px;color:var(--tx2)">メンバーまたは食事設定がありません</p>';return;}
+  if(!D.mbrs.length||!meals.length){wrap.innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">メンバーまたは食事設定がありません</p>';return;}
   var h='';
   D.mbrs.forEach(function(mb){
     var mc=gc(mb.color);
     h+='<div style="margin-bottom:14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">'+
       '<div class="avi" style="width:24px;height:24px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div>'+
-      '<span style="font-size:13px;font-weight:600">'+mb.name+'</span></div>'+mdefGrid(mb.id)+'</div>';
+      '<span style="font-size:calc(13px*var(--fs));font-weight:600">'+mb.name+'</span></div>'+mdefGrid(mb.id)+'</div>';
   });
   h+=mdefSaveBar();
   wrap.innerHTML=h;
@@ -1177,7 +1246,7 @@ function renderAvMealDef(){
   var list=!currentUserId?[]:(currentUserId===MASTER_ID?D.mbrs:D.mbrs.filter(function(m){return m.id===currentUserId;}));
   if(!list.length||!activeMeals().length){amd.style.display='none';return;}
   var h='<div class="card" style="margin-bottom:10px">';
-  list.forEach(function(mb,i){h+='<div class="card-title" style="color:var(--ctm)'+(i?';margin-top:12px':'')+'">'+mb.name+'の食事デフォルト</div>'+mdefGrid(mb.id);});
+  list.forEach(function(mb,i){h+='<div class="card-title" style="color:var(--ctm)'+(i?';margin-top:12px':'')+'">'+mb.name+'の食事ルーティン</div>'+mdefGrid(mb.id);});
   h+=mdefSaveBar()+'</div>';
   amd.innerHTML=h;amd.style.display='block';
 }
@@ -1217,15 +1286,15 @@ function renderAvail(){
   document.getElementById('avlbl').textContent=y+'年'+(m+1)+'月';
   if(!D.ns.featAvail){document.getElementById('avail-off-msg').style.display='block';document.getElementById('avail-body').style.display='none';return;}
   document.getElementById('avail-off-msg').style.display='none';document.getElementById('avail-body').style.display='block';
-  // 空き日タブの先頭に食事デフォルト設定を表示
+  // 空き日タブの先頭に食事ルーティン設定を表示
   renderAvMealDef();
   var tabs=[];if(D.ns.availShowAny)tabs.push({id:ANY,name:'なんでも対応',color:'amber'});tabs=tabs.concat(D.chrs);
   var tabIds=tabs.map(function(t){return t.id;});if(tabIds.indexOf(D.avTab)<0)D.avTab=tabs.length>0?tabs[0].id:ANY;
   var th='';tabs.forEach(function(ch){var col=gc(ch.color),on=D.avTab===ch.id;th+='<button class="itab'+(on?' on':'')+'" onclick="swAv(\''+ch.id+'\')" style="'+(on?'border-bottom-color:'+col.md+';color:'+col.tx:'')+'">'+ch.name+'</button>';});
   document.getElementById('avtabs').innerHTML=th;
-  if(!tabs.length){document.getElementById('avcont').innerHTML='<p style="font-size:13px;color:var(--tx2)">家事がありません</p>';return;}
+  if(!tabs.length){document.getElementById('avcont').innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">家事がありません</p>';return;}
   var cid=D.avTab,ch=tabs.find(function(c){return c.id===cid;})||tabs[0],col=gc(ch.color);
-  var h='<div style="font-size:11px;padding:4px 8px;border-radius:6px;background:'+col.bg+';color:'+col.tx+';margin-bottom:8px">'+(cid===ANY?'全家事の空き候補として登録されます':'「'+ch.name+'」に対応できる日')+'</div>';
+  var h='<div style="font-size:calc(11px*var(--fs));padding:4px 8px;border-radius:6px;background:'+col.bg+';color:'+col.tx+';margin-bottom:8px">'+(cid===ANY?'全家事の空き候補として登録されます':'「'+ch.name+'」に対応できる日')+'</div>';
   // ユーザー設定中は自分だけ表示
   var mbrList=(currentUserId&&currentUserId!==MASTER_ID)?D.mbrs.filter(function(m){return m.id===currentUserId;}):D.mbrs;
   mbrList.forEach(function(mb,i){
@@ -1233,7 +1302,7 @@ function renderAvail(){
     (pAv[ak]!==undefined?pAv[ak]:(D.avail[ak]||[])).forEach(function(k){cur[k]=1;});
     h+='<div style="margin-bottom:10px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">'+
       '<div class="avi" style="width:24px;height:24px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div>'+
-      '<span style="font-size:13px;font-weight:600">'+mb.name+'</span>'+
+      '<span style="font-size:calc(13px*var(--fs));font-weight:600">'+mb.name+'</span>'+
       '<button class="btn btn-sm" style="margin-left:auto" onclick="selAll(\''+mb.id+'\',\''+cid+'\','+y+','+m+')">全選択</button>'+
       '<button class="btn btn-sm" onclick="clrAll(\''+mb.id+'\',\''+cid+'\')">クリア</button></div><div class="av-chips">';
     for(var d=1;d<=days;d++){var k=dky(y,m,d),dw=new Date(y,m,d).getDay(),sel=!!cur[k];h+='<span class="avc'+(sel?' on':'')+(dw===6?' sat':'')+(dw===0||holidayName(y,m,d)?' sun':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgAv(\''+mb.id+'\',\''+cid+'\',\''+k+'\',\''+mb.color+'\',this)">'+d+'<br>'+DOW[dw]+'</span>';}
@@ -1256,8 +1325,8 @@ function oDay(k){
   D.curDay=k;var p=k.split('-'),y=+p[0],m=+p[1]-1,d=+p[2];
   var _dw2=new Date(y,m,d).getDay(),_hd=holidayName(y,m,d);
   var _col=_dw2===0||_hd?'var(--sun)':(_dw2===6?'var(--sat)':'inherit');
-  document.getElementById('dtit').innerHTML='<span>'+(m+1)+'月'+d+'日</span><span style="color:'+_col+'">（'+DOW[_dw2]+'）</span>'+(_hd?'<span style="color:var(--sun);font-size:13px;margin-left:6px">'+_hd+'</span>':'');
-  var da=D.asgn[k]||{};var h='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:8px">家事担当</div>';var hc=false;
+  document.getElementById('dtit').innerHTML='<span>'+(m+1)+'月'+d+'日</span><span style="color:'+_col+'">（'+DOW[_dw2]+'）</span>'+(_hd?'<span style="color:var(--sun);font-size:calc(13px*var(--fs));margin-left:6px">'+_hd+'</span>':'');
+  var da=D.asgn[k]||{};var h='<div style="font-size:calc(12px*var(--fs));font-weight:600;color:var(--tx2);margin-bottom:8px">家事担当</div>';var hc=false;
   D.chrs.forEach(function(ch){
     if(!isCD(ch,y,m,d))return;hc=true;
     var ids=da[ch.id]||[];
@@ -1266,14 +1335,14 @@ function oDay(k){
     var asgn=realIds.map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'?';});
     var col=gc(ch.color),sh=!isSkip&&realIds.length<ch.need;var tdy=new Date();tdy.setHours(0,0,0,0);var pastDay=new Date(y,m,d)<tdy;var dots='';
     realIds.forEach(function(mid){var mb=D.mbrs.find(function(mb){return mb.id===mid;});if(mb){var mc=gc(mb.color);dots+='<span style="width:8px;height:8px;border-radius:50%;background:'+mc.md+';display:inline-block;margin-right:2px"></span>';}});
-    var timeStr=ch.start_time?'<span style="font-size:10px;color:var(--tx2)">'+ch.start_time+'〜</span>':'';
+    var timeStr=ch.start_time?'<span style="font-size:calc(10px*var(--fs));color:var(--tx2)">'+ch.start_time+'〜</span>':'';
     var asgnLabel=isSkip?'スキップ':(asgn.length?asgn.join('・'):'未割り当て');
     var asgnStyle=isSkip?'background:#FAF0EC;color:#6E2E12':'';
-    h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+timeStr+'<span style="font-size:13px;flex:1;display:flex;align-items:center;gap:4px;'+(isSkip?'background:#FAF0EC;color:#6E2E12;padding:2px 6px;border-radius:4px':'')+'">'+dots+asgnLabel+'</span>'+(sh?(pastDay?'<span class="bdg" style="background:var(--mio-bg);color:var(--mio-tx);border:0.5px solid var(--mio-ln)">未完</span>':'<span class="bdg" style="background:var(--crb);color:var(--cr)">不足</span>'):'')+'</div>';
+    h+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:var(--bd)"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span>'+timeStr+'<span style="font-size:calc(13px*var(--fs));flex:1;display:flex;align-items:center;gap:4px;'+(isSkip?'background:#FAF0EC;color:#6E2E12;padding:2px 6px;border-radius:4px':'')+'">'+dots+asgnLabel+'</span>'+(sh?(pastDay?'<span class="bdg" style="background:var(--mio-bg);color:var(--mio-tx);border:0.5px solid var(--mio-ln)">未完</span>':'<span class="bdg" style="background:var(--crb);color:var(--cr)">不足</span>'):'')+'</div>';
   });
-  if(!hc)h+='<p style="font-size:13px;color:var(--tx2)">この日の家事はありません</p>';
+  if(!hc)h+='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">この日の家事はありません</p>';
   var meals=activeMeals();
-  if(meals.length){h+='<div style="font-size:12px;font-weight:600;color:var(--tx2);margin:14px 0 8px">食事状況</div>';meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='skip';});h+='<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:13px"><span style="min-width:36px;color:var(--tx2)">'+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:var(--ok-bg);color:var(--ok-tx)">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:var(--ng-bg);color:var(--ng-tx)">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';});}
+  if(meals.length){h+='<div style="font-size:calc(12px*var(--fs));font-weight:600;color:var(--tx2);margin:14px 0 8px">食事状況</div>';meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,k,ml.name)==='skip';});h+='<div style="display:flex;align-items:center;gap:6px;padding:4px 0;font-size:calc(13px*var(--fs))"><span style="min-width:36px;color:var(--tx2)">'+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:var(--ok-bg);color:var(--ok-tx)">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:var(--ng-bg);color:var(--ng-tx)">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';});}
   if(hc)h+='<button class="btn btn-p" style="width:100%;margin-top:16px" onclick="oMan()">担当を手動で変更する</button>';
   document.getElementById('dcont').innerHTML=h;
   document.getElementById('o-day').classList.add('on');
@@ -1349,8 +1418,8 @@ function toggleDow(){var freq=document.getElementById('cfreq').value;document.ge
 function tgDow(dw,el){var idx=selDays.indexOf(dw);if(idx>=0){selDays.splice(idx,1);el.classList.remove('on');}else{selDays.push(dw);el.classList.add('on');}}
 function toggleChNotify(){var on=document.getElementById('ch-notify').checked;document.getElementById('ch-time-wrap').style.display=on?'block':'none';}
 function renderChore(){
-  var h='';if(!D.chrs.length){document.getElementById('chorelist').innerHTML='<p style="font-size:13px;color:var(--tx2)">家事がありません</p>';return;}
-  D.chrs.forEach(function(ch){var col=gc(ch.color);var fn=(ch.fixed||[]).map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'';}).filter(Boolean);var pn=(ch.priority||[]).map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'';}).filter(Boolean);var fl={daily:'毎日',weekday:'平日',weekend:'週末',weekly:'週1',custom:'曜日指定'}[ch.freq]||ch.freq;var dowStr='';if(ch.freq==='custom'&&ch.active_days){var dn=['日','月','火','水','木','金','土'];dowStr='（'+(ch.active_days||[]).map(function(x){return dn[parseInt(x)];}).join('・')+'）';}h+='<div class="list-row"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span><div style="flex:1;min-width:0"><div style="font-size:11px;color:var(--tx2)">'+fl+dowStr+' 必要'+ch.need+'人'+(ch.start_time?' '+ch.start_time+'〜':'')+'</div>'+(fn.length?'<div style="font-size:10px;color:var(--ctm)">固定：'+fn.join('・')+'</div>':'')+(pn.length?'<div style="font-size:10px;color:var(--cam)">優先：'+pn.join('・')+'</div>':'')+'</div><button class="btn btn-sm" onclick="oCM(\''+ch.id+'\')">編集</button><button class="btn btn-sm btn-d" onclick="delC(\''+ch.id+'\')">削除</button></div>';});
+  var h='';if(!D.chrs.length){document.getElementById('chorelist').innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">家事がありません</p>';return;}
+  D.chrs.forEach(function(ch){var col=gc(ch.color);var fn=(ch.fixed||[]).map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'';}).filter(Boolean);var pn=(ch.priority||[]).map(function(id){var mb=D.mbrs.find(function(mb){return mb.id===id;});return mb?mb.name:'';}).filter(Boolean);var fl={daily:'毎日',weekday:'平日',weekend:'週末',weekly:'週1',custom:'曜日指定'}[ch.freq]||ch.freq;var dowStr='';if(ch.freq==='custom'&&ch.active_days){var dn=['日','月','火','水','木','金','土'];dowStr='（'+(ch.active_days||[]).map(function(x){return dn[parseInt(x)];}).join('・')+'）';}h+='<div class="list-row"><span class="bdg" style="background:'+col.bg+';color:'+col.tx+'">'+ch.name+'</span><div style="flex:1;min-width:0"><div style="font-size:calc(11px*var(--fs));color:var(--tx2)">'+fl+dowStr+' 必要'+ch.need+'人'+(ch.start_time?' '+ch.start_time+'〜':'')+'</div>'+(fn.length?'<div style="font-size:calc(10px*var(--fs));color:var(--ctm)">固定：'+fn.join('・')+'</div>':'')+(pn.length?'<div style="font-size:calc(10px*var(--fs));color:var(--cam)">優先：'+pn.join('・')+'</div>':'')+'</div><button class="btn btn-sm" onclick="oCM(\''+ch.id+'\')">編集</button><button class="btn btn-sm btn-d" onclick="delC(\''+ch.id+'\')">削除</button></div>';});
   document.getElementById('chorelist').innerHTML=h;
 }
 function delC(id){D.chrs=D.chrs.filter(function(c){return c.id!==id;});deleteChoreDB(id).then(function(){saveLocal();renderChore();renderCal();renderAvail();});if(!sb){saveLocal();renderChore();renderCal();renderAvail();}}
@@ -1365,17 +1434,19 @@ function tgFix(mid,el,color){var idx=D.selFix.indexOf(mid),mc=gc(color);if(idx>=
 function rPri(){var h='';D.mbrs.forEach(function(mb){var sel=D.selPri.indexOf(mb.id)>=0,mc=gc(mb.color);h+='<span class="chip'+(sel?' on':'')+'" style="'+(sel?'background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md:'')+'" onclick="tgPri(\''+mb.id+'\',this,\''+mb.color+'\')">'+mb.name+'</span>';});document.getElementById('pchips').innerHTML=h;}
 function tgPri(mid,el,color){var idx=D.selPri.indexOf(mid),mc=gc(color);if(idx>=0){D.selPri.splice(idx,1);el.classList.remove('on');el.style='';}else{D.selPri.push(mid);el.classList.add('on');el.style='background:'+mc.bg+';color:'+mc.tx+';border-color:'+mc.md;}}
 function uCol(){buildColorOpts('ccopts',D.selCol,function(v){D.selCol=v;});}
-function saveC(){var id=document.getElementById('eid').value;var freq=document.getElementById('cfreq').value;var ne=document.getElementById('ch-notify').checked;var st=document.getElementById('ch-start-time').value;var ch={id:id||('c'+Date.now()),name:document.getElementById('cname').value||'新しい家事',freq:freq,need:parseInt(document.getElementById('cneed').value)||1,fixed:D.selFix.slice(),priority:D.selPri.slice(),color:D.selCol,active_days:freq==='custom'?selDays.slice():[0,1,2,3,4,5,6],start_time:ne?st:'',notify_enabled:ne};if(id){var i=D.chrs.findIndex(function(c){return c.id===id;});if(i>=0)D.chrs[i]=ch;}else D.chrs.push(ch);syncChore(ch).then(function(){saveLocal();setupChoreTimers();});cls();renderChore();renderAvail();}
+function saveC(){var id=document.getElementById('eid').value;var freq=document.getElementById('cfreq').value;var ne=document.getElementById('ch-notify').checked;var st=document.getElementById('ch-start-time').value;var ch={id:id||('c'+Date.now()),name:document.getElementById('cname').value||'新しい家事',freq:freq,need:parseInt(document.getElementById('cneed').value)||1,fixed:D.selFix.slice(),priority:D.selPri.slice(),color:D.selCol,active_days:freq==='custom'?selDays.slice():[0,1,2,3,4,5,6],start_time:ne?st:'',notify_enabled:ne};if(id){var i=D.chrs.findIndex(function(c){return c.id===id;});if(i>=0)D.chrs[i]=ch;}else D.chrs.push(ch);syncChore(ch).then(function(){saveLocal();setupChoreTimers();});closeOv('o-cm');renderChore();renderAll();renderAvail();}
 
 // ===== メンバー =====
-function renderMbr(){var h='';if(!D.mbrs.length){document.getElementById('mbrlist').innerHTML='<p style="font-size:13px;color:var(--tx2)">メンバーがいません</p>';return;}D.mbrs.forEach(function(mb){var mc=gc(mb.color);h+='<div class="list-row"><div class="avi" style="width:28px;height:28px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:14px;font-weight:600;flex:1">'+mb.name+'</span><button class="btn btn-sm" onclick="oMM(\''+mb.id+'\')">編集</button><button class="btn btn-sm btn-d" onclick="delM(\''+mb.id+'\')">削除</button></div>';});document.getElementById('mbrlist').innerHTML=h;}
+function renderMbr(){var h='';if(!D.mbrs.length){document.getElementById('mbrlist').innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">メンバーがいません</p>';return;}D.mbrs.forEach(function(mb){var mc=gc(mb.color);h+='<div class="list-row"><div class="avi" style="width:28px;height:28px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:calc(14px*var(--fs));font-weight:600;flex:1">'+mb.name+'</span><button class="btn btn-sm" onclick="oMM(\''+mb.id+'\')">編集</button><button class="btn btn-sm btn-d" onclick="delM(\''+mb.id+'\')">削除</button></div>';});document.getElementById('mbrlist').innerHTML=h;}
 function delM(id){D.mbrs=D.mbrs.filter(function(m){return m.id!==id;});delMemberDB(id);saveLocal();renderMbr();}
 function oMM(id){if(id){var mb=D.mbrs.find(function(m){return m.id===id;});if(!mb)return;document.getElementById('mmtit').textContent='メンバーを編集';document.getElementById('meid').value=id;document.getElementById('mname').value=mb.name;document.getElementById('mcol').value=mb.color;}else{document.getElementById('mmtit').textContent='メンバーを追加';document.getElementById('meid').value='';document.getElementById('mname').value='';document.getElementById('mcol').value='purple';}buildColorOpts('mcopts',document.getElementById('mcol').value,function(v){document.getElementById('mcol').value=v;});document.getElementById('o-mm').classList.add('on');}
-function saveM(){var id=document.getElementById('meid').value;var mb={id:id||('m'+Date.now()),name:document.getElementById('mname').value||'新メンバー',color:document.getElementById('mcol').value};if(id){var i=D.mbrs.findIndex(function(m){return m.id===id;});if(i>=0)D.mbrs[i]=mb;}else D.mbrs.push(mb);syncMember(mb).then(function(){saveLocal();});cls();renderMbr();}
+function saveM(){var id=document.getElementById('meid').value;var mb={id:id||('m'+Date.now()),name:document.getElementById('mname').value||'新メンバー',color:document.getElementById('mcol').value};if(id){var i=D.mbrs.findIndex(function(m){return m.id===id;});if(i>=0)D.mbrs[i]=mb;}else D.mbrs.push(mb);syncMember(mb).then(function(){saveLocal();});closeOv('o-mm');renderMbr();renderAll();renderAvail();}
 
 // ===== モーダル =====
+function closeOv(id){var e=document.getElementById(id);if(e)e.classList.remove('on');}
+function oMgr(){renderMbr();renderChore();document.getElementById('o-mgr').classList.add('on');}
 function cls(){document.querySelectorAll('.ovl').forEach(function(o){o.classList.remove('on');});}
-document.querySelectorAll('.ovl').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)cls();});});
+document.querySelectorAll('.ovl').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('on');});});
 
 // ===== 起動 =====
 window.addEventListener('load',function(){
@@ -1397,7 +1468,7 @@ window.addEventListener('load',function(){
 </script>
 <script>
 // ===== 言語(JP/EN) =====
-var APP_VER='2.1.1';
+var APP_VER='2.4.1';
 var CONTACT_EMAIL=''; // ← お問い合わせ用メールアドレスをここに設定
 var I18N={en:false};
 var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -1409,9 +1480,9 @@ var EN_EXACT={
 '自動割り振り':'Auto-assign','自動割り振りオフ':'Auto-assign off',
 'タップ：未定 → 不要 → 必要 → 未定（自分の行のみ操作できます）':'Tap: Undecided → Skip → Need → Undecided (you can only edit your own row)',
 '今週のサマリー':"This week's summary",
-'空き日登録は現在オフです。通知タブの「機能設定」からオンにできます。':'Availability is currently off. Turn it on under "Feature toggles" in the Alerts tab.',
+'空き日登録は現在オフです。設定タブの「機能のオン/オフ」からオンにできます。':'Availability is currently off. Turn it on under "Feature toggles" in the Settings tab.',
 '保存':'Save','保存中...':'Saving...','保存済':'Saved','保存失敗':'Save failed','同期済':'Synced','同期中':'Syncing','同期エラー':'Sync error','オフライン':'Offline',
-'「なんでも対応」タブは通知設定からオン/オフできます':'The "Anything OK" tab can be toggled in Alerts settings','なんでも対応':'Anything OK',
+'「なんでも対応」タブは設定タブからオン/オフできます':'The "Anything OK" tab can be toggled in the Settings tab','なんでも対応':'Anything OK',
 '機能のオン/オフ':'Feature toggles','空き日登録を使う':'Use availability','オフにすると空き日タブが無効になります':'Turning off disables the Availability tab',
 '自動割り振りを使う':'Use auto-assign','オフにすると自動割り振りボタンが無効になります':'Turning off disables the auto-assign button',
 '人手不足アラート':'Shortage alerts','通知を有効にする':'Enable notifications','人手不足の家事を事前通知':'Notify ahead of understaffed chores',
@@ -1425,9 +1496,9 @@ var EN_EXACT={
 'iCal 配信設定':'iCal feed settings','開始時刻':'Start time','終了時刻':'End time','リマインダー':'Reminder','分前':'min before',
 '.ics ダウンロード':'Download .ics','ダウンロード':'Download','ダウンロード完了':'Download complete',
 '使い方':'How to use','アニメーションで使い方を確認できます':'See how it works with short animations','使い方を見る':'Show guide',
-'表示テーマ':'Theme','端末に合わせる':'Match device','ライト':'Light','ダーク':'Dark','この端末のみに保存されます。':'Saved on this device only.','言語 / Language':'Language',
-'メンバー':'Members','+ メンバーを追加':'+ Add member','家事設定':'Chores','+ 家事を追加':'+ Add chore','食事デフォルト設定':'Meal defaults',
-'曜日ごとの食事のデフォルトを設定します。未設定の日は「未定」になります。':'Set default meal choices per weekday. Unset days stay "Undecided".',
+'表示テーマ':'Theme','端末に合わせる':'Match device','ライト':'Light','ダーク':'Dark','この端末のみに保存されます。':'Saved on this device only.','言語 / Language':'Language','アクセシビリティ':'Accessibility','見やすさモード':'Easy-to-see mode','文字を大きく、色をくっきりさせ、ボタンを押しやすくします':'Larger text, vivid colors and bigger buttons',
+'メンバー':'Members','+ メンバーを追加':'+ Add member','家事設定':'Chores','+ 家事を追加':'+ Add chore','食事ルーティン設定':'Meal routine',
+'曜日ごとの食事ルーティンを設定します。未設定の日は「未定」になります。':'Set your weekly meal routine. Unset days stay "Undecided".',
 'Supabase 接続':'Supabase connection','接続する':'Connect','接続済':'Connected','接続成功！':'Connected!','接続に失敗しました':'Connection failed','接続エラー':'Connection error','URLとKeyを入力してください':'Enter the URL and key',
 '利用規約':'Terms of Use','プライバシーポリシー':'Privacy Policy','閉じる':'Close','キャンセル':'Cancel',
 '担当者をタップして選択・解除できます。必要人数に達すると緑になります。':'Tap members to select/deselect. It turns green when the required number is reached.',
@@ -1438,7 +1509,7 @@ var EN_EXACT={
 'カレンダー':'Calendar','食事':'Meals','空き日':'Availability','通知':'Alerts','設定':'Settings',
 '担当を手動で変更する':'Change assignments manually','担当変更':'Edit','この日の家事はありません':'No chores on this day','家事担当':'Chore assignments','食事状況':'Meal status',
 '未割り当て':'Unassigned','不足':'Short','スキップ':'Skipped','本日スキップ':'Skip today','人手不足':'Short-staffed','人手不足：':'Short-staffed:','人手不足のお知らせ':'Staffing shortage',
-'メンバーがいません':'No members','メンバーまたは食事設定がありません':'No members or meal settings','表示する食事がありません。通知設定から有効にしてください。':'No meals to show. Enable them in Alerts settings.',
+'メンバーがいません':'No members','メンバーまたは食事設定がありません':'No members or meal settings','表示する食事がありません。設定タブの食事設定から有効にしてください。':'No meals to show. Enable them under Meal settings in the Settings tab.',
 'この週の登録はまだありません':'Nothing registered this week yet','家事がありません':'No chores','全選択':'Select all','削除':'Delete','編集':'Edit','クリア':'Clear','コピー':'Copy','コピー済':'Copied',
 '全家事の空き候補として登録されます':'Registered as available for all chores','未保存の変更があります':'You have unsaved changes',
 '通知が許可されました':'Notifications allowed','通知がブロックされています':'Notifications are blocked','ブラウザ通知は許可済みです':'Browser notifications are allowed','このブラウザは通知非対応です':"This browser doesn't support notifications",
@@ -1456,7 +1527,7 @@ var EN_RULES=[
 [/^あと(\d+)日$/,function(m){return 'in '+m[1]+' day(s)';}],
 [/^他(\d+)件$/,function(m){return '+'+m[1]+' more';}],
 [/^(.*) が人手不足です$/,function(m){return m[1]+' is short-staffed';}],
-[/^(.*?)の食事デフォルト$/,function(m){return m[1]+"'s meal defaults";}],
+[/^(.*?)の食事ルーティン$/,function(m){return m[1]+"'s meal routine";}],
 [/^(.*?)の家事$/,function(m){return m[1]+"'s chores";}],
 [/^未了:(.*)$/,function(m){return 'Missed: '+m[1];}],
 [/^スキップ:(.*)$/,function(m){return 'Skipped: '+m[1];}],
@@ -1559,24 +1630,26 @@ ja:{ui:{next:'次へ',prev:'戻る',skip:'スキップ',start:'はじめる',ste
  steps:[
  {k:'w',t:'ようこそ！',b:'家族みんなで家事と食事をかんたんに分担・共有できるアプリです。1分でわかる使い方をご紹介します。'},
  {k:'u',t:'最初に「あなた」を選びます',b:'起動時に自分の名前を選ぶと、自分の担当や食事だけを操作できます。右上の名前をタップすれば、いつでも切り替えられます。'},
+ {k:'t',t:'下のタブで画面を切り替え',b:'画面下の5つのタブで機能を切り替えます。カレンダーで担当の確認、食事で予定の入力、空き日で事前登録、通知でカレンダー連携、設定で各種カスタマイズができます。',tabs:['カレンダー','食事','空き日','通知','設定'],caps:['担当を確認','食事を入力','事前に登録','通知・連携','設定']},
  {k:'c',t:'カレンダーで担当を確認',b:'日付をタップすると、その日の担当と食事状況が見られます。「担当変更」で手動変更、「本日スキップ」で家事をお休みにもできます。担当が埋まらないまま過ぎた日は、グレーの斜線で表示されます。'},
- {k:'a',t:'自動割り振りは「オフ」から',b:'自動割り振りは初期状態ではオフです。担当を誤って書き換えないよう、アプリを開くたびにオフに戻ります。使うときは「通知」タブの「機能のオン/オフ」で「自動割り振りを使う」をオンにすると、カレンダーに「自動割り振り」ボタンが現れます。',row:'自動割り振りを使う',btn:'自動割り振り',cap:'オフ → オンでボタンが出現'},
  {k:'m',t:'食事はタップするだけ',b:'タップするたびに「未定 → 不要 → 必要」と切り替わります。操作できるのは自分の行だけなので、ほかの人の予定を間違えて変えることはありません。',lab:'未定 → 不要 → 必要'},
- {k:'v',t:'空き日を登録',b:'対応できる日をタップして「保存」を押します。自動割り振りは、登録された日を優先して担当を決めます。',save:'保存'},
- {k:'n',t:'通知とカレンダー連携',b:'家事の編集で「開始時刻通知」をオンにすると、時間になったら担当者に通知が届きます（アプリが起動している間に届きます）。さらに「通知」タブのカレンダー連携(iCal)のURLをiPhoneなどのカレンダーアプリに登録すると、自分の担当が予定として自動で転送されます。確実に把握したい予定は、こちらがおすすめです。',nt:'皿洗い',nt2:'07:00',cal:'カレンダーアプリ'},
- {k:'s',t:'設定でカスタマイズ',b:'メンバーや家事の追加、食事デフォルト（「保存」で確定）、通知、テーマ（ライト/ダーク）や言語の切り替えは「設定」から。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
+ {k:'v',t:'空き日で先に登録しておく',b:'「空き日」タブでは、対応できる日を家事ごとに先まで登録できます。毎週の食事ルーティン（曜日ごとの「必要/不要」）もここで設定でき、「保存」で確定します。',save:'保存'},
+ {k:'a',t:'自動割り振りは「オフ」から',b:'自動割り振りは初期状態ではオフで、アプリを開くたびにオフに戻ります。使うときは「設定」タブの「機能のオン/オフ」でオンにすると、カレンダーに「自動割り振り」ボタンが現れます。登録された空き日が優先されます。',row:'自動割り振りを使う',btn:'自動割り振り',cap:'オフ → オンでボタンが出現'},
+ {k:'n',t:'通知とカレンダー連携',b:'家事の「開始時刻通知」をオンにすると、時間にお知らせが届きます。「通知」タブのURLをiPhoneなどのカレンダーに登録すると、担当が予定として自動で入ります。',nt:'皿洗い',nt2:'07:00',cal:'カレンダーアプリ'},
+ {k:'s',t:'設定でカスタマイズ',b:'機能のオン/オフ、食事・空き日の設定、全員の食事ルーティン、テーマ、言語、見やすさモードは「設定」から。メンバーや家事の追加は、画面右上の人物マークからできます。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
  {k:'d',t:'準備完了です！',b:'この使い方は、「設定」タブの一番上からいつでも見直せます。さっそく使ってみましょう。'}
  ]},
 en:{ui:{next:'Next',prev:'Back',skip:'Skip',start:"Let's go",step:'Step'},
  steps:[
  {k:'w',t:'Welcome!',b:'A simple app for sharing chores and meals with your whole family. Here is a one-minute tour.'},
  {k:'u',t:'First, pick who you are',b:'Choose your name at launch to edit only your own chores and meals. Tap your name at the top right to switch anytime.'},
+ {k:'t',t:'Switch screens with the tabs',b:'Use the five tabs at the bottom. Calendar shows duties, Meals is for your plans, Availability is for registering ahead, Alerts handles calendar sync, and Settings customizes the rest.',tabs:['Calendar','Meals','Free days','Alerts','Settings'],caps:['See duties','Enter meals','Register ahead','Alerts & sync','Settings']},
  {k:'c',t:'Check duties on the calendar',b:'Tap a day to see who does what and the meal status. Use "Edit" to change assignees or "Skip today" to rest a chore. Past days nobody covered appear greyed out with diagonal stripes.'},
- {k:'a',t:'Auto-assign starts OFF',b:'Auto-assign is off by default, and returns to off every time you open the app so assignments are never rewritten by accident. To use it, turn on "Use auto-assign" under "Feature toggles" in the Alerts tab and an "Auto-assign" button appears on the Calendar.',row:'Use auto-assign',btn:'Auto-assign',cap:'Turn it on and the button appears'},
  {k:'m',t:'Meals are one tap',b:'Each tap cycles Undecided → Skip → Need. You can only edit your own row, so nobody changes another person\'s plans by accident.',lab:'Undecided → Skip → Need'},
- {k:'v',t:'Register your free days',b:'Tap the days you can help and press Save. Auto-assign gives priority to the days you registered.',save:'Save'},
- {k:'n',t:'Alerts and calendar sync',b:'Turn on "Start-time alert" when editing a chore and the assignee is notified at that time (while the app is running). You can also add your iCal URL from the Alerts tab to the Calendar app on your iPhone, and your chores are forwarded automatically as events. For anything you must not miss, this is the most reliable way.',nt:'Dishes',nt2:'07:00',cal:'Calendar app'},
- {k:'s',t:'Customize in Settings',b:'Add members and chores, set meal defaults (confirmed with Save), alerts, theme (light/dark) and language from Settings.',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
+ {k:'v',t:'Plan ahead on Free days',b:'On the Free days tab you can register the days you can help, chore by chore, well in advance. Set your weekly meal routine (Need/Skip per weekday) here too, and confirm it with Save.',save:'Save'},
+ {k:'a',t:'Auto-assign starts OFF',b:'Auto-assign is off by default and returns to off every time you open the app. To use it, turn it on under "Feature toggles" in Settings and an "Auto-assign" button appears on the Calendar. Registered free days get priority.',row:'Use auto-assign',btn:'Auto-assign',cap:'Turn it on and the button appears'},
+ {k:'n',t:'Alerts and calendar sync',b:'Turn on "Start-time alert" for a chore to get a reminder on time. Add the URL from the Alerts tab to your iPhone Calendar and your duties appear as events automatically.',nt:'Dishes',nt2:'07:00',cal:'Calendar app'},
+ {k:'s',t:'Customize in Settings',b:'Feature toggles, meal and availability options, everyone\'s meal routine, theme, language and Easy-to-see mode live in Settings. Add members and chores from the person icon at the top right.',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
  {k:'d',t:"You're all set!",b:'You can reopen this guide from the top of the Settings tab anytime. Enjoy!'}
  ]}
 };
@@ -1590,6 +1663,12 @@ function tutScene(i,d){
   }
   if(k==='u'){
     return '<div class="ts-in"><div class="ts-av" style="left:22px;background:#DBEAFE;color:#1E3A8A">A</div><div class="ts-av b" style="left:102px;background:#FCE7F3;color:#831843">B</div><div class="ts-av" style="left:182px;background:#FEF9C3;color:#713F12">C</div><div class="ts-ring ts-r1"></div><div class="ts-finger ts-f1"></div></div>';
+  }
+  if(k==='t'){
+    var tb='',n=s.tabs.length,ic=['<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/>','<path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>','<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>','<path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>','<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'];
+    for(var q=0;q<n;q++){tb+='<div class="ts-tab" style="animation-delay:'+(q*2)+'s"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+ic[q]+'</svg><span>'+s.tabs[q]+'</span><div class="ts-arr" style="animation-delay:'+(q*2)+'s"><i></i></div></div>';}
+    var cp='';for(var q2=0;q2<n;q2++)cp+='<b style="animation-delay:'+(q2*2)+'s">'+s.caps[q2]+'</b>';
+    return '<div class="ts-in"><div class="ts-tcap">'+cp+'</div><div class="ts-tabs">'+tb+'</div></div>';
   }
   if(k==='c'){
     var cells='';for(var q=0;q<21;q++)cells+='<b'+(q===10?' class="t"':'')+'></b>';
@@ -1606,7 +1685,7 @@ function tutScene(i,d){
     return '<div class="ts-in"><div class="ts-av-grid">'+g+'</div><div class="ts-save">'+s.save+'</div></div>';
   }
   if(k==='n'){
-    return '<div class="ts-in"><div class="ts-note"><div class="ts-bell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div><div style="font-size:12px;font-weight:700;color:var(--tx)">'+s.nt+'</div><div style="font-size:11px;color:var(--tx3)">'+s.nt2+'</div></div></div>'+
+    return '<div class="ts-in"><div class="ts-note"><div class="ts-bell"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div><div><div style="font-size:calc(12px*var(--fs));font-weight:700;color:var(--tx)">'+s.nt+'</div><div style="font-size:calc(11px*var(--fs));color:var(--tx3)">'+s.nt2+'</div></div></div>'+
       '<div class="ts-ical"><b>'+s.cal+'</b><div class="ts-ev" style="background:#2563EB;width:86%">'+s.nt+'</div><div class="ts-ev" style="background:#14B8A6;width:62%"></div><div class="ts-ev" style="background:#F97316;width:74%"></div></div></div>';
   }
   if(k==='s'){
@@ -1699,7 +1778,7 @@ function openLegal(kind){
     h='<p>'+d.intro+'</p>';
     if(CONTACT_EMAIL){var sub=encodeURIComponent('[Chore Scheduler v'+APP_VER+'] ');h+='<p style="margin:14px 0"><a class="btn btn-p" style="text-decoration:none" href="mailto:'+CONTACT_EMAIL+'?subject='+sub+'">'+d.btn+'</a></p>';}
     else h+='<p style="margin:12px 0;color:var(--tx3)">'+d.none+'</p>';
-    h+='<p style="font-size:12px;color:var(--tx3)">'+d.by+' · Ver '+APP_VER+'</p>';
+    h+='<p style="font-size:calc(12px*var(--fs));color:var(--tx3)">'+d.by+' · Ver '+APP_VER+'</p>';
   }else h=d.h;
   document.getElementById('legal-body').innerHTML=h;
   document.getElementById('o-legal').classList.add('on');
