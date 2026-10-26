@@ -41,13 +41,11 @@
   --ok-bg:#14532D;--ok-tx:#86EFAC;--ok-bd:#22C55E;--ng-bg:#7F1D1D;--ng-tx:#FCA5A5;--ng-bd:#EF4444;
 }}
 
-/* アクセシビリティ: 見やすさモード */
+/* アクセシビリティ */
 html[data-a11y="1"]{--fs:1.32}
 html[data-a11y="1"]:not([data-theme=dark]){--bg:#FFFFFF;--sf:#FFFFFF;--sf2:#F1EFE8;--tx:#000000;--tx2:#1A1A1A;--tx3:#333333;--bd:2px solid #4A4A4A;--bde:2px solid #000000;--cp:#1F1A0E;--sat:#0B3FD6;--sun:#C40000;--ok-bg:#B6F5C8;--ok-tx:#004D1A;--ok-bd:#00A63E;--ng-bg:#FFC9C9;--ng-tx:#7A0000;--ng-bd:#E00000;--mio-tx:#222;--mio-ln:rgba(0,0,0,.7)}
 html[data-a11y="1"][data-theme=dark]{--bg:#000000;--sf:#0B0B0B;--sf2:#1C1C1C;--tx:#FFFFFF;--tx2:#F2F2F2;--tx3:#D9D9D9;--bd:2px solid #BDBDBD;--bde:2px solid #FFFFFF;--cp:#FFE27A;--cpt:#000;--sat:#7DB2FF;--sun:#FF7A7A;--ok-bg:#00551F;--ok-tx:#B6FFC9;--ok-bd:#3DFF7A;--ng-bg:#8A0000;--ng-tx:#FFD0D0;--ng-bd:#FF5A5A;--mio-tx:#EEE;--mio-ln:rgba(255,255,255,.7)}
-html[data-a11y="1"] button,html[data-a11y="1"] .btn,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-user,html[data-a11y="1"] .hdr-mgr{min-height:48px}
-html[data-a11y="1"] .hdr-mgr{width:48px;height:48px}
-html[data-a11y="1"] .bni{font-weight:700}
+html[data-a11y="1"] button,html[data-a11y="1"] .btn,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-user,html[data-a11y="1"] html[data-a11y="1"] html[data-a11y="1"] .bni{font-weight:700}
 html[data-a11y="1"] :focus-visible{outline:4px solid #FF8A00;outline-offset:2px}
 html[data-a11y="1"] .cd.tod,html[data-a11y="1"] .today-col{outline:3px solid var(--cp);outline-offset:-3px}
 html[data-a11y="1"] .toggle-sl{box-shadow:inset 0 0 0 3px #000}
@@ -71,13 +69,28 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .us-master:active{opacity:.9}
 .us-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(22px*var(--fs));font-weight:700}
 .hdr{background:var(--sf);border-bottom:var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.hdr-title{font-size:calc(16px*var(--fs));font-weight:600;color:var(--cp)}
-.hdr-right{display:flex;align-items:center;gap:6px}
-.hdr-mgr{width:34px;height:34px;border-radius:50%;border:var(--bd);background:var(--sf2);color:var(--tx);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.hdr-mgr svg{width:18px;height:18px}
-.hdr-mgr:active{opacity:.6}
+.hdr-l{display:flex;flex-direction:column;gap:1px;min-width:0}
+.hdr-title{font-size:calc(19px*var(--fs));font-weight:800;letter-spacing:.04em;background:linear-gradient(100deg,var(--cam) 0%,var(--cp) 45%,var(--ctm) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;position:relative;padding-bottom:3px;width:max-content}
+.hdr-title:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--cam),var(--ctm),var(--cbm));opacity:.85}
+html[data-a11y="1"] .hdr-title{background:none;-webkit-text-fill-color:currentColor;color:var(--cp)}
+.hdr-user{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 5px;border-radius:99px;cursor:pointer;border:2px solid var(--cp);background:var(--sf2);color:var(--tx);font-family:inherit;flex-shrink:0;max-width:62%}
+.hdr-user:active{opacity:.7}
+.hu-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(16px*var(--fs));flex-shrink:0;background:var(--sf);color:var(--tx)}
+.hu-t{display:flex;flex-direction:column;align-items:flex-start;line-height:1.15;min-width:0}
+.hu-t b{font-size:calc(14px*var(--fs));font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.hu-t small{font-size:calc(9.5px*var(--fs));font-weight:600;opacity:.8;white-space:nowrap}
+.hu-ch{width:14px;height:14px;flex-shrink:0;opacity:.7}
+.mt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.mt{position:relative;border:2px solid transparent;border-radius:var(--r);padding:12px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;background:var(--sf2);font-weight:700;font-size:calc(13px*var(--fs));color:var(--tx)}
+.mt.cur{box-shadow:0 0 0 3px var(--cp)}
+.mt:active{opacity:.7}
+.mt .us-icon{width:48px;height:48px}
+.mt-nm{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mt-act{display:flex;gap:4px;margin-top:2px}
+.mt-act button{font-size:calc(11px*var(--fs));padding:3px 8px}
+.mt-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:8px}
+.mt-master{font-size:calc(10px*var(--fs));letter-spacing:.2em;padding:6px 10px;border:1px solid var(--bde);border-radius:var(--rs);background:transparent;color:var(--tx3);opacity:.7;cursor:pointer;font-family:inherit}
 .hdr-sync{font-size:calc(9px*var(--fs));color:var(--tx3);display:flex;align-items:center;gap:3px;white-space:nowrap}
-.hdr-user{font-size:calc(12px*var(--fs));padding:3px 10px;border-radius:99px;cursor:pointer;border:var(--bd);background:var(--sf2);font-weight:600}
 .sdot{width:5px;height:5px;border-radius:50%;background:#ccc}
 .sdot.ok{background:#1D9E75}.sdot.err{background:var(--crm)}
 .sdot.ing{background:var(--cp);animation:pl 1s infinite}
@@ -104,7 +117,8 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .ch.sat{color:var(--sat)}.ch.sun{color:var(--sun)}
 .cd{background:var(--sf);border:var(--bd);border-radius:8px;min-height:112px;padding:4px 4px 34px;cursor:pointer;position:relative}
 .cd:active{background:var(--sf2)}.cd.em{background:transparent;border-color:transparent;cursor:default}
-.cd.tod{border:2px solid var(--cbm)}
+.cd.tod{border:3px solid var(--cbm);box-shadow:0 0 0 2px color-mix(in srgb,var(--cbm) 35%,transparent);background:color-mix(in srgb,var(--cbm) 12%,var(--sf))}
+.cd.tod .dn{display:inline-block;background:var(--cbm);color:#fff!important;border-radius:99px;padding:0 7px;line-height:1.5}
 /* カレンダーセル内の手動変更ボタン */
 .cd-edit{position:absolute;bottom:4px;left:3px;right:3px;display:flex;justify-content:center;cursor:pointer;z-index:2}
 .cd-edit-inner{display:block;width:100%;text-align:center;background:var(--cp);color:var(--cpt);font-size:calc(10px*var(--fs));font-weight:600;padding:7px 0;border-radius:8px;opacity:.95;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.2)}
@@ -125,9 +139,10 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .mg{display:grid;gap:1px;background:var(--bde);border:var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
 .mgc{background:var(--sf);padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;font-size:calc(12px*var(--fs))}
 .mgh{background:var(--sf2)!important;font-weight:700;font-size:calc(11px*var(--fs));color:var(--tx2)}
-.today-col{border-left:2px solid var(--ctm)!important;border-right:2px solid var(--ctm)!important}
-.today-col-top{border-top:2px solid var(--ctm)!important}
-.today-col-last{border-bottom:2px solid var(--ctm)!important}
+.today-col{border-left:3px solid var(--ctm)!important;border-right:3px solid var(--ctm)!important;background:color-mix(in srgb,var(--ctm) 13%,var(--sf))!important}
+.mgh.today-col{background:color-mix(in srgb,var(--ctm) 30%,var(--sf2))!important}
+.today-col-top{border-top:3px solid var(--ctm)!important}
+.today-col-last{border-bottom:3px solid var(--ctm)!important}
 .mgl{background:var(--sf2)!important;align-items:flex-start!important;padding:5px 6px!important;font-size:calc(11px*var(--fs));color:var(--tx2)}
 .mgb{width:30px;height:22px;border-radius:5px;border:var(--bd);font-size:calc(12px*var(--fs));cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--sf2);color:var(--tx3)}
 .mgb.need{background:var(--ok-bg);color:var(--ok-tx);border-color:var(--ok-bd)}
@@ -257,9 +272,9 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .ts-tcap{position:absolute;left:0;right:0;top:34px;height:30px;text-align:center}
 .ts-tcap b{position:absolute;left:0;right:0;font-size:calc(15px*var(--fs));color:var(--tx);opacity:0;animation:tsArrOn 10s infinite}
 html[data-a11y="1"] #tut-stage{--fs:1}
-html[data-a11y="1"] .hdr-title,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-sync,html[data-a11y="1"] .hdr-user{--fs:1.1;white-space:nowrap}
+html[data-a11y="1"] .hdr-title,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-sync,html[data-a11y="1"] .hdr-user{--fs:1.05;white-space:nowrap}
+html[data-a11y="1"] .hdr-title{--fs:.9}
 html[data-a11y="1"] .cd-edit-inner{--fs:.8;padding:10px 0}
-html[data-a11y="1"] .hdr-title{--fs:.95}
 html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
 @keyframes tsFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .ts-spark{position:absolute;width:8px;height:8px;border-radius:50%;animation:tsSpark 2.4s ease-in-out infinite}
@@ -379,12 +394,8 @@ html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
 
 <div id="wrap" style="display:none">
 <div class="hdr">
-  <span class="hdr-title">家事スケジューラー</span>
-  <div class="hdr-right">
-    <span class="hdr-mgr" onclick="oMgr()" role="button" aria-label="メンバーと家事" title="メンバーと家事"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>
-    <span class="hdr-user" id="hdr-user" onclick="switchUser()"></span>
-    <span class="hdr-sync"><span class="sdot" id="sdot"></span><span id="slbl"></span></span>
-  </div>
+  <div class="hdr-l"><span class="hdr-title">家事スケジューラー</span><span class="hdr-sync"><span class="sdot" id="sdot"></span><span id="slbl"></span></span></div>
+  <button class="hdr-user" id="hdr-user" onclick="oMgr()" aria-label="メンバーと家事" title="メンバーと家事"></button>
 </div>
 
 <div id="cal" class="sec on">
@@ -505,7 +516,7 @@ html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
   </div>
   <div class="card">
     <div class="card-title">アクセシビリティ</div>
-    <div class="srow"><div class="slbl">見やすさモード<div class="sdesc">文字を大きく、色をくっきりさせ、ボタンを押しやすくします</div></div>
+    <div class="srow"><div class="slbl">アクセシビリティをオンにする<div class="sdesc">文字を大きく、色をくっきりさせ、ボタンを押しやすくします</div></div>
       <label class="toggle-sw"><input type="checkbox" id="a11y-toggle" onchange="applyA11y(this.checked,true)"><span class="toggle-sl"></span></label></div>
     <div style="font-size:calc(11px*var(--fs));color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
   </div>
@@ -614,9 +625,10 @@ html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
   <h3>メンバーと家事</h3>
   <div class="sh-body">
   <div class="card">
-    <div class="card-title">メンバー</div>
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">メンバー<button class="btn btn-sm" id="mbr-editbtn" onclick="toggleMbrEdit()">編集</button></div>
+    <div style="font-size:calc(11px*var(--fs));color:var(--tx3);margin-bottom:8px">アイコンをタップして、使う人を切り替えます。</div>
     <div id="mbrlist"></div>
-    <button class="btn btn-sm" style="margin-top:10px" onclick="oMM(null)">+ メンバーを追加</button>
+    <div class="mt-foot"><button class="btn btn-sm" onclick="oMM(null)">+ メンバーを追加</button><button class="mt-master" onclick="selectUser(MASTER_ID)">マスター</button></div>
   </div>
   <div class="card">
     <div class="card-title">家事設定</div>
@@ -834,21 +846,22 @@ function selectUser(mid){
   currentUserId=mid;
   localStorage.setItem('fc_user',mid);
   document.getElementById('user-select').classList.remove('on');
-  var mb=D.mbrs.find(function(m){return m.id===mid;});
-  if(mid===MASTER_ID){var he=document.getElementById('hdr-user');he.textContent='マスター';he.style.background='var(--tx)';he.style.color='var(--bg)';he.style.borderColor='var(--tx)';}
-  else if(mb){
-    var mc=gc(mb.color);
-    var el=document.getElementById('hdr-user');
-    el.textContent=mb.name;
-    el.style.background=mc.bg;
-    el.style.color=mc.tx;
-    el.style.borderColor=mc.md;
-  }
+  paintHdrUser();closeOv('o-mgr');
   // 食事ルーティンを適用
   applyMealDefaults();
   renderAll();
 }
 
+function paintHdrUser(){
+  var el=document.getElementById('hdr-user');if(!el)return;
+  var mb=D.mbrs.find(function(m){return m.id===currentUserId;}),bg,tx,bd,ini,nm;
+  if(currentUserId===MASTER_ID){bg='var(--tx)';tx='var(--bg)';bd='var(--tx)';ini='M';nm='マスター';}
+  else if(mb){var mc=gc(mb.color);bg=mc.bg;tx=mc.tx;bd=mc.md;ini=mb.name[0];nm=mb.name;}
+  else{ini='?';nm='メンバー';bg='';tx='';bd='';}
+  el.style.background=bg;el.style.color=tx;el.style.borderColor=bd;
+  el.innerHTML='<span class="hu-av" style="'+(mb?'background:'+bd+';color:#fff':'')+'">'+esc2(ini)+'</span><span class="hu-t"><b>'+esc2(nm)+'</b><small>メンバーと家事</small></span><svg class="hu-ch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg>';
+}
+function esc2(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function switchUser(){
   showUserSelect();
 }
@@ -1049,7 +1062,7 @@ function loadNSForm(){
   document.getElementById('feat-auto').checked=D.ns.featAuto;
 }
 
-function renderAll(){renderCal();renderMeal();}
+function renderAll(){renderCal();renderMeal();try{paintHdrUser();}catch(e){}}
 function applyA11y(on,save){
   A11Y_ON=!!on;
   document.documentElement.setAttribute('data-a11y',on?'1':'0');
@@ -1208,7 +1221,7 @@ function renderMeal(){
     g+='<div style="background:var(--bde);grid-column:1/-1;height:1px"></div>';
   });
   g+='</div>';document.getElementById('mgrid').innerHTML=g;
-  var sum='';days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:calc(12px*var(--fs));'+(it?'border-left:3px solid var(--ctm);padding-left:6px;':'')+'\">'+'<span style="min-width:78px;font-weight:600;color:'+(it?'var(--ctm)':'var(--tx)')+'\">'+(dt.getMonth()+1)+'/'+dt.getDate()+' '+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:var(--ok-bg);color:var(--ok-tx)">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:var(--ng-bg);color:var(--ng-tx)">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';}});});
+  var sum='';days.forEach(function(dt){var ds=dkdt(dt);meals.forEach(function(ml){var need=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='need';});var skip=D.mbrs.filter(function(mb){return mst(mb.id,ds,ml.name)==='skip';});if(need.length||skip.length){var it=now.toDateString()===dt.toDateString();var _w=dt.getDay(),_hol=holidayName(dt.getFullYear(),dt.getMonth(),dt.getDate()),dcol=(_w===0||_hol)?'var(--sun)':_w===6?'var(--sat)':'var(--tx)';sum+='<div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:var(--bd);font-size:calc(12px*var(--fs));'+(it?'border:3px solid var(--ctm);padding:5px 6px;background:color-mix(in srgb,var(--ctm) 13%,var(--sf));border-radius:8px;margin:2px 0;':'')+'\">'+'<span style="min-width:96px;font-weight:700;color:'+dcol+'\">'+(dt.getMonth()+1)+'/'+dt.getDate()+'('+DOW[_w]+') '+ml.name+'</span>'+(need.length?'<span class="bdg" style="background:var(--ok-bg);color:var(--ok-tx)">'+need.map(function(m){return m.name;}).join('・')+' ○</span>':'')+(skip.length?'<span class="bdg" style="background:var(--ng-bg);color:var(--ng-tx)">'+skip.map(function(m){return m.name;}).join('・')+' ×</span>':'')+'</div>';}});});
   document.getElementById('msum').innerHTML=sum||'<p style="font-size:calc(12px*var(--fs));color:var(--tx2)">この週の登録はまだありません</p>';
 }
 
@@ -1437,14 +1450,26 @@ function uCol(){buildColorOpts('ccopts',D.selCol,function(v){D.selCol=v;});}
 function saveC(){var id=document.getElementById('eid').value;var freq=document.getElementById('cfreq').value;var ne=document.getElementById('ch-notify').checked;var st=document.getElementById('ch-start-time').value;var ch={id:id||('c'+Date.now()),name:document.getElementById('cname').value||'新しい家事',freq:freq,need:parseInt(document.getElementById('cneed').value)||1,fixed:D.selFix.slice(),priority:D.selPri.slice(),color:D.selCol,active_days:freq==='custom'?selDays.slice():[0,1,2,3,4,5,6],start_time:ne?st:'',notify_enabled:ne};if(id){var i=D.chrs.findIndex(function(c){return c.id===id;});if(i>=0)D.chrs[i]=ch;}else D.chrs.push(ch);syncChore(ch).then(function(){saveLocal();setupChoreTimers();});closeOv('o-cm');renderChore();renderAll();renderAvail();}
 
 // ===== メンバー =====
-function renderMbr(){var h='';if(!D.mbrs.length){document.getElementById('mbrlist').innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">メンバーがいません</p>';return;}D.mbrs.forEach(function(mb){var mc=gc(mb.color);h+='<div class="list-row"><div class="avi" style="width:28px;height:28px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:calc(14px*var(--fs));font-weight:600;flex:1">'+mb.name+'</span><button class="btn btn-sm" onclick="oMM(\''+mb.id+'\')">編集</button><button class="btn btn-sm btn-d" onclick="delM(\''+mb.id+'\')">削除</button></div>';});document.getElementById('mbrlist').innerHTML=h;}
+var mbrEdit=false;
+function renderMbr(){
+  var el=document.getElementById('mbrlist');
+  if(!D.mbrs.length){el.innerHTML='<p style="font-size:calc(13px*var(--fs));color:var(--tx2)">メンバーがいません</p>';return;}
+  var h='<div class="mt-grid">';
+  D.mbrs.forEach(function(mb){var mc=gc(mb.color);
+    h+='<div class="mt'+(mb.id===currentUserId?' cur':'')+'" style="border-color:'+mc.md+'" onclick="selectUser(\''+mb.id+'\')"><div class="us-icon" style="background:'+mc.bg+';color:'+mc.tx+'">'+esc2(mb.name[0])+'</div><span class="mt-nm">'+esc2(mb.name)+'</span>'+
+      (mbrEdit?'<div class="mt-act"><button class="btn btn-sm" onclick="event.stopPropagation();oMM(\''+mb.id+'\')">編集</button><button class="btn btn-sm btn-d" onclick="event.stopPropagation();delM(\''+mb.id+'\')">削除</button></div>':'')+'</div>';});
+  h+='</div>';
+  el.innerHTML=h;
+  var eb=document.getElementById('mbr-editbtn');if(eb)eb.textContent=mbrEdit?'完了':'編集';
+}
+function toggleMbrEdit(){mbrEdit=!mbrEdit;renderMbr();}
 function delM(id){D.mbrs=D.mbrs.filter(function(m){return m.id!==id;});delMemberDB(id);saveLocal();renderMbr();}
 function oMM(id){if(id){var mb=D.mbrs.find(function(m){return m.id===id;});if(!mb)return;document.getElementById('mmtit').textContent='メンバーを編集';document.getElementById('meid').value=id;document.getElementById('mname').value=mb.name;document.getElementById('mcol').value=mb.color;}else{document.getElementById('mmtit').textContent='メンバーを追加';document.getElementById('meid').value='';document.getElementById('mname').value='';document.getElementById('mcol').value='purple';}buildColorOpts('mcopts',document.getElementById('mcol').value,function(v){document.getElementById('mcol').value=v;});document.getElementById('o-mm').classList.add('on');}
 function saveM(){var id=document.getElementById('meid').value;var mb={id:id||('m'+Date.now()),name:document.getElementById('mname').value||'新メンバー',color:document.getElementById('mcol').value};if(id){var i=D.mbrs.findIndex(function(m){return m.id===id;});if(i>=0)D.mbrs[i]=mb;}else D.mbrs.push(mb);syncMember(mb).then(function(){saveLocal();});closeOv('o-mm');renderMbr();renderAll();renderAvail();}
 
 // ===== モーダル =====
 function closeOv(id){var e=document.getElementById(id);if(e)e.classList.remove('on');}
-function oMgr(){renderMbr();renderChore();document.getElementById('o-mgr').classList.add('on');}
+function oMgr(){mbrEdit=false;renderMbr();renderChore();document.getElementById('o-mgr').classList.add('on');}
 function cls(){document.querySelectorAll('.ovl').forEach(function(o){o.classList.remove('on');});}
 document.querySelectorAll('.ovl').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)o.classList.remove('on');});});
 
@@ -1496,7 +1521,7 @@ var EN_EXACT={
 'iCal 配信設定':'iCal feed settings','開始時刻':'Start time','終了時刻':'End time','リマインダー':'Reminder','分前':'min before',
 '.ics ダウンロード':'Download .ics','ダウンロード':'Download','ダウンロード完了':'Download complete',
 '使い方':'How to use','アニメーションで使い方を確認できます':'See how it works with short animations','使い方を見る':'Show guide',
-'表示テーマ':'Theme','端末に合わせる':'Match device','ライト':'Light','ダーク':'Dark','この端末のみに保存されます。':'Saved on this device only.','言語 / Language':'Language','アクセシビリティ':'Accessibility','見やすさモード':'Easy-to-see mode','文字を大きく、色をくっきりさせ、ボタンを押しやすくします':'Larger text, vivid colors and bigger buttons',
+'表示テーマ':'Theme','端末に合わせる':'Match device','ライト':'Light','ダーク':'Dark','この端末のみに保存されます。':'Saved on this device only.','言語 / Language':'Language','メンバーと家事':'Members & chores','アイコンをタップして、使う人を切り替えます。':'Tap an icon to switch who is using the app.','完了':'Done','アクセシビリティ':'Accessibility','アクセシビリティをオンにする':'Turn on accessibility','文字を大きく、色をくっきりさせ、ボタンを押しやすくします':'Larger text, vivid colors and bigger buttons',
 'メンバー':'Members','+ メンバーを追加':'+ Add member','家事設定':'Chores','+ 家事を追加':'+ Add chore','食事ルーティン設定':'Meal routine',
 '曜日ごとの食事ルーティンを設定します。未設定の日は「未定」になります。':'Set your weekly meal routine. Unset days stay "Undecided".',
 'Supabase 接続':'Supabase connection','接続する':'Connect','接続済':'Connected','接続成功！':'Connected!','接続に失敗しました':'Connection failed','接続エラー':'Connection error','URLとKeyを入力してください':'Enter the URL and key',
@@ -1517,6 +1542,7 @@ var EN_EXACT={
 '、':', ','・':' · ','〜':'–','（':' (','）':')','：':': ','日':'Sun','月':'Mon','火':'Tue','水':'Wed','木':'Thu','金':'Fri','土':'Sat'
 };
 var EN_RULES=[
+[/^(\d+)\/(\d+)\(([日月火水木金土])\) (朝食|昼食|夕食)$/,function(m){var w={'日':'Sun','月':'Mon','火':'Tue','水':'Wed','木':'Thu','金':'Fri','土':'Sat'},ml={'朝食':'Breakfast','昼食':'Lunch','夕食':'Dinner'};return m[1]+'/'+m[2]+' ('+w[m[3]]+') '+ml[m[4]];}],
 [/^(\d{4})年(\d+)月$/,function(m){return MON[m[2]-1]+' '+m[1];}],
 [/^(\d+)月(\d+)日の担当変更$/,function(m){return 'Edit assignments – '+MON[m[1]-1]+' '+m[2];}],
 [/^(\d+)月(\d+)日$/,function(m){return MON[m[1]-1]+' '+m[2];}],
@@ -1629,27 +1655,27 @@ var TUT_DATA={
 ja:{ui:{next:'次へ',prev:'戻る',skip:'スキップ',start:'はじめる',step:'ステップ'},
  steps:[
  {k:'w',t:'ようこそ！',b:'家族みんなで家事と食事をかんたんに分担・共有できるアプリです。1分でわかる使い方をご紹介します。'},
- {k:'u',t:'最初に「あなた」を選びます',b:'起動時に自分の名前を選ぶと、自分の担当や食事だけを操作できます。右上の名前をタップすれば、いつでも切り替えられます。'},
+ {k:'u',t:'最初に「あなた」を選びます',b:'起動時に自分の名前を選ぶと、自分の担当や食事だけを操作できます。右上のボタン（あなたの色で表示）をタップすると、メンバー一覧が開き、アイコンを選ぶだけでいつでも切り替えられます。メンバーや家事の追加・編集もここからです。'},
  {k:'t',t:'下のタブで画面を切り替え',b:'画面下の5つのタブで機能を切り替えます。カレンダーで担当の確認、食事で予定の入力、空き日で事前登録、通知でカレンダー連携、設定で各種カスタマイズができます。',tabs:['カレンダー','食事','空き日','通知','設定'],caps:['担当を確認','食事を入力','事前に登録','通知・連携','設定']},
  {k:'c',t:'カレンダーで担当を確認',b:'日付をタップすると、その日の担当と食事状況が見られます。「担当変更」で手動変更、「本日スキップ」で家事をお休みにもできます。担当が埋まらないまま過ぎた日は、グレーの斜線で表示されます。'},
  {k:'m',t:'食事はタップするだけ',b:'タップするたびに「未定 → 不要 → 必要」と切り替わります。操作できるのは自分の行だけなので、ほかの人の予定を間違えて変えることはありません。',lab:'未定 → 不要 → 必要'},
  {k:'v',t:'空き日で先に登録しておく',b:'「空き日」タブでは、対応できる日を家事ごとに先まで登録できます。毎週の食事ルーティン（曜日ごとの「必要/不要」）もここで設定でき、「保存」で確定します。',save:'保存'},
  {k:'a',t:'自動割り振りは「オフ」から',b:'自動割り振りは初期状態ではオフで、アプリを開くたびにオフに戻ります。使うときは「設定」タブの「機能のオン/オフ」でオンにすると、カレンダーに「自動割り振り」ボタンが現れます。登録された空き日が優先されます。',row:'自動割り振りを使う',btn:'自動割り振り',cap:'オフ → オンでボタンが出現'},
  {k:'n',t:'通知とカレンダー連携',b:'家事の「開始時刻通知」をオンにすると、時間にお知らせが届きます。「通知」タブのURLをiPhoneなどのカレンダーに登録すると、担当が予定として自動で入ります。',nt:'皿洗い',nt2:'07:00',cal:'カレンダーアプリ'},
- {k:'s',t:'設定でカスタマイズ',b:'機能のオン/オフ、食事・空き日の設定、全員の食事ルーティン、テーマ、言語、見やすさモードは「設定」から。メンバーや家事の追加は、画面右上の人物マークからできます。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
+ {k:'s',t:'設定でカスタマイズ',b:'機能のオン/オフ、食事・空き日の設定、全員の食事ルーティン、テーマ、言語、アクセシビリティは「設定」から。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
  {k:'d',t:'準備完了です！',b:'この使い方は、「設定」タブの一番上からいつでも見直せます。さっそく使ってみましょう。'}
  ]},
 en:{ui:{next:'Next',prev:'Back',skip:'Skip',start:"Let's go",step:'Step'},
  steps:[
  {k:'w',t:'Welcome!',b:'A simple app for sharing chores and meals with your whole family. Here is a one-minute tour.'},
- {k:'u',t:'First, pick who you are',b:'Choose your name at launch to edit only your own chores and meals. Tap your name at the top right to switch anytime.'},
+ {k:'u',t:'First, pick who you are',b:'Choose your name at launch to edit only your own chores and meals. The button at the top right shows your color; tap it to open the member list and switch by tapping an icon. Add or edit members and chores there too.'},
  {k:'t',t:'Switch screens with the tabs',b:'Use the five tabs at the bottom. Calendar shows duties, Meals is for your plans, Availability is for registering ahead, Alerts handles calendar sync, and Settings customizes the rest.',tabs:['Calendar','Meals','Free days','Alerts','Settings'],caps:['See duties','Enter meals','Register ahead','Alerts & sync','Settings']},
  {k:'c',t:'Check duties on the calendar',b:'Tap a day to see who does what and the meal status. Use "Edit" to change assignees or "Skip today" to rest a chore. Past days nobody covered appear greyed out with diagonal stripes.'},
  {k:'m',t:'Meals are one tap',b:'Each tap cycles Undecided → Skip → Need. You can only edit your own row, so nobody changes another person\'s plans by accident.',lab:'Undecided → Skip → Need'},
  {k:'v',t:'Plan ahead on Free days',b:'On the Free days tab you can register the days you can help, chore by chore, well in advance. Set your weekly meal routine (Need/Skip per weekday) here too, and confirm it with Save.',save:'Save'},
  {k:'a',t:'Auto-assign starts OFF',b:'Auto-assign is off by default and returns to off every time you open the app. To use it, turn it on under "Feature toggles" in Settings and an "Auto-assign" button appears on the Calendar. Registered free days get priority.',row:'Use auto-assign',btn:'Auto-assign',cap:'Turn it on and the button appears'},
  {k:'n',t:'Alerts and calendar sync',b:'Turn on "Start-time alert" for a chore to get a reminder on time. Add the URL from the Alerts tab to your iPhone Calendar and your duties appear as events automatically.',nt:'Dishes',nt2:'07:00',cal:'Calendar app'},
- {k:'s',t:'Customize in Settings',b:'Feature toggles, meal and availability options, everyone\'s meal routine, theme, language and Easy-to-see mode live in Settings. Add members and chores from the person icon at the top right.',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
+ {k:'s',t:'Customize in Settings',b:'Feature toggles, meal and availability options, everyone\'s meal routine, theme, language and Accessibility live in Settings. ',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
  {k:'d',t:"You're all set!",b:'You can reopen this guide from the top of the Settings tab anytime. Enjoy!'}
  ]}
 };
