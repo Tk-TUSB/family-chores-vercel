@@ -65,7 +65,7 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .us-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;width:100%;max-width:480px}
 .us-btn{border:var(--bde);border-radius:var(--r);padding:18px 12px;cursor:pointer;background:var(--sf);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:calc(14px*var(--fs));font-weight:600;color:var(--tx)}
 .us-btn:active{opacity:.7}
-.us-master{width:100%;max-width:480px;margin-top:26px;padding:16px 8px;border:1px solid var(--bde);background:var(--sf);border-radius:var(--rs);text-align:center;font-size:calc(11px*var(--fs));letter-spacing:.3em;color:var(--tx3);opacity:.6;cursor:pointer}
+.us-master{width:100%;max-width:480px;margin-top:26px;padding:16px 8px;border:1.5px solid var(--tx3);background:var(--sf);border-radius:var(--rs);text-align:center;font-size:calc(11px*var(--fs));letter-spacing:.3em;color:var(--tx3);opacity:.8;cursor:pointer}
 .us-master:active{opacity:.9}
 .us-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:calc(22px*var(--fs));font-weight:700}
 .hdr{background:var(--sf);border-bottom:var(--bd);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
@@ -80,6 +80,8 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .hu-t b{font-size:calc(14px*var(--fs));font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
 .hu-t small{font-size:calc(9.5px*var(--fs));font-weight:600;opacity:.8;white-space:nowrap}
 .hu-ch{width:14px;height:14px;flex-shrink:0;opacity:.7}
+.adv-sub{font-size:calc(11px*var(--fs));font-weight:700;color:var(--tx3);letter-spacing:.08em;margin:8px 0 2px;padding-bottom:3px;border-bottom:var(--bd)}
+.adv-state{font-size:calc(12px*var(--fs));font-weight:700;margin-top:8px;min-height:1em}
 .mt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
 .mt{position:relative;border:2px solid transparent;border-radius:var(--r);padding:12px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;background:var(--sf2);font-weight:700;font-size:calc(13px*var(--fs));color:var(--tx)}
 .mt.cur{box-shadow:0 0 0 3px var(--cp)}
@@ -89,7 +91,7 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .mt-act{display:flex;gap:4px;margin-top:2px}
 .mt-act button{font-size:calc(11px*var(--fs));padding:3px 8px}
 .mt-foot{display:flex;align-items:center;justify-content:space-between;margin-top:12px;gap:8px}
-.mt-master{font-size:calc(10px*var(--fs));letter-spacing:.2em;padding:6px 10px;border:1px solid var(--bde);border-radius:var(--rs);background:transparent;color:var(--tx3);opacity:.7;cursor:pointer;font-family:inherit}
+.mt-master{font-size:calc(10px*var(--fs));letter-spacing:.2em;padding:6px 10px;border:1.5px solid var(--tx3);border-radius:var(--rs);background:transparent;color:var(--tx3);opacity:.85;cursor:pointer;font-family:inherit}
 .hdr-sync{font-size:calc(9px*var(--fs));color:var(--tx3);display:flex;align-items:center;gap:3px;white-space:nowrap}
 .sdot{width:5px;height:5px;border-radius:50%;background:#ccc}
 .sdot.ok{background:#1D9E75}.sdot.err{background:var(--crm)}
@@ -115,21 +117,21 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .cg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
 .ch{font-size:calc(11px*var(--fs));color:var(--tx);text-align:center;padding:4px 0;font-weight:700}
 .ch.sat{color:var(--sat)}.ch.sun{color:var(--sun)}
-.cd{background:var(--sf);border:var(--bd);border-radius:8px;min-height:112px;padding:4px 4px 34px;cursor:pointer;position:relative}
+.cd{background:var(--sf);border:var(--bd);border-radius:8px;min-height:112px;padding:4px 2px 34px;cursor:pointer;position:relative}
 .cd:active{background:var(--sf2)}.cd.em{background:transparent;border-color:transparent;cursor:default}
-.cd.tod{border:3px solid var(--cbm);box-shadow:0 0 0 2px color-mix(in srgb,var(--cbm) 35%,transparent);background:color-mix(in srgb,var(--cbm) 12%,var(--sf))}
-.cd.tod .dn{display:inline-block;background:var(--cbm);color:#fff!important;border-radius:99px;padding:0 7px;line-height:1.5}
+.cd.tod{outline:3px solid var(--cbm);outline-offset:-3px;z-index:1;background:color-mix(in srgb,var(--cbm) 12%,var(--sf))}
+.cd.tod .dn{background:var(--cbm);color:#fff!important}
 /* カレンダーセル内の手動変更ボタン */
 .cd-edit{position:absolute;bottom:4px;left:3px;right:3px;display:flex;justify-content:center;cursor:pointer;z-index:2}
 .cd-edit-inner{display:block;width:100%;text-align:center;background:var(--cp);color:var(--cpt);font-size:calc(10px*var(--fs));font-weight:600;padding:7px 0;border-radius:8px;opacity:.95;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.2)}
-.dn{font-size:calc(11px*var(--fs));font-weight:700;color:var(--tx);margin-bottom:2px}
+.dn{display:inline-block;font-size:calc(11px*var(--fs));font-weight:700;color:var(--tx);margin-bottom:2px;line-height:1.5;padding:0 5px;margin-left:0;border-radius:99px}
 .cd.sat .dn{color:var(--sat)}.cd.sun .dn,.cd.hol .dn{color:var(--sun)}
 .hn{display:block;font-size:calc(8px*var(--fs));font-weight:600;color:var(--sun);line-height:1.15;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .mgc.mgh{color:var(--tx)}.mgc.mgh.sat{color:var(--sat)}.mgc.mgh.sun,.mgc.mgh.hol{color:var(--sun)}
 .mgc.mgh .hn{white-space:normal;word-break:keep-all;font-size:calc(7.5px*var(--fs));text-align:center}
 .avc.sat{color:var(--sat)}.avc.sun,.avc.hol{color:var(--sun)}
-.dt{font-size:calc(9px*var(--fs));padding:2px 3px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:2px}
-.dt-sh{background:var(--crb);color:var(--cr)}
+.dt{font-size:calc(9px*var(--fs));padding:2px 2px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:2px}
+.dt-sh{background:var(--crb);color:var(--ng-tx);font-weight:800;box-shadow:inset 0 0 0 1px var(--ng-bd)}
 .dt-mine{box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
 /* 食事サマリードット削除済 */
 .alrt{border-radius:var(--rs);padding:8px 12px;font-size:calc(12px*var(--fs));margin-bottom:8px;font-weight:500}
@@ -139,10 +141,10 @@ body{font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',-apple-system,BlinkM
 .mg{display:grid;gap:1px;background:var(--bde);border:var(--bd);border-radius:var(--rs);overflow:hidden;margin-bottom:10px}
 .mgc{background:var(--sf);padding:5px 3px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2px;font-size:calc(12px*var(--fs))}
 .mgh{background:var(--sf2)!important;font-weight:700;font-size:calc(11px*var(--fs));color:var(--tx2)}
-.today-col{border-left:3px solid var(--ctm)!important;border-right:3px solid var(--ctm)!important;background:color-mix(in srgb,var(--ctm) 13%,var(--sf))!important}
+.today-col{box-shadow:inset 3px 0 0 var(--ctm),inset -3px 0 0 var(--ctm);background:color-mix(in srgb,var(--ctm) 13%,var(--sf))!important}
+.today-col-top{box-shadow:inset 3px 0 0 var(--ctm),inset -3px 0 0 var(--ctm),inset 0 3px 0 var(--ctm)}
+.today-col-last{box-shadow:inset 3px 0 0 var(--ctm),inset -3px 0 0 var(--ctm),inset 0 -3px 0 var(--ctm)}
 .mgh.today-col{background:color-mix(in srgb,var(--ctm) 30%,var(--sf2))!important}
-.today-col-top{border-top:3px solid var(--ctm)!important}
-.today-col-last{border-bottom:3px solid var(--ctm)!important}
 .mgl{background:var(--sf2)!important;align-items:flex-start!important;padding:5px 6px!important;font-size:calc(11px*var(--fs));color:var(--tx2)}
 .mgb{width:30px;height:22px;border-radius:5px;border:var(--bd);font-size:calc(12px*var(--fs));cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;background:var(--sf2);color:var(--tx3)}
 .mgb.need{background:var(--ok-bg);color:var(--ok-tx);border-color:var(--ok-bd)}
@@ -224,7 +226,9 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 .meal-def-btn.need{background:var(--ok-bg);color:var(--ok-tx);border-color:var(--ok-bd);font-weight:700}
 .meal-def-btn.skip{background:var(--ng-bg);color:var(--ng-tx);border-color:var(--ng-bd);font-weight:700}
 /* 未了バッジ */
-.dt-mio{background:repeating-linear-gradient(135deg,transparent 0 4px,var(--mio-ln) 4px 5px),var(--mio-bg);color:var(--mio-tx);border:0.5px solid var(--mio-ln)}
+.dt-mio{background:var(--mio-bg);color:var(--mio-tx);opacity:.7}
+.dt-mio .mx{font-weight:800;line-height:1;width:5px;text-align:center;flex-shrink:0}
+.dt-skip{background:repeating-linear-gradient(135deg,transparent 0 4px,var(--mio-ln) 4px 5px),var(--mio-bg);color:var(--mio-tx)}
 /* 食事ルーティン保存ボタンエリア */
 .meal-def-save-bar{display:flex;justify-content:flex-end;margin-top:10px;gap:8px;align-items:center}
 .meal-def-pending-msg{font-size:calc(12px*var(--fs));color:var(--cam)}
@@ -271,6 +275,7 @@ input:focus,select:focus{outline:none;border-color:var(--cp)}
 @keyframes tsArrBob{0%,100%{transform:translateY(-4px)}50%{transform:translateY(4px)}}
 .ts-tcap{position:absolute;left:0;right:0;top:34px;height:30px;text-align:center}
 .ts-tcap b{position:absolute;left:0;right:0;font-size:calc(15px*var(--fs));color:var(--tx);opacity:0;animation:tsArrOn 10s infinite}
+html[data-a11y="1"] .mo{display:none}
 html[data-a11y="1"] #tut-stage{--fs:1}
 html[data-a11y="1"] .hdr-title,html[data-a11y="1"] .bni,html[data-a11y="1"] .hdr-sync,html[data-a11y="1"] .hdr-user{--fs:1.05;white-space:nowrap}
 html[data-a11y="1"] .hdr-title{--fs:.9}
@@ -437,7 +442,7 @@ html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
     <span class="mnav-lbl amber" id="avlbl"></span>
     <button class="mnav-btn" onclick="amc(1)">›</button>
   </div>
-  <div id="avail-off-msg" style="display:none" class="alrt alrt-b">空き日登録は現在オフです。設定タブの「機能のオン/オフ」からオンにできます。</div>
+  <div id="avail-off-msg" style="display:none" class="alrt alrt-b">空き日登録は現在オフです。設定タブの「詳細設定」からオンにできます。</div>
   <div id="avail-meal-def" style="display:none"></div>
   <div id="avail-body">
     <div class="card" style="border-color:#EF9F27">
@@ -521,33 +526,37 @@ html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
     <div style="font-size:calc(11px*var(--fs));color:var(--tx3);margin-top:6px">この端末のみに保存されます。</div>
   </div>
   <div class="card">
-    <div class="card-title">機能のオン/オフ</div>
+    <div class="card-title">自動割り振り</div>
     <div class="srow">
-      <div class="slbl">空き日登録を使う<div class="sdesc">オフにすると空き日タブが無効になります</div></div>
-      <label class="toggle-sw"><input type="checkbox" id="feat-avail" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
-    </div>
-    <div class="srow">
-      <div class="slbl">自動割り振りを使う<div class="sdesc">オフにすると自動割り振りボタンが無効になります</div></div>
+      <div class="slbl">自動割り振りを使う<div class="sdesc">オフにすると自動割り振りボタンが無効になります（アプリを開くたびにオフに戻ります）</div></div>
       <label class="toggle-sw"><input type="checkbox" id="feat-auto" onchange="saveNS();updateFeatureUI()"><span class="toggle-sl"></span></label>
     </div>
   </div>
-  <div class="card">
-    <div class="card-title">食事設定</div>
-    <div class="srow"><div class="slbl">朝食を表示</div>
-      <label class="toggle-sw"><input type="checkbox" id="meal-show-breakfast" onchange="saveNS();renderMeal();renderCal();renderMealDef();renderAvMealDef()"><span class="toggle-sl"></span></label></div>
-    <div class="srow"><div class="slbl">昼食を表示</div>
-      <label class="toggle-sw"><input type="checkbox" id="meal-show-lunch" onchange="saveNS();renderMeal();renderCal()"><span class="toggle-sl"></span></label></div>
-    <div class="srow"><div class="slbl">夕食を表示</div>
-      <label class="toggle-sw"><input type="checkbox" id="meal-show-dinner" onchange="saveNS();renderMeal();renderCal()"><span class="toggle-sl"></span></label></div>
-    <div class="srow"><div class="slbl">未定を当日自動で「必要」にする</div>
-      <label class="toggle-sw"><input type="checkbox" id="meal-auto" onchange="saveNS()"><span class="toggle-sl"></span></label></div>
-    <div class="srow"><div class="slbl">自動確定の時刻</div>
-      <input type="time" id="meal-auto-time" value="06:00" onchange="saveNS()" style="width:130px"></div>
-  </div>
-  <div class="card">
-    <div class="card-title">空き日登録の設定</div>
+  <div class="card" id="adv-card">
+    <div class="card-title">詳細設定</div>
+    <div class="adv-sub">機能</div>
+    <div class="srow">
+      <div class="slbl">空き日登録を使う<div class="sdesc">オフにすると空き日タブが無効になります</div></div>
+      <label class="toggle-sw"><input type="checkbox" id="feat-avail" onchange="advDirty()"><span class="toggle-sl"></span></label>
+    </div>
     <div class="srow"><div class="slbl">「なんでも対応」タブを表示</div>
-      <label class="toggle-sw"><input type="checkbox" id="avail-show-any" onchange="saveNS();renderAvail()"><span class="toggle-sl"></span></label></div>
+      <label class="toggle-sw"><input type="checkbox" id="avail-show-any" onchange="advDirty()"><span class="toggle-sl"></span></label></div>
+    <div class="adv-sub">食事</div>
+    <div class="srow"><div class="slbl">朝食を表示</div>
+      <label class="toggle-sw"><input type="checkbox" id="meal-show-breakfast" onchange="advDirty()"><span class="toggle-sl"></span></label></div>
+    <div class="srow"><div class="slbl">昼食を表示</div>
+      <label class="toggle-sw"><input type="checkbox" id="meal-show-lunch" onchange="advDirty()"><span class="toggle-sl"></span></label></div>
+    <div class="srow"><div class="slbl">夕食を表示</div>
+      <label class="toggle-sw"><input type="checkbox" id="meal-show-dinner" onchange="advDirty()"><span class="toggle-sl"></span></label></div>
+    <div class="srow"><div class="slbl">未定を当日自動で「必要」にする</div>
+      <label class="toggle-sw"><input type="checkbox" id="meal-auto" onchange="advDirty()"><span class="toggle-sl"></span></label></div>
+    <div class="srow"><div class="slbl">自動確定の時刻</div>
+      <input type="time" id="meal-auto-time" value="06:00" onchange="advDirty()" style="width:130px"></div>
+    <div id="adv-state" class="adv-state"></div>
+    <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+      <button class="btn btn-p" id="adv-save" onclick="saveAdv()" disabled>変更を保存</button>
+      <button class="btn btn-sm" style="margin-left:auto" onclick="resetAdv()">初期設定に戻す</button>
+    </div>
   </div>
   <div class="card">
     <div class="card-title">食事ルーティン設定</div>
@@ -1060,6 +1069,7 @@ function loadNSForm(){
   document.getElementById('avail-show-any').checked=D.ns.availShowAny;
   document.getElementById('feat-avail').checked=D.ns.featAvail;
   document.getElementById('feat-auto').checked=D.ns.featAuto;
+  var _ab=document.getElementById('adv-save');if(_ab)_ab.disabled=true;advMsg('');
 }
 
 function renderAll(){renderCal();renderMeal();try{paintHdrUser();}catch(e){}}
@@ -1117,7 +1127,29 @@ function checkMealAuto(){
 function scheduleMealAuto(){if(!D.ns.mealAuto)return;var parts=(D.ns.mealAutoTime||'06:00').split(':');var target=new Date();target.setHours(parseInt(parts[0]),parseInt(parts[1]),0,0);var diff=target-new Date();if(diff<0)diff+=86400000;setTimeout(function(){checkMealAuto();scheduleMealAuto();},diff);}
 function previewNotify(){var s=getShortages().filter(function(x){return x.diff<=D.ns.days;});var el=document.getElementById('nt-preview');if(!s.length){el.innerHTML='<div style="background:var(--cgb);color:var(--cg);border-radius:8px;padding:8px 10px;font-size:calc(12px*var(--fs))">'+D.ns.days+'日以内に人手不足はありません</div>';return;}var h='<div class="alrt alrt-a"><b>通知プレビュー（'+D.ns.days+'日以内）</b>';s.forEach(function(x){h+='<div style="margin-top:4px">'+x.date+' <span style="background:var(--crb);color:var(--cr);padding:1px 6px;border-radius:4px;font-size:calc(11px*var(--fs));font-weight:600">'+x.chore+'</span> あと'+x.diff+'日</div>';});h+='</div>';el.innerHTML=h;if(D.ns.enabled&&'Notification' in window&&Notification.permission==='granted'&&s.length)new Notification(T('人手不足のお知らせ'),{body:T(s[0].date+' '+s[0].chore+' が人手不足です'),icon:'icons/icon-192.png'});}
 function reqPerm(){if(!('Notification' in window)){document.getElementById('nt-status').textContent='このブラウザは通知非対応です';return;}Notification.requestPermission().then(function(p){var el=document.getElementById('nt-status');if(p==='granted'){el.innerHTML='<span style="color:var(--cg)">通知が許可されました</span>';setupChoreTimers();}else el.innerHTML='<span style="color:var(--cr)">通知がブロックされています</span>';});}
-function saveNS(){D.ns.enabled=document.getElementById('nt-enabled').checked;D.ns.days=parseInt(document.getElementById('nt-days').value)||3;D.ns.time=document.getElementById('nt-time').value;D.ns.weekly=document.getElementById('nt-weekly').checked;D.ns.wday=parseInt(document.getElementById('nt-wday').value);D.ns.wtime=document.getElementById('nt-wtime').value;D.ns.icStart=document.getElementById('ic-start').value;D.ns.icEnd=document.getElementById('ic-end').value;D.ns.icRemind=parseInt(document.getElementById('ic-remind').value)||30;D.ns.mealAuto=document.getElementById('meal-auto').checked;D.ns.mealAutoTime=document.getElementById('meal-auto-time').value;D.ns.mealShowBreakfast=document.getElementById('meal-show-breakfast').checked;D.ns.mealShowLunch=document.getElementById('meal-show-lunch').checked;D.ns.mealShowDinner=document.getElementById('meal-show-dinner').checked;D.ns.availShowAny=document.getElementById('avail-show-any').checked;D.ns.featAvail=document.getElementById('feat-avail').checked;D.ns.featAuto=document.getElementById('feat-auto').checked;saveLocal();updateFeatureUI();}
+var ADV_DEF={featAvail:true,availShowAny:false,mealShowBreakfast:false,mealShowLunch:true,mealShowDinner:true,mealAuto:false,mealAutoTime:'06:00'};
+function advMsg(t,c){var e=document.getElementById('adv-state');if(e){e.textContent=t||'';e.style.color=c||'var(--tx3)';}}
+function advDirty(){var b=document.getElementById('adv-save');if(b)b.disabled=false;advMsg(curLang()==='en'?'You have unsaved changes':'未保存の変更があります','var(--cam)');}
+function advApply(){updateFeatureUI();renderMeal();renderCal();renderMealDef();renderAvMealDef();renderAvail();}
+function saveAdv(){
+  D.ns.featAvail=document.getElementById('feat-avail').checked;
+  D.ns.availShowAny=document.getElementById('avail-show-any').checked;
+  D.ns.mealShowBreakfast=document.getElementById('meal-show-breakfast').checked;
+  D.ns.mealShowLunch=document.getElementById('meal-show-lunch').checked;
+  D.ns.mealShowDinner=document.getElementById('meal-show-dinner').checked;
+  D.ns.mealAuto=document.getElementById('meal-auto').checked;
+  D.ns.mealAutoTime=document.getElementById('meal-auto-time').value||'06:00';
+  saveLocal();advApply();
+  var b=document.getElementById('adv-save');if(b)b.disabled=true;
+  advMsg(curLang()==='en'?'Saved':'保存しました','var(--ok-tx)');
+}
+function resetAdv(){
+  var en=curLang()==='en';
+  if(!confirm(en?'Reset the advanced settings to their defaults?':'詳細設定をすべて初期設定に戻します。よろしいですか？'))return;
+  Object.keys(ADV_DEF).forEach(function(k){D.ns[k]=ADV_DEF[k];});
+  saveLocal();loadNSForm();advApply();advMsg(en?'Reset to defaults':'初期設定に戻しました','var(--ok-tx)');
+}
+function saveNS(){D.ns.enabled=document.getElementById('nt-enabled').checked;D.ns.days=parseInt(document.getElementById('nt-days').value)||3;D.ns.time=document.getElementById('nt-time').value;D.ns.weekly=document.getElementById('nt-weekly').checked;D.ns.wday=parseInt(document.getElementById('nt-wday').value);D.ns.wtime=document.getElementById('nt-wtime').value;D.ns.icStart=document.getElementById('ic-start').value;D.ns.icEnd=document.getElementById('ic-end').value;D.ns.icRemind=parseInt(document.getElementById('ic-remind').value)||30;D.ns.featAuto=document.getElementById('feat-auto').checked;saveLocal();updateFeatureUI();}
 
 // ===== iCal =====
 function renderIcal(){var h='';D.mbrs.forEach(function(mb){var mc=gc(mb.color);var url='webcal://'+location.host+'/ical/'+mb.id+'.ics';h+='<div class="ical-box"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div class="avi" style="width:24px;height:24px;background:'+mc.bg+';color:'+mc.tx+'">'+mb.name[0]+'</div><span style="font-size:calc(13px*var(--fs));font-weight:600">'+mb.name+'</span><button class="btn btn-sm" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')" id="cp-'+mb.id+'" style="margin-left:auto">コピー</button></div><div class="ical-url" onclick="cpUrl(\''+url+'\',\'cp-'+mb.id+'\')">'+url+'</div></div>';});document.getElementById('ical-list').innerHTML=h;var sel=document.getElementById('ic-mbr');if(!sel)return;sel.innerHTML='';D.mbrs.forEach(function(mb){var o=document.createElement('option');o.value=mb.id;o.textContent=mb.name;sel.appendChild(o);});}
@@ -1129,7 +1161,7 @@ function downloadIcs(){var mid=document.getElementById('ic-mbr').value;var mb=D.
 function renderCal(){
   var y=D.cy,m=D.cmo,days=dim(y,m),first=fday(y,m);
   document.getElementById('clbl').textContent=y+'年'+(m+1)+'月';
-  var leg='';D.mbrs.forEach(function(mb){var mc=gc(mb.color);leg+='<span class="leg-i"><span class="leg-d" style="background:'+mc.md+'"></span>'+mb.name+'</span>';});leg+='<span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span>人手不足</span>';
+  var leg='';D.mbrs.forEach(function(mb){var mc=gc(mb.color);leg+='<span class="leg-i"><span class="leg-d" style="background:'+mc.md+'"></span>'+mb.name+'</span>';});leg+='<span class="leg-i"><span class="leg-d" style="background:#E24B4A"></span><b style="color:var(--ng-tx)">人手不足</b></span>';
   document.getElementById('cal-leg').innerHTML=leg;
   var today=new Date();today.setHours(0,0,0,0);
   var meals=activeMeals();
@@ -1143,11 +1175,11 @@ function renderCal(){
     D.chrs.forEach(function(ch){
       if(!isCD(ch,y,m,d))return;
       var asgn=da[ch.id]||[],sh=asgn.length<ch.need;
-      if(sh&&isPast){tasks+='<div class="dt dt-mio">'+ch.name+'</div>';return;}
+      if(sh&&isPast){tasks+='<div class="dt dt-mio"><span class="mx">×</span><span style="flex:1;overflow:hidden;text-overflow:ellipsis">'+ch.name+'</span></div>';return;}
       if(sh&&!isPast){tasks+='<div class="dt dt-sh">'+ch.name+'</div>';return;}
       var isSkipped=asgn.indexOf(SKIP_ID)>=0;
       var realAsgn=asgn.filter(function(id){return id!==SKIP_ID;});
-      if(isSkipped){tasks+='<div class="dt" style="background:#FAF0EC;color:#6E2E12">スキップ:'+ch.name+'</div>';return;}
+      if(isSkipped){tasks+='<div class="dt dt-skip">'+ch.name+'</div>';return;}
       var dots='';realAsgn.forEach(function(mid){var mb=D.mbrs.find(function(mb){return mb.id===mid;});if(mb){var mc=gc(mb.color);dots+='<span style="width:4px;height:4px;border-radius:50%;background:'+mc.md+';display:inline-block;flex-shrink:0"></span>';}});
       var fmc=realAsgn.length>0?(function(){var mb=D.mbrs.find(function(mb){return mb.id===realAsgn[0];});return mb?gc(mb.color):CL.gray;})():CL.gray;
       var isMine=currentUserId&&realAsgn.indexOf(currentUserId)>=0;
@@ -1195,7 +1227,7 @@ function renderMeal(){
   days.forEach(function(dt,di){
     var it=todayIdx===di;
     var _hn2=holidayName(dt.getFullYear(),dt.getMonth(),dt.getDate()),_w=dt.getDay();
-    g+='<div class="mgc mgh'+(_w===6?' sat':'')+(_w===0?' sun':'')+(_hn2?' hol':'')+(it?' today-col today-col-top':'')+'">'+(dt.getMonth()+1)+'/'+dt.getDate()+'<br>'+DOW[_w]+(_hn2?'<span class="hn">'+_hn2+'</span>':'')+'</div>';
+    g+='<div class="mgc mgh'+(_w===6?' sat':'')+(_w===0?' sun':'')+(_hn2?' hol':'')+(it?' today-col today-col-top':'')+'">'+'<span class="mo">'+(dt.getMonth()+1)+'/</span>'+dt.getDate()+'<br>'+DOW[_w]+'</div>';
   });
   meals.forEach(function(ml,mli){
     var isLastMeal=mli===meals.length-1;
@@ -1505,7 +1537,7 @@ var EN_EXACT={
 '自動割り振り':'Auto-assign','自動割り振りオフ':'Auto-assign off',
 'タップ：未定 → 不要 → 必要 → 未定（自分の行のみ操作できます）':'Tap: Undecided → Skip → Need → Undecided (you can only edit your own row)',
 '今週のサマリー':"This week's summary",
-'空き日登録は現在オフです。設定タブの「機能のオン/オフ」からオンにできます。':'Availability is currently off. Turn it on under "Feature toggles" in the Settings tab.',
+'空き日登録は現在オフです。設定タブの「詳細設定」からオンにできます。':'Availability is currently off. Turn it on under "Advanced settings" in the Settings tab.',
 '保存':'Save','保存中...':'Saving...','保存済':'Saved','保存失敗':'Save failed','同期済':'Synced','同期中':'Syncing','同期エラー':'Sync error','オフライン':'Offline',
 '「なんでも対応」タブは設定タブからオン/オフできます':'The "Anything OK" tab can be toggled in the Settings tab','なんでも対応':'Anything OK',
 '機能のオン/オフ':'Feature toggles','空き日登録を使う':'Use availability','オフにすると空き日タブが無効になります':'Turning off disables the Availability tab',
@@ -1521,7 +1553,7 @@ var EN_EXACT={
 'iCal 配信設定':'iCal feed settings','開始時刻':'Start time','終了時刻':'End time','リマインダー':'Reminder','分前':'min before',
 '.ics ダウンロード':'Download .ics','ダウンロード':'Download','ダウンロード完了':'Download complete',
 '使い方':'How to use','アニメーションで使い方を確認できます':'See how it works with short animations','使い方を見る':'Show guide',
-'表示テーマ':'Theme','端末に合わせる':'Match device','ライト':'Light','ダーク':'Dark','この端末のみに保存されます。':'Saved on this device only.','言語 / Language':'Language','メンバーと家事':'Members & chores','アイコンをタップして、使う人を切り替えます。':'Tap an icon to switch who is using the app.','完了':'Done','アクセシビリティ':'Accessibility','アクセシビリティをオンにする':'Turn on accessibility','文字を大きく、色をくっきりさせ、ボタンを押しやすくします':'Larger text, vivid colors and bigger buttons',
+'表示テーマ':'Theme','端末に合わせる':'Match device','ライト':'Light','ダーク':'Dark','この端末のみに保存されます。':'Saved on this device only.','言語 / Language':'Language','詳細設定':'Advanced settings','機能':'Features','食事':'Meals','変更を保存':'Save changes','初期設定に戻す':'Reset to defaults','自動割り振り':'Auto-assign','オフにすると自動割り振りボタンが無効になります（アプリを開くたびにオフに戻ります）':'When off, the auto-assign button is disabled (it returns to off each time you open the app)','メンバーと家事':'Members & chores','アイコンをタップして、使う人を切り替えます。':'Tap an icon to switch who is using the app.','完了':'Done','アクセシビリティ':'Accessibility','アクセシビリティをオンにする':'Turn on accessibility','文字を大きく、色をくっきりさせ、ボタンを押しやすくします':'Larger text, vivid colors and bigger buttons',
 'メンバー':'Members','+ メンバーを追加':'+ Add member','家事設定':'Chores','+ 家事を追加':'+ Add chore','食事ルーティン設定':'Meal routine',
 '曜日ごとの食事ルーティンを設定します。未設定の日は「未定」になります。':'Set your weekly meal routine. Unset days stay "Undecided".',
 'Supabase 接続':'Supabase connection','接続する':'Connect','接続済':'Connected','接続成功！':'Connected!','接続に失敗しました':'Connection failed','接続エラー':'Connection error','URLとKeyを入力してください':'Enter the URL and key',
@@ -1660,9 +1692,9 @@ ja:{ui:{next:'次へ',prev:'戻る',skip:'スキップ',start:'はじめる',ste
  {k:'c',t:'カレンダーで担当を確認',b:'日付をタップすると、その日の担当と食事状況が見られます。「担当変更」で手動変更、「本日スキップ」で家事をお休みにもできます。担当が埋まらないまま過ぎた日は、グレーの斜線で表示されます。'},
  {k:'m',t:'食事はタップするだけ',b:'タップするたびに「未定 → 不要 → 必要」と切り替わります。操作できるのは自分の行だけなので、ほかの人の予定を間違えて変えることはありません。',lab:'未定 → 不要 → 必要'},
  {k:'v',t:'空き日で先に登録しておく',b:'「空き日」タブでは、対応できる日を家事ごとに先まで登録できます。毎週の食事ルーティン（曜日ごとの「必要/不要」）もここで設定でき、「保存」で確定します。',save:'保存'},
- {k:'a',t:'自動割り振りは「オフ」から',b:'自動割り振りは初期状態ではオフで、アプリを開くたびにオフに戻ります。使うときは「設定」タブの「機能のオン/オフ」でオンにすると、カレンダーに「自動割り振り」ボタンが現れます。登録された空き日が優先されます。',row:'自動割り振りを使う',btn:'自動割り振り',cap:'オフ → オンでボタンが出現'},
+ {k:'a',t:'自動割り振りは「オフ」から',b:'自動割り振りは初期状態ではオフで、アプリを開くたびにオフに戻ります。使うときは「設定」タブの「自動割り振り」でオンにすると、カレンダーに「自動割り振り」ボタンが現れます。登録された空き日が優先されます。',row:'自動割り振りを使う',btn:'自動割り振り',cap:'オフ → オンでボタンが出現'},
  {k:'n',t:'通知とカレンダー連携',b:'家事の「開始時刻通知」をオンにすると、時間にお知らせが届きます。「通知」タブのURLをiPhoneなどのカレンダーに登録すると、担当が予定として自動で入ります。',nt:'皿洗い',nt2:'07:00',cal:'カレンダーアプリ'},
- {k:'s',t:'設定でカスタマイズ',b:'機能のオン/オフ、食事・空き日の設定、全員の食事ルーティン、テーマ、言語、アクセシビリティは「設定」から。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
+ {k:'s',t:'設定でカスタマイズ',b:'詳細設定（機能・食事の表示、保存ボタンで確定）、全員の食事ルーティン、テーマ、言語、アクセシビリティは「設定」から。',rows:['通知','自動割り振り','空き日登録'],seg:['ライト','ダーク','言語']},
  {k:'d',t:'準備完了です！',b:'この使い方は、「設定」タブの一番上からいつでも見直せます。さっそく使ってみましょう。'}
  ]},
 en:{ui:{next:'Next',prev:'Back',skip:'Skip',start:"Let's go",step:'Step'},
@@ -1673,9 +1705,9 @@ en:{ui:{next:'Next',prev:'Back',skip:'Skip',start:"Let's go",step:'Step'},
  {k:'c',t:'Check duties on the calendar',b:'Tap a day to see who does what and the meal status. Use "Edit" to change assignees or "Skip today" to rest a chore. Past days nobody covered appear greyed out with diagonal stripes.'},
  {k:'m',t:'Meals are one tap',b:'Each tap cycles Undecided → Skip → Need. You can only edit your own row, so nobody changes another person\'s plans by accident.',lab:'Undecided → Skip → Need'},
  {k:'v',t:'Plan ahead on Free days',b:'On the Free days tab you can register the days you can help, chore by chore, well in advance. Set your weekly meal routine (Need/Skip per weekday) here too, and confirm it with Save.',save:'Save'},
- {k:'a',t:'Auto-assign starts OFF',b:'Auto-assign is off by default and returns to off every time you open the app. To use it, turn it on under "Feature toggles" in Settings and an "Auto-assign" button appears on the Calendar. Registered free days get priority.',row:'Use auto-assign',btn:'Auto-assign',cap:'Turn it on and the button appears'},
+ {k:'a',t:'Auto-assign starts OFF',b:'Auto-assign is off by default and returns to off every time you open the app. To use it, turn it on under "Auto-assign" in Settings and an "Auto-assign" button appears on the Calendar. Registered free days get priority.',row:'Use auto-assign',btn:'Auto-assign',cap:'Turn it on and the button appears'},
  {k:'n',t:'Alerts and calendar sync',b:'Turn on "Start-time alert" for a chore to get a reminder on time. Add the URL from the Alerts tab to your iPhone Calendar and your duties appear as events automatically.',nt:'Dishes',nt2:'07:00',cal:'Calendar app'},
- {k:'s',t:'Customize in Settings',b:'Feature toggles, meal and availability options, everyone\'s meal routine, theme, language and Accessibility live in Settings. ',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
+ {k:'s',t:'Customize in Settings',b:'Advanced settings (confirmed with Save), everyone\'s meal routine, theme, language and Accessibility live in Settings. ',rows:['Alerts','Auto-assign','Availability'],seg:['Light','Dark','Language']},
  {k:'d',t:"You're all set!",b:'You can reopen this guide from the top of the Settings tab anytime. Enjoy!'}
  ]}
 };
