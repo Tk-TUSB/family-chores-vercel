@@ -464,7 +464,7 @@ html[data-a11y="1"] .cd .tk,html[data-a11y="1"] .cd .dn{--fs:1.15}
     <div class="srow"><div class="slbl">通知タイミング<div class="sdesc">何日前に通知するか</div></div>
       <div style="display:flex;align-items:center;gap:6px"><input type="number" id="nt-days" value="3" min="1" max="14" onchange="saveNS()" style="width:70px"><span style="font-size:calc(13px*var(--fs));color:var(--tx2)">日前</span></div></div>
     <div class="srow"><div class="slbl">通知時刻</div><input type="time" id="nt-time" value="08:00" onchange="saveNS()" style="width:130px"></div>
-    <div class="srow"><div class="slbl">週次サマリー</div>
+    <div class="srow"><div class="slbl">週次サマリー<div class="sdesc">週の初めに、今週の家事をまとめて通知します</div></div>
       <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
         <label class="toggle-sw"><input type="checkbox" id="nt-weekly" onchange="saveNS()"><span class="toggle-sl"></span></label>
         <select id="nt-wday" onchange="saveNS()" style="width:80px;height:34px">
@@ -1227,7 +1227,7 @@ function renderMeal(){
   days.forEach(function(dt,di){
     var it=todayIdx===di;
     var _hn2=holidayName(dt.getFullYear(),dt.getMonth(),dt.getDate()),_w=dt.getDay();
-    g+='<div class="mgc mgh'+(_w===6?' sat':'')+(_w===0?' sun':'')+(_hn2?' hol':'')+(it?' today-col today-col-top':'')+'">'+'<span class="mo">'+(dt.getMonth()+1)+'/</span>'+dt.getDate()+'<br>'+DOW[_w]+'</div>';
+    g+='<div class="mgc mgh'+(_w===6?' sat':'')+(_w===0?' sun':'')+(_hn2?' hol':'')+(it?' today-col today-col-top':'')+'">'+'<span><span class="mo">'+(dt.getMonth()+1)+'/</span>'+dt.getDate()+'<br>'+DOW[_w]+'</span></div>';
   });
   meals.forEach(function(ml,mli){
     var isLastMeal=mli===meals.length-1;
@@ -1543,7 +1543,7 @@ var EN_EXACT={
 '機能のオン/オフ':'Feature toggles','空き日登録を使う':'Use availability','オフにすると空き日タブが無効になります':'Turning off disables the Availability tab',
 '自動割り振りを使う':'Use auto-assign','オフにすると自動割り振りボタンが無効になります':'Turning off disables the auto-assign button',
 '人手不足アラート':'Shortage alerts','通知を有効にする':'Enable notifications','人手不足の家事を事前通知':'Notify ahead of understaffed chores',
-'通知タイミング':'Notification timing','何日前に通知するか':'How many days ahead','日前':'days before','通知時刻':'Notification time','週次サマリー':'Weekly summary',
+'通知タイミング':'Notification timing','週の初めに、今週の家事をまとめて通知します':'Notifies you of this week\'s chores at the start of the week','何日前に通知するか':'How many days ahead','日前':'days before','通知時刻':'Notification time','週次サマリー':'Weekly summary',
 '日曜':'Sunday','月曜':'Monday','火曜':'Tuesday','水曜':'Wednesday','木曜':'Thursday','金曜':'Friday','土曜':'Saturday',
 '通知プレビュー':'Preview notification','通知を許可する':'Allow notifications','食事設定':'Meal settings','朝食を表示':'Show breakfast','昼食を表示':'Show lunch','夕食を表示':'Show dinner',
 '未定を当日自動で「必要」にする':'Auto-set "Undecided" to "Need" on the day','自動確定の時刻':'Auto-confirm time','空き日登録の設定':'Availability settings',
